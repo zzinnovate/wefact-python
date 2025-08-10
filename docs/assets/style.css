@@ -1,0 +1,20 @@
+/* Custom color palette */
+:root > * {
+  --md-primary-fg-color:        #186876;
+  --md-primary-fg-color--light: #1e7b8c;
+  --md-primary-fg-color--dark:  #144b5c;
+}
+
+/* Style for lead text: first paragraph after h1 */
+.md-typeset h1 + p {
+  font-size: 1.4em;
+  color: var(--md-default-fg-color, #333);
+  font-weight: 400;
+  margin-bottom: 1em;
+  margin-top: 0;
+  line-height: 1.5;
+}
+
+.md-typeset h1 {
+  margin-bottom: 0.5em;
+}

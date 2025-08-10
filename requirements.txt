@@ -1,0 +1,17 @@
+# Runtime dependencies
+requests>=2.26,<3.0
+
+# (Optional) Documentation build dependencies
+mkdocs>=1.6.0
+mkdocs-material>=9.5.0
+mkdocstrings>=0.24.0
+mkdocstrings-python>=1.10.0
+mkdocs-mermaid2-plugin>=1.1.0
+mkdocs-glightbox>=0.4.0
+mkdocs-include-markdown-plugin>=6.0.0
+
+# (Optional) Development / testing
+pytest==8.4.1
+pytest-cov==6.2.1
+pytest-mock==3.14.1
+python-dotenv==1.1.1
