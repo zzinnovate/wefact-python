@@ -195,6 +195,32 @@ class SubscriptionResource(BaseResource):
         )
 
 
+class InteractionResource(BaseResource):
+    controller_name = "interaction"
+
+    def attachment_add(self, **params):
+        # Some endpoints require a Type; Interactions API may infer it from Identifier context
+        from .enums import InteractionAction
+
+        return self._send_request(
+            self.controller_name, InteractionAction.ATTACHMENT_ADD.value, params
+        )
+
+    def attachment_delete(self, **params):
+        from .enums import InteractionAction
+
+        return self._send_request(
+            self.controller_name, InteractionAction.ATTACHMENT_DELETE.value, params
+        )
+
+    def attachment_download(self, **params):
+        from .enums import InteractionAction
+
+        return self._send_request(
+            self.controller_name, InteractionAction.ATTACHMENT_DOWNLOAD.value, params
+        )
+
+
 class SettingsResource(BaseResource):
     controller_name = "settings"
 

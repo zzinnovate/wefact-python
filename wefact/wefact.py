@@ -9,6 +9,7 @@ from .resources import (
     SubscriptionResource,
     SettingsResource,
     CostCategoryResource,
+    InteractionResource,
 )
 
 
@@ -48,3 +49,7 @@ class WeFact:
     @property
     def cost_categories(self) -> CostCategoryResource:
         return CostCategoryResource(self.api_key, self.api_url)
+
+    @property
+    def interactions(self) -> InteractionResource:
+        return InteractionResource(self.api_key, self.api_url)
