@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.0] - 2025-08-10
+
+**Added**
+
+- Quotes API: full workflow on `client.quotes` (send_by_email, download, schedule, cancel_schedule, accept, decline, archive, sort_lines, price_quote_line_add/delete) plus attachments using generic `Action.ATTACHMENT_*`.
+- Tasks API: `client.tasks` with CRUD, `change_status`, and attachments.
+- Transactions API: `client.transactions` with CRUD, `match`, and `ignore`.
+- Debtors: extra client contact operations (`extra_client_contact_add/edit/delete`) and attachments.
+- Creditors: attachments operations.
+
+**Enums**
+
+- New: `DebtorAction`, `TaskAction`, `TransactionAction` (exported via `wefact.enums`).
+- `Action` enum extended with generic attachment actions: `ATTACHMENT_ADD`, `ATTACHMENT_DELETE`, `ATTACHMENT_DOWNLOAD`.
+
+**Docs**
+
+- Endpoints docs: added Tasks and Transactions sections; documented Debtor extra contacts and attachments; Creditor attachments; added Enums appendix.
+
+**Tests**
+
+- Added unit tests for tasks, transactions, debtor extra contacts and attachments, and creditor attachments.
+- Added a pytest collection-time syntax check to compile all modules and fail early on syntax errors.
+
 ## [1.1.1] - 2025-08-10
 
 **Changed**
@@ -17,7 +41,7 @@ All notable changes to this project will be documented in this file.
 - Interactions API support:
 	- New resource: `client.interactions` with `list`, `show`, `create`, `edit`, `delete`.
 	- Attachment operations: `attachment_add`, `attachment_delete`, `attachment_download`.
-	- New enum: `InteractionAction` (`attachmentadd`, `attachmentdelete`, `attachmentdownload`).
+	- Attachment actions are now generic in `Action`; any previous Interaction-specific enum is obsolete and no longer exported.
 
 **Documentation**
 
@@ -32,7 +56,7 @@ All notable changes to this project will be documented in this file.
 **Internal**
 
 - Exposed `interactions` on the `WeFact` client.
-- Exported `InteractionAction` in `wefact.enums`.
+ 
 
 ## [1.0.0] - 2025-08-09
 

@@ -18,6 +18,4 @@ class InvoiceAction(str, Enum):
     SORT_LINES = 'sortlines'
     INVOICE_LINE_ADD = 'invoicelineadd'
     INVOICE_LINE_DELETE = 'invoicelinedelete'
-    ATTACHMENT_ADD = 'attachmentadd'
-    ATTACHMENT_DELETE = 'attachmentdelete'
-    ATTACHMENT_DOWNLOAD = 'attachmentdownload'
+

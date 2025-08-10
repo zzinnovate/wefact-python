@@ -52,6 +52,12 @@ client.invoices.create(
 | `create(...)` | Create a debtor. | ``client.debtors.create(DebtorCode="DB10000", CompanyName="Acme")`` |
 | `edit(Identifier=..., ...)` | Update a debtor. | ``client.debtors.edit(Identifier="DB10000", EmailAddress="info@acme.tld")`` |
 | — | Delete is not available (raises `ClientError`). | — |
+| `extra_client_contact_add(Identifier=..., ...)` | Add an extra client contact. | ``client.debtors.extra_client_contact_add(Identifier="DB10000", Name="Jane")`` |
+| `extra_client_contact_edit(Identifier=..., ContactIdentifier=..., ...)` | Edit an extra client contact. | ``client.debtors.extra_client_contact_edit(Identifier="DB10000", ContactIdentifier="C1", Name="Janet")`` |
+| `extra_client_contact_delete(Identifier=..., ContactIdentifier=...)` | Delete an extra client contact. | ``client.debtors.extra_client_contact_delete(Identifier="DB10000", ContactIdentifier="C1")`` |
+| `attachment_add(Identifier=..., FileName=..., FileData=...)` | Add attachment to a debtor. | ``client.debtors.attachment_add(Identifier="DB10000", FileName="doc.pdf", FileData="<base64>")`` |
+| `attachment_delete(Identifier=..., AttachmentGuid=...)` | Remove a debtor attachment. | ``client.debtors.attachment_delete(Identifier="DB10000", AttachmentGuid="ATT-1")`` |
+| `attachment_download(Identifier=..., AttachmentGuid=...)` | Download a debtor attachment. | ``client.debtors.attachment_download(Identifier="DB10000", AttachmentGuid="ATT-1")`` |
 
 ## creditors
 
@@ -62,6 +68,9 @@ client.invoices.create(
 | `create(...)` | Create a creditor. | ``client.creditors.create(CreditorCode="CR10000", CompanyName="Vendor")`` |
 | `edit(Identifier=..., ...)` | Update a creditor. | ``client.creditors.edit(Identifier="CR10000", EmailAddress="ap@vendor.tld")`` |
 | `delete(Identifier=...)` | Delete a creditor. | ``client.creditors.delete(Identifier="CR10000")`` |
+| `attachment_add(Identifier=..., FileName=..., FileData=...)` | Add attachment to a creditor. | ``client.creditors.attachment_add(Identifier="CR10000", FileName="x.pdf", FileData="<base64>")`` |
+| `attachment_delete(Identifier=..., AttachmentGuid=...)` | Remove a creditor attachment. | ``client.creditors.attachment_delete(Identifier="CR10000", AttachmentGuid="ATT-1")`` |
+| `attachment_download(Identifier=..., AttachmentGuid=...)` | Download a creditor attachment. | ``client.creditors.attachment_download(Identifier="CR10000", AttachmentGuid="ATT-1")`` |
 
 ## products
 
@@ -125,3 +134,74 @@ Note: The controller name differs; methods map to specific `costcategory_*` acti
 | `attachment_add(Identifier=..., FileName=..., FileData=...)` | Add attachment to an interaction. | ``client.interactions.attachment_add(Identifier="I00001", FileName="notes.txt", FileData="<base64>")`` |
 | `attachment_delete(Identifier=..., AttachmentGuid=...)` | Remove an interaction attachment. | ``client.interactions.attachment_delete(Identifier="I00001", AttachmentGuid="ATT-123")`` |
 | `attachment_download(Identifier=..., AttachmentGuid=...)` | Download an interaction attachment. | ``client.interactions.attachment_download(Identifier="I00001", AttachmentGuid="ATT-123")`` |
+
+## quotes
+
+| Method | Description | Example |
+|---|---|---|
+| `list(limit=..., offset=...)` | List quotes. | ``client.quotes.list(limit=100, offset=0)`` |
+| `show(Identifier=...)` | Get a quote. | ``client.quotes.show(Identifier="Q0001")`` |
+| `create(...)` | Create a quote. | ``client.quotes.create(DebtorCode="DB10000", PriceQuoteLines=[{"Description":"Setup","PriceExcl":50}])`` |
+| `edit(Identifier=..., ...)` | Update a quote. | ``client.quotes.edit(Identifier="Q0001", Reference="2025-001")`` |
+| `delete(Identifier=...)` | Delete a quote. | ``client.quotes.delete(Identifier="Q0001")`` |
+| `send_by_email(Identifier=...)` | Send quote by email. | ``client.quotes.send_by_email(Identifier="Q0001")`` |
+| `download(Identifier=...)` | Download quote PDF. | ``client.quotes.download(Identifier="Q0001")`` |
+| `schedule(Identifier=..., ...)` | Schedule sending. | ``client.quotes.schedule(Identifier="Q0001", Date="2025-08-15")`` |
+| `cancel_schedule(Identifier=...)` | Cancel scheduled send. | ``client.quotes.cancel_schedule(Identifier="Q0001")`` |
+| `accept(Identifier=...)` | Accept quote. | ``client.quotes.accept(Identifier="Q0001")`` |
+| `decline(Identifier=...)` | Decline quote. | ``client.quotes.decline(Identifier="Q0001")`` |
+| `archive(Identifier=...)` | Archive quote. | ``client.quotes.archive(Identifier="Q0001")`` |
+| `sort_lines(Identifier=..., LineNumbers=[...])` | Reorder lines. | ``client.quotes.sort_lines(Identifier="Q0001", LineNumbers=[2,1])`` |
+| `price_quote_line_add(Identifier=..., PriceQuoteLine={...})` | Add a price quote line. | ``client.quotes.price_quote_line_add(Identifier="Q0001", PriceQuoteLine={"Description":"Support","PriceExcl":25})`` |
+| `price_quote_line_delete(Identifier=..., LineNumber=...)` | Delete a price quote line. | ``client.quotes.price_quote_line_delete(Identifier="Q0001", LineNumber=1)`` |
+| `attachment_add(Identifier=..., FileName=..., FileData=...)` | Add attachment to a quote. | ``client.quotes.attachment_add(Identifier="Q0001", FileName="terms.pdf", FileData="<base64>")`` |
+| `attachment_delete(Identifier=..., AttachmentGuid=...)` | Remove a quote attachment. | ``client.quotes.attachment_delete(Identifier="Q0001", AttachmentGuid="ATT-9")`` |
+| `attachment_download(Identifier=..., AttachmentGuid=...)` | Download a quote attachment. | ``client.quotes.attachment_download(Identifier="Q0001", AttachmentGuid="ATT-9")`` |
+ 
+## tasks
+
+| Method | Description | Example |
+|---|---|---|
+| `list(limit=..., offset=...)` | List tasks. | ``client.tasks.list(limit=100)`` |
+| `show(Identifier=...)` | Get a task. | ``client.tasks.show(Identifier="T1")`` |
+| `create(...)` | Create a task. | ``client.tasks.create(DebtorCode="DB10000", Subject="Call back")`` |
+| `edit(Identifier=..., ...)` | Update a task. | ``client.tasks.edit(Identifier="T1", Status="completed")`` |
+| `delete(Identifier=...)` | Delete a task. | ``client.tasks.delete(Identifier="T1")`` |
+| `change_status(Identifier=..., Status=...)` | Change task status. | ``client.tasks.change_status(Identifier="T1", Status="completed")`` |
+| `attachment_add(Identifier=..., FileName=..., FileData=...)` | Add task attachment. | ``client.tasks.attachment_add(Identifier="T1", FileName="note.txt", FileData="<base64>")`` |
+| `attachment_delete(Identifier=..., AttachmentGuid=...)` | Remove task attachment. | ``client.tasks.attachment_delete(Identifier="T1", AttachmentGuid="A1")`` |
+| `attachment_download(Identifier=..., AttachmentGuid=...)` | Download task attachment. | ``client.tasks.attachment_download(Identifier="T1", AttachmentGuid="A1")`` |
+
+## transactions
+
+| Method | Description | Example |
+|---|---|---|
+| `list(limit=..., offset=...)` | List transactions. | ``client.transactions.list(limit=100)`` |
+| `show(Identifier=...)` | Get a transaction. | ``client.transactions.show(Identifier="TR1")`` |
+| `create(...)` | Create a transaction. | ``client.transactions.create(...)`` |
+| `edit(Identifier=..., ...)` | Update a transaction. | ``client.transactions.edit(Identifier="TR1", ...)`` |
+| `delete(Identifier=...)` | Delete a transaction. | ``client.transactions.delete(Identifier="TR1")`` |
+| `match(Identifier=...)` | Match a transaction. | ``client.transactions.match(Identifier="TR1")`` |
+| `ignore(Identifier=...)` | Ignore a transaction. | ``client.transactions.ignore(Identifier="TR1")`` |
+
+## Enums appendix
+
+These enums are provided for clarity around action names. In code, you usually call resource methods directly.
+
+### Generic `Action`
+- LIST, SHOW, ADD, EDIT, DELETE
+- SEND_BY_EMAIL, DOWNLOAD, SCHEDULE, CANCEL_SCHEDULE, SORT_LINES
+- ATTACHMENT_ADD, ATTACHMENT_DELETE, ATTACHMENT_DOWNLOAD
+
+### `QuoteAction`
+- SEND_BY_EMAIL, DOWNLOAD, SCHEDULE, CANCEL_SCHEDULE, ACCEPT, DECLINE, ARCHIVE, SORT_LINES
+- PRICE_QUOTE_LINE_ADD, PRICE_QUOTE_LINE_DELETE
+
+### `DebtorAction`
+- EXTRA_CLIENT_CONTACT_ADD, EXTRA_CLIENT_CONTACT_EDIT, EXTRA_CLIENT_CONTACT_DELETE
+
+### `TaskAction`
+- CHANGE_STATUS
+
+### `TransactionAction`
+- MATCH, IGNORE

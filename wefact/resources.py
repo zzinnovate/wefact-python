@@ -146,19 +146,19 @@ class InvoiceResource(BaseResource):
     def attachment_add(self, **params):
         params["Type"] = self.controller_name
         return self._send_request(
-            self.controller_name, InvoiceAction.ATTACHMENT_ADD.value, params
+            self.controller_name, Action.ATTACHMENT_ADD.value, params
         )
 
     def attachment_delete(self, **params):
         params["Type"] = self.controller_name
         return self._send_request(
-            self.controller_name, InvoiceAction.ATTACHMENT_DELETE.value, params
+            self.controller_name, Action.ATTACHMENT_DELETE.value, params
         )
 
     def attachment_download(self, **params):
         params["Type"] = self.controller_name
         return self._send_request(
-            self.controller_name, InvoiceAction.ATTACHMENT_DOWNLOAD.value, params
+            self.controller_name, Action.ATTACHMENT_DOWNLOAD.value, params
         )
 
 
@@ -168,6 +168,47 @@ class DebtorResource(BaseResource):
     def delete(self, **params):  # Not available
         raise ClientError("delete is not available for this resource.")
 
+    # Extra client contact
+    def extra_client_contact_add(self, **params):
+        from .enums.debtor_actions import DebtorAction
+
+        return self._send_request(
+            self.controller_name, DebtorAction.EXTRA_CLIENT_CONTACT_ADD.value, params
+        )
+
+    def extra_client_contact_edit(self, **params):
+        from .enums.debtor_actions import DebtorAction
+
+        return self._send_request(
+            self.controller_name, DebtorAction.EXTRA_CLIENT_CONTACT_EDIT.value, params
+        )
+
+    def extra_client_contact_delete(self, **params):
+        from .enums.debtor_actions import DebtorAction
+
+        return self._send_request(
+            self.controller_name, DebtorAction.EXTRA_CLIENT_CONTACT_DELETE.value, params
+        )
+
+    # Attachments
+    def attachment_add(self, **params):
+        params["Type"] = self.controller_name
+        return self._send_request(
+            self.controller_name, Action.ATTACHMENT_ADD.value, params
+        )
+
+    def attachment_delete(self, **params):
+        params["Type"] = self.controller_name
+        return self._send_request(
+            self.controller_name, Action.ATTACHMENT_DELETE.value, params
+        )
+
+    def attachment_download(self, **params):
+        params["Type"] = self.controller_name
+        return self._send_request(
+            self.controller_name, Action.ATTACHMENT_DOWNLOAD.value, params
+        )
+
 
 class ProductResource(BaseResource):
     controller_name = "product"
@@ -175,6 +216,25 @@ class ProductResource(BaseResource):
 
 class CreditorResource(BaseResource):
     controller_name = "creditor"
+
+    # Attachments
+    def attachment_add(self, **params):
+        params["Type"] = self.controller_name
+        return self._send_request(
+            self.controller_name, Action.ATTACHMENT_ADD.value, params
+        )
+
+    def attachment_delete(self, **params):
+        params["Type"] = self.controller_name
+        return self._send_request(
+            self.controller_name, Action.ATTACHMENT_DELETE.value, params
+        )
+
+    def attachment_download(self, **params):
+        params["Type"] = self.controller_name
+        return self._send_request(
+            self.controller_name, Action.ATTACHMENT_DOWNLOAD.value, params
+        )
 
 
 class GroupResource(BaseResource):
@@ -200,24 +260,131 @@ class InteractionResource(BaseResource):
 
     def attachment_add(self, **params):
         # Some endpoints require a Type; Interactions API may infer it from Identifier context
-        from .enums import InteractionAction
-
         return self._send_request(
-            self.controller_name, InteractionAction.ATTACHMENT_ADD.value, params
+            self.controller_name, Action.ATTACHMENT_ADD.value, params
         )
 
     def attachment_delete(self, **params):
-        from .enums import InteractionAction
-
         return self._send_request(
-            self.controller_name, InteractionAction.ATTACHMENT_DELETE.value, params
+            self.controller_name, Action.ATTACHMENT_DELETE.value, params
         )
 
     def attachment_download(self, **params):
-        from .enums import InteractionAction
+        return self._send_request(
+            self.controller_name, Action.ATTACHMENT_DOWNLOAD.value, params
+        )
+
+
+class QuoteResource(BaseResource):
+    controller_name = "pricequote"
+
+    def send_by_email(self, **params):
+        from .enums import QuoteAction
+
+        return self._send_request(self.controller_name, QuoteAction.SEND_BY_EMAIL.value, params)
+
+    def download(self, **params):
+        from .enums import QuoteAction
+
+        return self._send_request(self.controller_name, QuoteAction.DOWNLOAD.value, params)
+
+    def schedule(self, **params):
+        from .enums import QuoteAction
+
+        return self._send_request(self.controller_name, QuoteAction.SCHEDULE.value, params)
+
+    def cancel_schedule(self, **params):
+        from .enums import QuoteAction
+
+        return self._send_request(self.controller_name, QuoteAction.CANCEL_SCHEDULE.value, params)
+
+    def accept(self, **params):
+        from .enums import QuoteAction
+
+        return self._send_request(self.controller_name, QuoteAction.ACCEPT.value, params)
+
+    def decline(self, **params):
+        from .enums import QuoteAction
+
+        return self._send_request(self.controller_name, QuoteAction.DECLINE.value, params)
+
+    def archive(self, **params):
+        from .enums import QuoteAction
+
+        return self._send_request(self.controller_name, QuoteAction.ARCHIVE.value, params)
+
+    def sort_lines(self, **params):
+        from .enums import QuoteAction
+
+        return self._send_request(self.controller_name, QuoteAction.SORT_LINES.value, params)
+
+    def price_quote_line_add(self, **params):
+        from .enums import QuoteAction
+
+        return self._send_request(self.controller_name, QuoteAction.PRICE_QUOTE_LINE_ADD.value, params)
+
+    def price_quote_line_delete(self, **params):
+        from .enums import QuoteAction
+
+        return self._send_request(self.controller_name, QuoteAction.PRICE_QUOTE_LINE_DELETE.value, params)
+
+    def attachment_add(self, **params):
+        # Use generic attachment actions; ensure Type matches controller
+        params["Type"] = self.controller_name
+        return self._send_request(self.controller_name, Action.ATTACHMENT_ADD.value, params)
+
+    def attachment_delete(self, **params):
+        params["Type"] = self.controller_name
+        return self._send_request(self.controller_name, Action.ATTACHMENT_DELETE.value, params)
+
+    def attachment_download(self, **params):
+        params["Type"] = self.controller_name
+        return self._send_request(self.controller_name, Action.ATTACHMENT_DOWNLOAD.value, params)
+
+class TaskResource(BaseResource):
+    controller_name = "task"
+
+    def change_status(self, **params):
+        from .enums.task_actions import TaskAction
 
         return self._send_request(
-            self.controller_name, InteractionAction.ATTACHMENT_DOWNLOAD.value, params
+            self.controller_name, TaskAction.CHANGE_STATUS.value, params
+        )
+
+    def attachment_add(self, **params):
+        params["Type"] = self.controller_name
+        return self._send_request(
+            self.controller_name, Action.ATTACHMENT_ADD.value, params
+        )
+
+    def attachment_delete(self, **params):
+        params["Type"] = self.controller_name
+        return self._send_request(
+            self.controller_name, Action.ATTACHMENT_DELETE.value, params
+        )
+
+    def attachment_download(self, **params):
+        params["Type"] = self.controller_name
+        return self._send_request(
+            self.controller_name, Action.ATTACHMENT_DOWNLOAD.value, params
+        )
+
+
+class TransactionResource(BaseResource):
+    controller_name = "transaction"
+
+    def match(self, **params):
+        from .enums.transaction_actions import TransactionAction
+
+        return self._send_request(
+            self.controller_name, TransactionAction.MATCH.value, params
+        )
+
+    def ignore(self, **params):
+        from .enums.transaction_actions import TransactionAction
+
+        return self._send_request(
+            self.controller_name, TransactionAction.IGNORE.value, params
         )
 
 

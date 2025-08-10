@@ -10,6 +10,9 @@ from .resources import (
     SettingsResource,
     CostCategoryResource,
     InteractionResource,
+    QuoteResource,
+    TaskResource,
+    TransactionResource,
 )
 
 
@@ -53,3 +56,15 @@ class WeFact:
     @property
     def interactions(self) -> InteractionResource:
         return InteractionResource(self.api_key, self.api_url)
+
+    @property
+    def quotes(self) -> QuoteResource:
+        return QuoteResource(self.api_key, self.api_url)
+
+    @property
+    def tasks(self) -> TaskResource:
+        return TaskResource(self.api_key, self.api_url)
+
+    @property
+    def transactions(self) -> TransactionResource:
+        return TransactionResource(self.api_key, self.api_url)
