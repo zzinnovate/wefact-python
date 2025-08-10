@@ -247,26 +247,36 @@ class CostCategoryResource(BaseResource):
         return "costcategories"
 
     def list(self, **params):
+        from .enums.cost_category_actions import CostCategoryAction
+
         return self._send_request(
-            self.controller_name, Action.COSTCATEGORY_LIST.value, params
+            self.controller_name, CostCategoryAction.LIST.value, params
         )
 
     def show(self, **params):
+        from .enums.cost_category_actions import CostCategoryAction
+
         return self._send_request(
-            self.controller_name, Action.COSTCATEGORY_SHOW.value, params
+            self.controller_name, CostCategoryAction.SHOW.value, params
         )
 
     def create(self, **params):
+        from .enums.cost_category_actions import CostCategoryAction
+
         return self._send_request(
-            self.controller_name, Action.COSTCATEGORY_ADD.value, params
+            self.controller_name, CostCategoryAction.ADD.value, params
         )
 
     def edit(self, **params):
+        from .enums.cost_category_actions import CostCategoryAction
+
         return self._send_request(
-            self.controller_name, Action.COSTCATEGORY_EDIT.value, params
+            self.controller_name, CostCategoryAction.EDIT.value, params
         )
 
     def delete(self, **params):
+        from .enums.cost_category_actions import CostCategoryAction
+
         return self._send_request(
-            self.controller_name, Action.COSTCATEGORY_DELETE.value, params
+            self.controller_name, CostCategoryAction.DELETE.value, params
         )
