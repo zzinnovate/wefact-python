@@ -8,13 +8,14 @@ readme = "README.md"
 homepage = "https://github.com/zzinnovate/wefact-python"
 repository = "https://github.com/zzinnovate/wefact-python"
 keywords = ["wefact", "api", "wrapper", "python"]
+packages = [
+	{ include = "wefact" }
+]
 
 [tool.poetry.dependencies]
 python = ">=3.11,<4.0"
 requests = ">=2.26,<3.0"
 
-[tool.poetry.packages]
-include = "wefact"
 
 [tool.poetry.group.dev.dependencies]
 pytest = ">=8.3.0,<8.5.0"
