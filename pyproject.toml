@@ -18,7 +18,7 @@ include = "wefact"
 
 [tool.poetry.group.dev.dependencies]
 pytest = ">=8.3.0,<8.5.0"
-pytest-cov = ">=6.2.1"
+pytest-cov = ">=5,<7.0"
 pytest-mock = ">=3.14.1"
 
 [build-system]
