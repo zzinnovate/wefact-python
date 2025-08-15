@@ -13,5 +13,5 @@ mkdocs-include-markdown-plugin>=6.0.0
 # (Optional) Development / testing
 pytest>=8.3.0,<8.5.0
 pytest-cov>=5,<7.0
-pytest-mock==3.14.1
-python-dotenv==1.1.1
+pytest-mock>=3.14.1,<4.0
+python-dotenv>=1.0,<2.0
