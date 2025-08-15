@@ -2,7 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.2.0] - 2025-08-10
+## [1.0.0b1] - 2025-08-15
+
+**Changed**
+
+- Dropped support for Python 3.8, 3.9, 3.10. Minimum is now 3.11+ (project not yet published to PyPI, so this is a pre-release adjustment for longevity and access to newer typing features).
+- Build backend requirement bumped to `poetry-core>=2.0.0,<3.0.0` in line with the new Python baseline.
+
+**Note**
+
+- If you need legacy Python versions prior to 3.11, pin to `wefact-python==1.2.0` (unpublished tag) or earlier commit.
+
+## [1.0.0a4] - 2025-08-10
 
 **Added**
 
@@ -26,7 +37,7 @@ All notable changes to this project will be documented in this file.
 - Added unit tests for tasks, transactions, debtor extra contacts and attachments, and creditor attachments.
 - Added a pytest collection-time syntax check to compile all modules and fail early on syntax errors.
 
-## [1.1.1] - 2025-08-10
+## [1.0.0a3] - 2025-08-10
 
 **Changed**
 
@@ -34,7 +45,7 @@ All notable changes to this project will be documented in this file.
 	- New enum: `CostCategoryAction` in `wefact.enums.cost_category_actions` (also exported via `wefact.enums`).
 	- Replace usages of `Action.COSTCATEGORY_*` with `CostCategoryAction.*`.
 
-## [1.1.0] - 2025-08-10
+## [1.0.0a2] - 2025-08-10
 
 **Added**
 
@@ -58,6 +69,6 @@ All notable changes to this project will be documented in this file.
 - Exposed `interactions` on the `WeFact` client.
  
 
-## [1.0.0] - 2025-08-09
+## [1.0.0a1] - 2025-08-09
 
 First release with the full API spec implemented.

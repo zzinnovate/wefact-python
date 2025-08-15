@@ -2,6 +2,7 @@
 
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/zzinnovate/wefact-python)
 [![Tests](https://github.com/zzinnovate/wefact-python/actions/workflows/run-tests.yml/badge.svg?branch=main)](https://github.com/zzinnovate/wefact-python/actions/workflows/run-tests.yml)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/poetry-core)
 
 An unofficial, batteries-included Python client for the WeFact API. Pragmatic, typed where it counts, and intentionally minimal on magic.
 
@@ -9,7 +10,7 @@ This project is maintained by [zzinnovate](https://github.com/zzinnovate) and is
 
 ## Requirements
 
-- Python 3.8+
+- Python 3.11+ (dropped 3.8–3.10 before first public release to align with supported ecosystem and newer typing features)
 
 ## Install
 
