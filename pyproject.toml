@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "wefact-python"
-version = "0.2.0"
+version = "1.2.0"
 description = "A Python wrapper for the WeFact API"
 authors = ["Sjoerd Zaalberg van Zelst <hello@zzinnovate.com>"]
 license = "MIT"
@@ -13,7 +13,10 @@ keywords = ["wefact", "api", "wrapper", "python"]
 python = "^3.8"
 requests = ">=2.26,<3.0"
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.packages]
+include = "wefact"
+
+[tool.poetry.group.dev.dependencies]
 pytest = ">=8.3.0,<8.5.0"
 pytest-cov = ">=6.2.1"
 pytest-mock = ">=3.14.1"
