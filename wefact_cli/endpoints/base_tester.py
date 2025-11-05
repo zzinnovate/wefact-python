@@ -126,6 +126,20 @@ class BaseEndpointTester:
     def test_list(self, **params) -> TestResult:
         """Test the list operation"""
         default_params = {'limit': 10, 'offset': 0}
+        
+        # Some resources require additional parameters for list
+        if self.resource_name == 'group':
+            # Groups require a type parameter (debtor or product) - lowercase 'type'
+            if 'type' not in params and 'Type' not in params:
+                default_params['type'] = 'debtor'
+        
+        elif self.resource_name == 'interaction':
+            # Interactions require referenceId and referenceType
+            if 'referenceId' not in params:
+                default_params['referenceId'] = 1  # Use debtor #1
+            if 'referenceType' not in params:
+                default_params['referenceType'] = 'debtor'
+        
         default_params.update(params)
         
         return self._execute_test(
@@ -148,11 +162,28 @@ class BaseEndpointTester:
                 error="No identifier provided and no dummy data available"
             )
         
+        # Determine the correct parameter name based on resource type
+        # Some resources use Code fields, others use Identifier
+        param_name = self._get_identifier_param_name()
+        
         return self._execute_test(
             "show",
             self.resource.show,
-            Identifier=identifier
+            **{param_name: identifier}
         )
+    
+    def _get_identifier_param_name(self) -> str:
+        """Get the appropriate identifier parameter name for this resource"""
+        # Map resource names to their identifier parameter names
+        code_based_resources = {
+            'debtor': 'DebtorCode',
+            'product': 'ProductCode',
+            'creditor': 'CreditorCode',
+            'invoice': 'InvoiceCode',
+            'quote': 'PriceQuoteCode',
+        }
+        
+        return code_based_resources.get(self.resource_name, 'Identifier')
     
     def test_create(self, data: Dict[str, Any]) -> TestResult:
         """Test the create operation"""
