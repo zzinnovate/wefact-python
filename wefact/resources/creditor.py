@@ -1,0 +1,65 @@
+"""Creditor (supplier) resource for WeFact API."""
+
+from .base import BaseResource
+from ..enums import Action
+
+
+class CreditorResource(BaseResource):
+    """
+    Creditor resource for managing suppliers.
+    
+    Supports CRUD operations and attachments.
+    """
+    
+    controller_name = "creditor"
+
+    # Attachments
+    
+    def attachment_add(self, **params):
+        """
+        Add an attachment to a creditor.
+        
+        Args:
+            ReferenceIdentifier or CreditorCode: Required
+            Filename: Required
+            Base64: Required (base64 encoded file)
+            
+        Returns:
+            Success confirmation
+        """
+        params["Type"] = self.controller_name
+        return self._send_request(
+            self.controller_name, Action.ATTACHMENT_ADD.value, params
+        )
+
+    def attachment_delete(self, **params):
+        """
+        Delete an attachment from a creditor.
+        
+        Args:
+            ReferenceIdentifier or CreditorCode: Required
+            Identifier or Filename: Required
+            
+        Returns:
+            Success confirmation
+        """
+        params["Type"] = self.controller_name
+        return self._send_request(
+            self.controller_name, Action.ATTACHMENT_DELETE.value, params
+        )
+
+    def attachment_download(self, **params):
+        """
+        Download a creditor attachment.
+        
+        Args:
+            ReferenceIdentifier or CreditorCode: Required
+            Filename: Required
+            
+        Returns:
+            Response with Base64 encoded file
+        """
+        params["Type"] = self.controller_name
+        return self._send_request(
+            self.controller_name, Action.ATTACHMENT_DOWNLOAD.value, params
+        )

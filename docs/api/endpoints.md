@@ -112,7 +112,7 @@ client.invoices.create(
 
 ## cost_categories
 
-Note: The controller name differs; methods map to specific `costcategory_*` actions.
+**Note**: Cost categories are a sub-controller under the `settings` controller. The API uses `controller: "settings"` with special `costcategory_*` actions. This implementation handles the nested response structure automatically.
 
 | Method | Description | Example |
 |---|---|---|

@@ -1,28 +1,55 @@
-[tool.poetry]
+[project]
 name = "wefact-python"
 version = "1.0.0b1"
 description = "A Python wrapper for the WeFact API"
-authors = ["Sjoerd Zaalberg van Zelst <hello@zzinnovate.com>"]
-license = "MIT"
+authors = [{name = "Sjoerd Zaalberg van Zelst", email = "hello@zzinnovate.com"}]
+license = {text = "MIT"}
 readme = "README.md"
-homepage = "https://github.com/zzinnovate/wefact-python"
-repository = "https://github.com/zzinnovate/wefact-python"
+requires-python = ">=3.11,<4.0"
 keywords = ["wefact", "api", "wrapper", "python"]
-packages = [
-	{ include = "wefact" }
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
 ]
 
-[tool.poetry.dependencies]
-python = ">=3.11,<4.0"
-requests = ">=2.26,<3.0"
+dependencies = [
+    "requests>=2.26,<3.0",
+    "python-dotenv>=1.0,<2.0",
+    "rich>=13.7.0",
+    "textual>=0.47.0",
+    "faker>=22.0.0",
+    "pydantic>=2.5.0",
+]
 
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3.0,<8.5.0",
+    "pytest-cov>=5,<7.0",
+    "pytest-mock>=3.14.1,<4.0",
+]
+docs = [
+    "mkdocs>=1.6.0",
+    "mkdocs-material>=9.5.0",
+    "mkdocstrings>=0.24.0",
+    "mkdocstrings-python>=1.10.0",
+    "mkdocs-mermaid2-plugin>=1.1.0",
+    "mkdocs-glightbox>=0.4.0",
+    "mkdocs-include-markdown-plugin>=6.0.0",
+]
 
-[tool.poetry.group.dev.dependencies]
-pytest = ">=8.3.0,<8.5.0"
-pytest-cov = ">=5,<7.0"
-pytest-mock = ">=3.0,<4.0"
-python-dotenv = ">=1.0,<2.0"
+[project.urls]
+Homepage = "https://github.com/zzinnovate/wefact-python"
+Repository = "https://github.com/zzinnovate/wefact-python"
+
+[project.scripts]
+wefact-test = "wefact_cli.__main__:main"
 
 [build-system]
-requires = ["poetry-core>=1.0.0,<3.0.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["wefact*", "wefact_cli*"]

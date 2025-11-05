@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from .resources import (
     InvoiceResource,
+    CreditInvoiceResource,
     DebtorResource,
     ProductResource,
     CreditorResource,
@@ -24,6 +25,10 @@ class WeFact:
     @property
     def invoices(self) -> InvoiceResource:
         return InvoiceResource(self.api_key, self.api_url)
+
+    @property
+    def credit_invoices(self) -> CreditInvoiceResource:
+        return CreditInvoiceResource(self.api_key, self.api_url)
 
     @property
     def debtors(self) -> DebtorResource:

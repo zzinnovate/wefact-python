@@ -43,5 +43,8 @@ Thumbs.db
 *.tmp
 *.orig
 
+# Downloads (invoices, PDFs, etc.)
+downloads/
+
 # Documentation build
 /docs/_build/
