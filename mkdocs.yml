@@ -15,6 +15,7 @@ nav:
       - Configuration: getting-started/configuration.md
   - Api: 
       - Endpoints: api/endpoints.md
+      - Variables (Enums): api/variables.md
       - Errors: api/errors.md
   - Project:
       - Contributing: project/contributing.md

@@ -408,7 +408,7 @@ class SettingsResource(BaseResource):
 
 
 class CostCategoryResource(BaseResource):
-    controller_name = "costcategory"
+    controller_name = "settings"  # Cost categories are under the settings controller
 
     def get_plural_resource_name(self) -> str:
         return "costcategories"
@@ -416,30 +416,58 @@ class CostCategoryResource(BaseResource):
     def list(self, **params):
         from .enums.cost_category_actions import CostCategoryAction
 
-        return self._send_request(
+        response = self._send_request(
             self.controller_name, CostCategoryAction.LIST.value, params
         )
+        # Unwrap the nested structure: {'settings': {'costcategories': [...]}}
+        if 'settings' in response and 'costcategories' in response['settings']:
+            return {
+                **response,
+                'costcategories': response['settings']['costcategories']
+            }
+        return response
 
     def show(self, **params):
         from .enums.cost_category_actions import CostCategoryAction
 
-        return self._send_request(
+        response = self._send_request(
             self.controller_name, CostCategoryAction.SHOW.value, params
         )
+        # Unwrap the nested structure if needed
+        if 'settings' in response and 'costcategory' in response['settings']:
+            return {
+                **response,
+                'costcategory': response['settings']['costcategory']
+            }
+        return response
 
     def create(self, **params):
         from .enums.cost_category_actions import CostCategoryAction
 
-        return self._send_request(
+        response = self._send_request(
             self.controller_name, CostCategoryAction.ADD.value, params
         )
+        # Unwrap the nested structure: {'settings': {'costcategory': {...}}}
+        if 'settings' in response and 'costcategory' in response['settings']:
+            return {
+                **response,
+                'costcategory': response['settings']['costcategory']
+            }
+        return response
 
     def edit(self, **params):
         from .enums.cost_category_actions import CostCategoryAction
 
-        return self._send_request(
+        response = self._send_request(
             self.controller_name, CostCategoryAction.EDIT.value, params
         )
+        # Unwrap if needed
+        if 'settings' in response and 'costcategory' in response['settings']:
+            return {
+                **response,
+                'costcategory': response['settings']['costcategory']
+            }
+        return response
 
     def delete(self, **params):
         from .enums.cost_category_actions import CostCategoryAction
