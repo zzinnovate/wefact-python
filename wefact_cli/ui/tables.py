@@ -271,30 +271,39 @@ def render_response_data(
             console.print(f"[dim]Found {total_count} {list_key}, showing {len(entries_to_show)}[/dim]\n")
             
             for i, entry in enumerate(entries_to_show, 1):
-                table = Table(
-                    title=f"{list_key.capitalize()[:-1]} {i}",
-                    show_header=True,
-                    header_style="bold yellow",
-                    border_style="dim"
-                )
-                table.add_column("Field", style="cyan", no_wrap=True)
-                table.add_column("Value", style="white")
-                
-                for key, value in entry.items():
-                    if isinstance(value, (dict, list)):
-                        value_str = json.dumps(value, indent=2)
-                    elif value is None:
-                        value_str = "[dim]null[/dim]"
-                    else:
-                        value_str = str(value)
+                # Handle different entry types
+                if isinstance(entry, dict):
+                    # Dictionary entry - show as table
+                    table = Table(
+                        title=f"{list_key.capitalize()[:-1]} {i}",
+                        show_header=True,
+                        header_style="bold yellow",
+                        border_style="dim"
+                    )
+                    table.add_column("Field", style="cyan", no_wrap=True)
+                    table.add_column("Value", style="white")
                     
-                    if len(value_str) > 100:
-                        value_str = value_str[:97] + "..."
+                    for key, value in entry.items():
+                        if isinstance(value, (dict, list)):
+                            value_str = json.dumps(value, indent=2)
+                        elif value is None:
+                            value_str = "[dim]null[/dim]"
+                        else:
+                            value_str = str(value)
+                        
+                        if len(value_str) > 100:
+                            value_str = value_str[:97] + "..."
+                        
+                        table.add_row(key, value_str)
                     
-                    table.add_row(key, value_str)
-                
-                console.print(table)
-                console.print()
+                    console.print(table)
+                    console.print()
+                elif isinstance(entry, (str, int, float, bool)):
+                    # Simple value - just print it
+                    console.print(f"  {i}. {entry}")
+                else:
+                    # Other types (list, etc.) - print as JSON
+                    console.print(f"  {i}. {json.dumps(entry, indent=2)}")
         else:
             # Single item response (like show)
             table = Table(
