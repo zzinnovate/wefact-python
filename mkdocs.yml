@@ -15,8 +15,13 @@ nav:
       - Configuration: getting-started/configuration.md
   - Api: 
       - Endpoints: api/endpoints.md
+      - Parameters: api/parameters.md
       - Variables (Enums): api/variables.md
       - Errors: api/errors.md
+  - Testing:
+      - Invoice Endpoints: testing/invoice-endpoints.md
+  - Implementation:
+      - Complete Coverage: implementation-complete.md
   - Project:
       - Contributing: project/contributing.md
       - Changelog: project/changelog.md

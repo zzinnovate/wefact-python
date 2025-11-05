@@ -2,7 +2,65 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.0.0b1] - 2025-08-15
+## [Unreleased] - 2025-11-05
+
+**Added**
+
+- **CreditInvoice API**: Complete support for purchase invoices (Inkoopfacturen)
+  - New resource: `client.credit_invoices` with CRUD operations (`list`, `show`, `create`, `edit`, `delete`)
+  - Payment operations: `part_payment`, `mark_as_paid`
+  - Line management: `credit_invoice_line_add`, `credit_invoice_line_delete`
+  - Attachments: `attachment_add`, `attachment_delete`, `attachment_download`
+  - New enum: `CreditInvoiceAction` in `wefact.enums.credit_invoice_actions`
+  - Tests: Added `tests/test_credit_invoices.py` with full coverage
+
+**Changed**
+
+- **Major Refactoring**: Modularized resources architecture
+  - Split monolithic `wefact/resources.py` into individual files per resource
+  - New structure: `wefact/resources/` directory with dedicated modules:
+    - `base.py` - BaseResource with common CRUD operations
+    - `invoice.py` - InvoiceResource (25 endpoints)
+    - `credit_invoice.py` - CreditInvoiceResource (12 endpoints)
+    - `debtor.py` - DebtorResource (10 endpoints)
+    - `creditor.py` - CreditorResource (8 endpoints)
+    - `product.py` - ProductResource (5 endpoints)
+    - `quote.py` - QuoteResource (18 endpoints)
+    - `subscription.py` - SubscriptionResource (5 endpoints)
+    - `transaction.py` - TransactionResource (6 endpoints)
+    - `task.py` - TaskResource (8 endpoints)
+    - `interaction.py` - InteractionResource (7 endpoints)
+    - `group.py` - GroupResource (5 endpoints)
+    - `settings.py` - SettingsResource (1 endpoint)
+    - `cost_category.py` - CostCategoryResource (5 endpoints)
+
+- **Removed deprecated code**:
+  - Deleted entire `wefact/endpoints/` directory (deprecated REST-style implementation)
+  - Active implementation now uses controller/action pattern in `wefact/resources/`
+
+**Documentation**
+
+- Added `docs/implementation-complete.md` - comprehensive overview of all 13 resources and 115 API endpoints
+- Added `docs/testing/invoice-endpoints.md` - complete invoice endpoint testing guide with state machine diagram
+- Added `docs/api/parameters.md` - API parameters reference
+- Updated `mkdocs.yml` navigation with new Testing and Implementation sections
+- All resources now have detailed docstrings with parameter descriptions and return values
+
+**Internal Improvements**
+
+- Improved code documentation with method docstrings
+- Better separation of concerns between different API resources
+- Cleaner import structure in `wefact/resources/__init__.py`
+
+**Coverage**
+
+- **100% API Coverage**: All WeFact API v2 endpoints now implemented
+- 13 resources covering all entity types
+- 115 total API endpoints
+- Complete CRUD support where applicable
+- Full attachment support across all relevant resources
+
+## [0.1.0b1] - 2025-08-15
 
 **Changed**
 
@@ -13,7 +71,7 @@ All notable changes to this project will be documented in this file.
 
 - If you need legacy Python versions prior to 3.11, pin to `wefact-python==1.2.0` (unpublished tag) or earlier commit.
 
-## [1.0.0a4] - 2025-08-10
+## [0.1.0a4] - 2025-08-10
 
 **Added**
 
@@ -37,7 +95,7 @@ All notable changes to this project will be documented in this file.
 - Added unit tests for tasks, transactions, debtor extra contacts and attachments, and creditor attachments.
 - Added a pytest collection-time syntax check to compile all modules and fail early on syntax errors.
 
-## [1.0.0a3] - 2025-08-10
+## [0.1.0a3] - 2025-08-10
 
 **Changed**
 
@@ -45,7 +103,7 @@ All notable changes to this project will be documented in this file.
 	- New enum: `CostCategoryAction` in `wefact.enums.cost_category_actions` (also exported via `wefact.enums`).
 	- Replace usages of `Action.COSTCATEGORY_*` with `CostCategoryAction.*`.
 
-## [1.0.0a2] - 2025-08-10
+## [0.1.0a2] - 2025-08-10
 
 **Added**
 
@@ -69,6 +127,6 @@ All notable changes to this project will be documented in this file.
 - Exposed `interactions` on the `WeFact` client.
  
 
-## [1.0.0a1] - 2025-08-09
+## [0.1.0a1] - 2025-08-09
 
 First release with the full API spec implemented.
