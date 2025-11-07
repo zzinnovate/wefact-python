@@ -2,7 +2,7 @@
 
 # This script demonstrates how to add an attachment to an invoice using the WeFact API wrapper.
 
-from wefact import WeFact
+from wefact import WeFact, convert_to_base64
 
 # Initialize the WeFact client with your API key
 api_key = 'your-api-key'
@@ -10,9 +10,10 @@ we_fact_client = WeFact(api_key)
 
 # Define the parameters for the attachment
 invoice_id = 'your-invoice-id'  # Replace with your actual invoice ID
-attachment_type = 'invoice'  # Type of the attachment
-filename = 'example_attachment.pdf'  # Name of the file to be uploaded
-base64_content = 'base64-encoded-string'  # Replace with actual base64 encoded content of the file
+filename = 'example_attachment.pdf'  # Path to the file to be uploaded
+
+# Convert the file to base64
+base64_content = convert_to_base64(filename)
 
 # Add the attachment to the invoice
 try:

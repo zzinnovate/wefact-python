@@ -2,6 +2,7 @@
 
 from .base import BaseResource
 from ..enums import Action
+from ..enums.interaction_actions import InteractionAction
 
 
 class InteractionResource(BaseResource):
@@ -14,7 +15,6 @@ class InteractionResource(BaseResource):
     controller_name = "interaction"
 
     # Attachments
-    
     def attachment_add(self, **params):
         """
         Add an attachment to an interaction.
@@ -28,7 +28,7 @@ class InteractionResource(BaseResource):
             Success confirmation
         """
         return self._send_request(
-            self.controller_name, Action.ATTACHMENT_ADD.value, params
+            self.controller_name, InteractionAction.ATTACHMENT_ADD.value, params
         )
 
     def attachment_delete(self, **params):
@@ -43,7 +43,7 @@ class InteractionResource(BaseResource):
             Success confirmation
         """
         return self._send_request(
-            self.controller_name, Action.ATTACHMENT_DELETE.value, params
+            self.controller_name, InteractionAction.ATTACHMENT_DELETE.value, params
         )
 
     def attachment_download(self, **params):
@@ -58,5 +58,5 @@ class InteractionResource(BaseResource):
             Response with Base64 encoded file
         """
         return self._send_request(
-            self.controller_name, Action.ATTACHMENT_DOWNLOAD.value, params
+            self.controller_name, InteractionAction.ATTACHMENT_DOWNLOAD.value, params
         )

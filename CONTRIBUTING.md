@@ -26,6 +26,19 @@ Run tests:
 pytest
 ```
 
+Run tests with coverage:
+
+```bash
+# Terminal report
+pytest --cov=wefact --cov-report=term-missing
+
+# HTML report (open htmlcov/index.html)
+pytest --cov=wefact --cov-report=html
+
+# XML report (for CI/CD)
+pytest --cov=wefact --cov-report=xml
+```
+
 Serve docs locally:
 
 ```bash

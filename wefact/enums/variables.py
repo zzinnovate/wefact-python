@@ -114,6 +114,7 @@ class CommunicationMethod(str, Enum):
     """Interaction communication methods / Interactie contact via"""
     PHONE = "phone"  # Phone / Contact via telefoon
     WHATSAPP = "whatsapp"  # WhatsApp / Contact via Whatsapp
+    CHAT = "whatsapp"  # Chat / Contact via chat (for now uses WhatsApp)
     EMAIL = "email"  # Email / Contact via e-mail
     POST = "post"  # Mail / Contact per post
     IN_PERSON = "in_person"  # In person / Persoonlijk contact
