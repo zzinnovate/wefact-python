@@ -2,8 +2,8 @@
 
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/zzinnovate/wefact-python)
 [![Tests](https://github.com/zzinnovate/wefact-python/actions/workflows/run-tests.yml/badge.svg?branch=main)](https://github.com/zzinnovate/wefact-python/actions/workflows/run-tests.yml)
-[![codecov](https://codecov.io/gh/zzinnovate/wefact-python/branch/main/graph/badge.svg)](https://codecov.io/gh/zzinnovate/wefact-python)
-![PyPI - Python Version](https://img.shields.io/pypi/pyversions/poetry-core)
+[![codecov](https://codecov.io/github/zzinnovate/wefact-python/branch/main/graph/badge.svg)](https://codecov.io/github/zzinnovate/wefact-python)
+![Python Version](https://img.shields.io/badge/python-3.11%20%7C%203.12%20%7C%203.13%20%7C%203.14-blue)
 
 An unofficial, batteries-included Python client for the WeFact API. Pragmatic, typed where it counts, and intentionally minimal on magic.
 
