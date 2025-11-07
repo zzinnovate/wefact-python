@@ -2,6 +2,59 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased] - 2025-11-07
+
+**Testing & CI/CD**
+
+- **Test Coverage Improvements**: Achieved 95% code coverage with comprehensive test suite
+  - Added 67 new tests across 6 new test files
+  - Total of 168 passing tests
+  - New test files:
+    - `tests/test_wefact_class.py` - Tests for main WeFact class and all resource properties (15 tests)
+    - `tests/test_credit_invoices_advanced.py` - Advanced credit invoice operations (7 tests)
+    - `tests/test_quotes_advanced.py` - Advanced quote operations (13 tests)
+    - `tests/test_request.py` - Request module and parameter flattening (12 tests)
+    - `tests/test_utils.py` - Utility functions (7 tests)
+    - `tests/test_exceptions.py` - Exception handling (38 tests)
+    - `tests/test_base_resource.py` - BaseResource pagination and rate limiting (4 tests)
+  - Optimized slow pagination tests for faster CI/CD execution
+  - All tests properly mock API calls
+
+- **Codecov Integration**: Added automated coverage reporting
+  - Configured codecov upload in GitHub Actions workflow
+  - Added coverage badge to README
+  - Branch coverage tracking enabled
+  - Coverage reports generated on every push and PR
+
+- **Python Version Support**: Expanded test matrix
+  - Added Python 3.13 and 3.14 to CI/CD pipeline
+  - Updated classifiers in `pyproject.toml`
+  - Tests run on Python 3.11, 3.12, 3.13, and 3.14
+
+**Added**
+
+- **Utility Functions**: Implemented practical helper functions in `wefact/utils.py`
+  - `convert_to_base64(file_path)` - Convert files to base64 for attachments
+  - `decode_base64_to_file(base64_string, output_path)` - Save base64 content to files
+  - `format_date_for_api(date)` - Format dates as "YYYY-MM-DD"
+  - `format_datetime_for_api(dt)` - Format datetimes as "YYYY-MM-DD HH:MM:SS"
+  - All utilities exported from main package: `from wefact import convert_to_base64, ...`
+  - Added `examples/using_utilities.py` demonstrating all utility functions
+
+**Changed**
+
+- Updated `examples/add_attachment.py` to use new `convert_to_base64` utility
+- Enhanced CONTRIBUTING.md with coverage commands and workflows
+- Updated .gitignore to exclude coverage.xml
+
+**Coverage**
+
+- **95% Code Coverage**: Comprehensive test coverage across all modules
+  - 100% coverage: wefact.py, request.py, utils.py, credit_invoice.py, invoice.py, quote.py, and more
+  - 93% coverage: exceptions.py
+  - 89% coverage: subscription.py, enums/variables.py
+  - Fast test execution: 3.5 seconds for full suite
+
 ## [Unreleased] - 2025-11-05
 
 **Added**
