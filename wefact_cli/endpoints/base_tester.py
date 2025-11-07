@@ -7,7 +7,7 @@ from datetime import datetime
 
 
 @dataclass
-class TestResult:
+class TesterResult:
     """Result of a single test operation"""
     endpoint: str
     method: str
@@ -44,7 +44,7 @@ class BaseEndpointTester:
         test_func: Callable,
         *args,
         **kwargs
-    ) -> TestResult:
+    ) -> TesterResult:
         """
         Execute a test function and capture results
         
@@ -54,7 +54,7 @@ class BaseEndpointTester:
             *args, **kwargs: Arguments to pass to test function
         
         Returns:
-            TestResult object
+            TesterResult object
         """
         start_time = time.time()
         
@@ -65,7 +65,7 @@ class BaseEndpointTester:
             # Check if response indicates success
             is_success = self._is_success_response(response)
             
-            return TestResult(
+            return TesterResult(
                 endpoint=self.resource_name,
                 method=method_name,
                 success=is_success,
@@ -76,7 +76,7 @@ class BaseEndpointTester:
         
         except Exception as e:
             duration = time.time() - start_time
-            return TestResult(
+            return TesterResult(
                 endpoint=self.resource_name,
                 method=method_name,
                 success=False,
@@ -123,7 +123,7 @@ class BaseEndpointTester:
         
         return "Unknown error"
     
-    def test_list(self, **params) -> TestResult:
+    def test_list(self, **params) -> TesterResult:
         """Test the list operation"""
         default_params = {'limit': 10, 'offset': 0}
         
@@ -148,13 +148,13 @@ class BaseEndpointTester:
             **default_params
         )
     
-    def test_show(self, identifier: Optional[str] = None) -> TestResult:
+    def test_show(self, identifier: Optional[str] = None) -> TesterResult:
         """Test the show operation"""
         if not identifier and self.dummy_ids:
             identifier = self.dummy_ids[0]
         
         if not identifier:
-            return TestResult(
+            return TesterResult(
                 endpoint=self.resource_name,
                 method="show",
                 success=False,
@@ -185,7 +185,7 @@ class BaseEndpointTester:
         
         return code_based_resources.get(self.resource_name, 'Identifier')
     
-    def test_create(self, data: Dict[str, Any]) -> TestResult:
+    def test_create(self, data: Dict[str, Any]) -> TesterResult:
         """Test the create operation"""
         return self._execute_test(
             "create",
@@ -193,13 +193,13 @@ class BaseEndpointTester:
             **data
         )
     
-    def test_edit(self, identifier: Optional[str] = None, data: Optional[Dict[str, Any]] = None) -> TestResult:
+    def test_edit(self, identifier: Optional[str] = None, data: Optional[Dict[str, Any]] = None) -> TesterResult:
         """Test the edit operation"""
         if not identifier and self.dummy_ids:
             identifier = self.dummy_ids[0]
         
         if not identifier:
-            return TestResult(
+            return TesterResult(
                 endpoint=self.resource_name,
                 method="edit",
                 success=False,
@@ -218,14 +218,14 @@ class BaseEndpointTester:
             **data
         )
     
-    def test_delete(self, identifier: Optional[str] = None) -> TestResult:
+    def test_delete(self, identifier: Optional[str] = None) -> TesterResult:
         """Test the delete operation"""
         if not identifier and self.dummy_ids:
             # Use the last dummy ID for delete tests
             identifier = self.dummy_ids[-1] if len(self.dummy_ids) > 1 else None
         
         if not identifier:
-            return TestResult(
+            return TesterResult(
                 endpoint=self.resource_name,
                 method="delete",
                 success=False,
@@ -239,7 +239,7 @@ class BaseEndpointTester:
             Identifier=identifier
         )
     
-    def test_method(self, method_name: str, **params) -> TestResult:
+    def test_method(self, method_name: str, **params) -> TesterResult:
         """
         Test a custom method on the resource
         
@@ -248,10 +248,10 @@ class BaseEndpointTester:
             **params: Parameters to pass to the method
         
         Returns:
-            TestResult object
+            TesterResult object
         """
         if not hasattr(self.resource, method_name):
-            return TestResult(
+            return TesterResult(
                 endpoint=self.resource_name,
                 method=method_name,
                 success=False,
@@ -267,12 +267,12 @@ class BaseEndpointTester:
             **params
         )
     
-    def run_all_basic_tests(self) -> List[TestResult]:
+    def run_all_basic_tests(self) -> List[TesterResult]:
         """
         Run all basic CRUD tests
         
         Returns:
-            List of TestResult objects
+            List of TesterResult objects
         """
         results = []
         

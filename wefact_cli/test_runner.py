@@ -7,27 +7,27 @@ from rich.console import Console
 from rich.progress import Progress, SpinnerColumn, TextColumn, BarColumn
 
 from wefact import WeFact
-from .endpoints.base_tester import BaseEndpointTester, TestResult
+from .endpoints.base_tester import BaseEndpointTester, TesterResult
 from .endpoints.interactive_tester import InteractiveEndpointTester
 from .utils.env_handler import get_all_dummy_ids
 from .ui.tables import render_response_data
 
 
 @dataclass
-class TestReport:
+class EndpointTestReport:
     """Comprehensive test report"""
     total_tests: int = 0
     passed_tests: int = 0
     failed_tests: int = 0
     total_duration: float = 0.0
-    results: List[TestResult] = field(default_factory=list)
+    results: List[TesterResult] = field(default_factory=list)
     
     @property
     def pass_rate(self) -> float:
         """Calculate pass rate percentage"""
         return (self.passed_tests / self.total_tests * 100) if self.total_tests > 0 else 0.0
     
-    def add_result(self, result: TestResult) -> None:
+    def add_result(self, result: TesterResult) -> None:
         """Add a test result to the report"""
         self.results.append(result)
         self.total_tests += 1
@@ -37,13 +37,13 @@ class TestReport:
             self.failed_tests += 1
         self.total_duration += result.duration
     
-    def add_results(self, results: List[TestResult]) -> None:
+    def add_results(self, results: List[TesterResult]) -> None:
         """Add multiple test results"""
         for result in results:
             self.add_result(result)
 
 
-class TestRunner:
+class EndpointTestRunner:
     """Execute tests across WeFact API endpoints"""
     
     def __init__(self, client: WeFact):
@@ -90,14 +90,14 @@ class TestRunner:
         
         return BaseEndpointTester(resource, resource_name, ids)
     
-    def run_all_tests(self) -> TestReport:
+    def run_all_tests(self) -> EndpointTestReport:
         """
         Run tests for all endpoints
         
         Returns:
-            TestReport object
+            EndpointTestReport object
         """
-        report = TestReport()
+        report = EndpointTestReport()
         
         endpoints = [
             'invoices', 'debtors', 'products', 'creditors',
@@ -127,7 +127,7 @@ class TestRunner:
         
         return report
     
-    def run_endpoint_tests(self, endpoint_name: str, method: Optional[str] = None, show_data: bool = True) -> TestReport:
+    def run_endpoint_tests(self, endpoint_name: str, method: Optional[str] = None, show_data: bool = True) -> EndpointTestReport:
         """
         Run tests for a specific endpoint
         
@@ -137,9 +137,9 @@ class TestRunner:
             show_data: Whether to display response data
         
         Returns:
-            TestReport object
+            EndpointTestReport object
         """
-        report = TestReport()
+        report = EndpointTestReport()
         
         tester = self._get_tester(endpoint_name)
         if not tester:
@@ -185,7 +185,7 @@ class TestRunner:
         show_data: bool = True,
         interactive: bool = True,
         **params
-    ) -> TestResult:
+    ) -> TesterResult:
         """
         Run a single test with specific parameters
         
@@ -197,11 +197,11 @@ class TestRunner:
             **params: Parameters to pass to the method
         
         Returns:
-            TestResult object
+            TesterResult object
         """
         tester = self._get_tester(endpoint_name)
         if not tester:
-            return TestResult(
+            return TesterResult(
                 endpoint=endpoint_name,
                 method=method,
                 success=False,

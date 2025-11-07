@@ -18,7 +18,7 @@ from wefact import WeFact
 from .config import config
 from .utils import ensure_api_key, ensure_test_email, get_all_dummy_ids, clear_dummy_data_flags
 from .dummy_data import DummyDataGenerator
-from .test_runner import TestRunner
+from .test_runner import EndpointTestRunner
 from .ui import (
     prompt_initialize_dummy_data,
     prompt_select_endpoint,
@@ -43,7 +43,7 @@ class WefactTestCLI:
         """Initialize the CLI application"""
         self.console = Console()
         self.client: Optional[WeFact] = None
-        self.test_runner: Optional[TestRunner] = None
+        self.test_runner: Optional[EndpointTestRunner] = None
         self.running = True
     
     def run(self) -> None:
@@ -76,7 +76,7 @@ class WefactTestCLI:
         
         # Initialize WeFact client
         self.client = WeFact(api_key=api_key)
-        self.test_runner = TestRunner(self.client)
+        self.test_runner = EndpointTestRunner(self.client)
         
         self.console.print("[green]✓ Connected to WeFact API[/green]\n")
         

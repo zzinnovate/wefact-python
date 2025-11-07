@@ -9,7 +9,7 @@ from rich.prompt import Prompt, Confirm
 from rich.table import Table
 from rich.panel import Panel
 
-from ..endpoints.base_tester import BaseEndpointTester, TestResult
+from ..endpoints.base_tester import BaseEndpointTester, TesterResult
 from ..ui.tables import render_response_data
 from ..utils.data_helpers import format_currency, safe_float
 from ..utils import get_test_debtor_code, save_invoice_pdf
@@ -34,7 +34,7 @@ class InteractiveEndpointTester:
         self.console = console
         self.base_tester = BaseEndpointTester(resource, resource_name, dummy_ids)
     
-    def test_with_flow(self, method: str) -> TestResult:
+    def test_with_flow(self, method: str) -> TesterResult:
         """
         Execute a test with appropriate interactive flow
         
@@ -42,7 +42,7 @@ class InteractiveEndpointTester:
             method: Method name to test
         
         Returns:
-            TestResult object
+            TesterResult object
         """
         # Normalize method name (remove underscores for lookup)
         normalized_method = method.lower().replace('_', '')
@@ -232,7 +232,7 @@ startxref
     
     # Flow implementations
     
-    def _flow_list(self, method: str) -> TestResult:
+    def _flow_list(self, method: str) -> TesterResult:
         """Interactive flow for list operation"""
         self.console.print("\n[cyan]Listing items...[/cyan]")
         
@@ -246,13 +246,13 @@ startxref
         
         return result
     
-    def _flow_list_all(self, method: str) -> TestResult:
+    def _flow_list_all(self, method: str) -> TesterResult:
         """Interactive flow for list_all operation"""
         self.console.print("\n[yellow]⚠ Warning: list_all fetches ALL items with detailed info[/yellow]")
         self.console.print("[dim]This may take a while for large datasets[/dim]")
         
         if not Confirm.ask("Continue?", default=False):
-            return TestResult(
+            return TesterResult(
                 endpoint=self.resource_name,
                 method=method,
                 success=False,
@@ -267,12 +267,12 @@ startxref
         
         return result
     
-    def _flow_show(self, method: str) -> TestResult:
+    def _flow_show(self, method: str) -> TesterResult:
         """Interactive flow for show operation"""
         item = self._select_item_from_list(f"Select {self.resource_name.title()} to View")
         
         if not item:
-            return TestResult(
+            return TesterResult(
                 endpoint=self.resource_name,
                 method=method,
                 success=False,
@@ -288,12 +288,12 @@ startxref
         
         return result
     
-    def _flow_create(self, method: str) -> TestResult:
+    def _flow_create(self, method: str) -> TesterResult:
         """Interactive flow for create operation"""
         self.console.print(f"\n[yellow]Create flow not yet implemented for {self.resource_name}[/yellow]")
         self.console.print("[dim]Use 'Initialize Dummy Data' from main menu to create test items[/dim]")
         
-        return TestResult(
+        return TesterResult(
             endpoint=self.resource_name,
             method=method,
             success=False,
@@ -301,12 +301,12 @@ startxref
             error="Interactive create not implemented"
         )
     
-    def _flow_edit(self, method: str) -> TestResult:
+    def _flow_edit(self, method: str) -> TesterResult:
         """Interactive flow for edit operation"""
         item = self._select_item_from_list(f"Select {self.resource_name.title()} to Edit")
         
         if not item:
-            return TestResult(
+            return TesterResult(
                 endpoint=self.resource_name,
                 method=method,
                 success=False,
@@ -327,12 +327,12 @@ startxref
         
         return result
     
-    def _flow_delete(self, method: str) -> TestResult:
+    def _flow_delete(self, method: str) -> TesterResult:
         """Interactive flow for delete operation"""
         item = self._select_item_from_list(f"Select {self.resource_name.title()} to Delete")
         
         if not item:
-            return TestResult(
+            return TesterResult(
                 endpoint=self.resource_name,
                 method=method,
                 success=False,
@@ -351,7 +351,7 @@ startxref
         ))
         
         if not Confirm.ask("Proceed with deletion?", default=False):
-            return TestResult(
+            return TesterResult(
                 endpoint=self.resource_name,
                 method=method,
                 success=False,
@@ -366,12 +366,12 @@ startxref
         
         return result
     
-    def _flow_credit(self, method: str) -> TestResult:
+    def _flow_credit(self, method: str) -> TesterResult:
         """Interactive flow for credit operation (invoices)"""
         item = self._select_item_from_list("Select Invoice to Credit")
         
         if not item:
-            return TestResult(
+            return TesterResult(
                 endpoint=self.resource_name,
                 method=method,
                 success=False,
@@ -387,12 +387,12 @@ startxref
         
         return result
     
-    def _flow_mark_as_paid(self, method: str) -> TestResult:
+    def _flow_mark_as_paid(self, method: str) -> TesterResult:
         """Interactive flow for mark as paid"""
         item = self._select_item_from_list("Select Invoice to Mark as Paid")
         
         if not item:
-            return TestResult(
+            return TesterResult(
                 endpoint=self.resource_name,
                 method=method,
                 success=False,
@@ -408,12 +408,12 @@ startxref
         
         return result
     
-    def _flow_mark_as_unpaid(self, method: str) -> TestResult:
+    def _flow_mark_as_unpaid(self, method: str) -> TesterResult:
         """Interactive flow for mark as unpaid"""
         item = self._select_item_from_list("Select Invoice to Mark as Unpaid")
         
         if not item:
-            return TestResult(
+            return TesterResult(
                 endpoint=self.resource_name,
                 method=method,
                 success=False,
@@ -429,7 +429,7 @@ startxref
         
         return result
     
-    def _flow_send_by_email(self, method: str) -> TestResult:
+    def _flow_send_by_email(self, method: str) -> TesterResult:
         """Interactive flow for sending by email"""
         # Check if test debtor is configured
         test_debtor = get_test_debtor_code()
@@ -442,7 +442,7 @@ startxref
         item = self._select_item_from_list(f"Select {self.resource_name.title()} to Send by Email")
         
         if not item:
-            return TestResult(
+            return TesterResult(
                 endpoint=self.resource_name,
                 method=method,
                 success=False,
@@ -452,7 +452,7 @@ startxref
         
         self.console.print("[yellow]⚠ This will send an actual email![/yellow]")
         if not Confirm.ask("Continue?", default=False):
-            return TestResult(
+            return TesterResult(
                 endpoint=self.resource_name,
                 method=method,
                 success=False,
@@ -468,12 +468,12 @@ startxref
         
         return result
     
-    def _flow_terminate(self, method: str) -> TestResult:
+    def _flow_terminate(self, method: str) -> TesterResult:
         """Interactive flow for terminate (subscriptions)"""
         item = self._select_item_from_list("Select Subscription to Terminate")
         
         if not item:
-            return TestResult(
+            return TesterResult(
                 endpoint=self.resource_name,
                 method=method,
                 success=False,
@@ -491,7 +491,7 @@ startxref
         ))
         
         if not Confirm.ask("Proceed?", default=False):
-            return TestResult(
+            return TesterResult(
                 endpoint=self.resource_name,
                 method=method,
                 success=False,
@@ -506,12 +506,12 @@ startxref
         
         return result
     
-    def _flow_add_attachment(self, method: str) -> TestResult:
+    def _flow_add_attachment(self, method: str) -> TesterResult:
         """Interactive flow for adding attachment"""
         item = self._select_item_from_list(f"Select {self.resource_name.title()} to Add Attachment")
         
         if not item:
-            return TestResult(
+            return TesterResult(
                 endpoint=self.resource_name,
                 method=method,
                 success=False,
@@ -539,11 +539,11 @@ startxref
         
         return result
     
-    def _flow_delete_attachment(self, method: str) -> TestResult:
+    def _flow_delete_attachment(self, method: str) -> TesterResult:
         """Interactive flow for deleting attachment"""
         self.console.print("[yellow]Delete attachment requires attachment ID - not fully implemented[/yellow]")
         
-        return TestResult(
+        return TesterResult(
             endpoint=self.resource_name,
             method=method,
             success=False,
@@ -551,11 +551,11 @@ startxref
             error="Interactive attachment deletion not implemented"
         )
     
-    def _flow_download_attachment(self, method: str) -> TestResult:
+    def _flow_download_attachment(self, method: str) -> TesterResult:
         """Interactive flow for downloading attachment"""
         self.console.print("[yellow]Download attachment requires attachment ID - not fully implemented[/yellow]")
         
-        return TestResult(
+        return TesterResult(
             endpoint=self.resource_name,
             method=method,
             success=False,
@@ -563,7 +563,7 @@ startxref
             error="Interactive attachment download not implemented"
         )
     
-    def _flow_send_reminder_by_email(self, method: str) -> TestResult:
+    def _flow_send_reminder_by_email(self, method: str) -> TesterResult:
         """Interactive flow for sending reminder by email"""
         # Check if test debtor is configured
         test_debtor = get_test_debtor_code()
@@ -576,7 +576,7 @@ startxref
         item = self._select_item_from_list(f"Select {self.resource_name.title()} to Send Reminder")
         
         if not item:
-            return TestResult(
+            return TesterResult(
                 endpoint=self.resource_name,
                 method=method,
                 success=False,
@@ -586,7 +586,7 @@ startxref
         
         self.console.print("[yellow]⚠ This will send an actual reminder email![/yellow]")
         if not Confirm.ask("Continue?", default=False):
-            return TestResult(
+            return TesterResult(
                 endpoint=self.resource_name,
                 method=method,
                 success=False,
@@ -602,7 +602,7 @@ startxref
         
         return result
     
-    def _flow_send_summation_by_email(self, method: str) -> TestResult:
+    def _flow_send_summation_by_email(self, method: str) -> TesterResult:
         """Interactive flow for sending summation by email"""
         # Check if test debtor is configured
         test_debtor = get_test_debtor_code()
@@ -615,7 +615,7 @@ startxref
         item = self._select_item_from_list(f"Select {self.resource_name.title()} to Send Summation")
         
         if not item:
-            return TestResult(
+            return TesterResult(
                 endpoint=self.resource_name,
                 method=method,
                 success=False,
@@ -625,7 +625,7 @@ startxref
         
         self.console.print("[yellow]⚠ This will send an actual summation email![/yellow]")
         if not Confirm.ask("Continue?", default=False):
-            return TestResult(
+            return TesterResult(
                 endpoint=self.resource_name,
                 method=method,
                 success=False,
@@ -641,12 +641,12 @@ startxref
         
         return result
     
-    def _flow_block(self, method: str) -> TestResult:
+    def _flow_block(self, method: str) -> TesterResult:
         """Interactive flow for blocking an item"""
         item = self._select_item_from_list(f"Select {self.resource_name.title()} to Block")
         
         if not item:
-            return TestResult(
+            return TesterResult(
                 endpoint=self.resource_name,
                 method=method,
                 success=False,
@@ -662,12 +662,12 @@ startxref
         
         return result
     
-    def _flow_unblock(self, method: str) -> TestResult:
+    def _flow_unblock(self, method: str) -> TesterResult:
         """Interactive flow for unblocking an item"""
         item = self._select_item_from_list(f"Select {self.resource_name.title()} to Unblock")
         
         if not item:
-            return TestResult(
+            return TesterResult(
                 endpoint=self.resource_name,
                 method=method,
                 success=False,
@@ -683,12 +683,12 @@ startxref
         
         return result
     
-    def _flow_download(self, method: str) -> TestResult:
+    def _flow_download(self, method: str) -> TesterResult:
         """Interactive flow for downloading an item (like invoice PDF)"""
         item = self._select_item_from_list(f"Select {self.resource_name.title()} to Download")
         
         if not item:
-            return TestResult(
+            return TesterResult(
                 endpoint=self.resource_name,
                 method=method,
                 success=False,
@@ -748,12 +748,12 @@ startxref
         return result
         return result
     
-    def _flow_part_payment(self, method: str) -> TestResult:
+    def _flow_part_payment(self, method: str) -> TesterResult:
         """Interactive flow for part payment"""
         item = self._select_item_from_list("Select Invoice for Part Payment")
         
         if not item:
-            return TestResult(
+            return TesterResult(
                 endpoint=self.resource_name,
                 method=method,
                 success=False,
@@ -768,7 +768,7 @@ startxref
         
         amount_float = safe_float(amount, None)
         if amount_float is None:
-            return TestResult(
+            return TesterResult(
                 endpoint=self.resource_name,
                 method=method,
                 success=False,
@@ -787,7 +787,7 @@ startxref
         
         return result
     
-    def _flow_default(self, method: str) -> TestResult:
+    def _flow_default(self, method: str) -> TesterResult:
         """Default flow for methods without specific implementation"""
         self.console.print(f"\n[cyan]Testing {method} with default flow...[/cyan]")
         

@@ -7,16 +7,16 @@ from rich.panel import Panel
 from rich.json import JSON
 import json
 
-from ..endpoints.base_tester import TestResult
+from ..endpoints.base_tester import TesterResult
 from ..utils.formatters import format_duration, format_status, format_identifier_list
 
 
-def render_test_results(results: List[TestResult], title: str = "Test Results") -> Table:
+def render_test_results(results: List[TesterResult], title: str = "Test Results") -> Table:
     """
     Render test results as a Rich table
     
     Args:
-        results: List of TestResult objects
+        results: List of TesterResult objects
         title: Table title
     
     Returns:
@@ -138,12 +138,12 @@ def render_dummy_data_summary(dummy_data: Dict[str, List[str]]) -> Table:
     return table
 
 
-def render_test_summary(results: List[TestResult]) -> Table:
+def render_test_summary(results: List[TesterResult]) -> Table:
     """
     Render summary statistics for test results
     
     Args:
-        results: List of TestResult objects
+        results: List of TesterResult objects
     
     Returns:
         Rich Table object

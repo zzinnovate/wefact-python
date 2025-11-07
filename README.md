@@ -69,8 +69,32 @@ Head over to the docs for installation notes, examples, and deep dives:
 
 ## Development
 
-- Tests: `pytest`
-- Docs (MkDocs): `mkdocs serve`
+### Running Tests
+
+```bash
+# Install dependencies (if not already done)
+pip install -e ".[dev]"
+
+# Run all tests
+pytest
+
+# Run tests with coverage
+pytest --cov=wefact --cov-report=html
+
+# Run specific test file
+pytest tests/test_invoices.py
+
+```
+
+### Building Documentation
+
+```bash
+# Serve docs locally with live reload
+mkdocs serve
+
+# Build static site
+mkdocs build
+```
 
 ## Changelog
 

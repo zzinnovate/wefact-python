@@ -18,7 +18,7 @@ The tester automatically:
 
 from wefact import WeFact
 from wefact_cli.endpoints.invoice_tester import InvoiceTester
-from wefact_cli.utils import get_api_key, get_test_debtor_code
+from wefact_cli.utils import ensure_api_key, get_test_debtor_code
 
 def main():
     # 1. Check if test debtor exists
@@ -33,7 +33,7 @@ def main():
     print(f"✓ Test debtor found: {test_debtor}")
     
     # 2. Get API credentials
-    api_key = get_api_key()
+    api_key = ensure_api_key()
     if not api_key:
         print("❌ API key not found. Please configure WEFACT_API_KEY in .env")
         return
