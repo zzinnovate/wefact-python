@@ -65,15 +65,12 @@ class RequestMixin:
     api_url: str
 
     def _validate_params(self, params: Dict[str, Any]) -> None:
-        """Validate common parameter mistakes."""
-        # Check for integer Identifier values (common mistake)
+        """Validate and normalize common parameters."""
+        # Auto-convert integer Identifier values to strings (common and acceptable)
         identifier_keys = ['Identifier', 'ReferenceIdentifier', 'ContactIdentifier']
         for key in identifier_keys:
             if key in params and isinstance(params[key], int):
-                raise TypeError(
-                    f"{key} must be a string, got {type(params[key]).__name__}. "
-                    f"Did you forget quotes? Use: {key}=\"{params[key]}\""
-                )
+                params[key] = str(params[key])
 
     def _send_request(self, controller: str, action: str, params: Dict[str, Any]) -> Dict[str, Any]:
         # Validate parameters before sending

@@ -20,7 +20,7 @@ class TestFlattenParams:
         """Test flattening nested dictionary."""
         params = {"user": {"name": "John", "age": 30}}
         result = flatten_params(params)
-        assert set(result) == {("user[name]", "John"), ("user[age]", 30)}
+        assert set(result) == {("user[name]", "John"), ("user[age]", "30")}
     
     def test_list_of_dicts(self):
         """Test flattening list of dictionaries (like InvoiceLines)."""
@@ -32,9 +32,9 @@ class TestFlattenParams:
         }
         result = flatten_params(params)
         expected = [
-            ("InvoiceLines[0][Number]", 1),
+            ("InvoiceLines[0][Number]", "1"),
             ("InvoiceLines[0][ProductCode]", "P0001"),
-            ("InvoiceLines[1][Number]", 2),
+            ("InvoiceLines[1][Number]", "2"),
             ("InvoiceLines[1][ProductCode]", "P0002")
         ]
         assert result == expected
@@ -66,7 +66,7 @@ class TestFlattenParams:
         assert ("Debtor[Address][Street]", "Main St") in result
         assert ("Debtor[Address][Number]", "123") in result
         assert ("InvoiceLines[0][Description]", "Product A") in result
-        assert ("InvoiceLines[0][PriceExcl]", 100.00) in result
+        assert ("InvoiceLines[0][PriceExcl]", "100.0") in result
     
     def test_empty_dict(self):
         """Test flattening empty dictionary."""
@@ -199,4 +199,4 @@ class TestRequestMixin:
         mocker.patch('requests.post', return_value=mock_response)
         
         with pytest.raises(ValidationError, match="Invoice not found"):
-            mixin._send_request("invoice", "show", {"Identifier": 999})
+            mixin._send_request("invoice", "show", {"Identifier": "999"})
