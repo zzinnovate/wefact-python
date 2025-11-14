@@ -1,7 +1,2 @@
-# WeFact Python Wrapper - Production Dependencies
+# WeFact Python Wrapper - Core Library Dependencies
 requests>=2.26,<3.0
-python-dotenv>=1.0,<2.0
-rich>=13.7.0
-textual>=0.47.0
-faker>=22.0.0
-pydantic>=2.5.0

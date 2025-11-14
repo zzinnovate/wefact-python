@@ -1,28 +1,39 @@
-# Security Policy for WeFact Python Wrapper
+# Security Policy
 
-## Reporting Security Issues
+## Reporting a Vulnerability
 
-If you discover a security vulnerability in this project, please report it by sending an email to [hello@zzinnovate.com]. Please include a detailed description of the vulnerability, including steps to reproduce it, if possible.
+If you discover a security vulnerability in this library, please report it by emailing **hello@zzinnovate.com**. Include a clear description of the issue and steps to reproduce if possible.
 
-## Security Practices
+We will review and respond to security reports promptly.
 
-To ensure the security of the WeFact Python Wrapper, we adhere to the following practices:
+## Best Practices for Users
 
-1. **Regular Updates**: We regularly update dependencies to mitigate vulnerabilities in third-party libraries.
-2. **Code Reviews**: All code changes are reviewed by at least one other contributor to catch potential security issues.
-3. **Testing**: We maintain a comprehensive suite of tests, including unit tests and integration tests, to ensure the functionality and security of the code.
-4. **Sensitive Information**: API keys and sensitive information should never be hard-coded in the source code. Use environment variables or configuration files to manage sensitive data securely.
-5. **Error Handling**: We implement proper error handling to avoid exposing sensitive information in error messages.
+When using the WeFact Python Wrapper, follow these security guidelines:
 
-## Security Best Practices for Users
+### Protect Your API Keys
 
-As a user of the WeFact Python Wrapper, you can enhance your security by following these best practices:
+- **Never commit API keys** to version control or include them in your source code
+- **Use environment variables** to store your WeFact API key (the library supports `.env` files via `python-dotenv`)
+- **Limit API key permissions** to only what your application needs in the WeFact dashboard
 
-- **Keep Dependencies Updated**: Regularly check for updates to the WeFact Python Wrapper and its dependencies.
-- **Use Environment Variables**: Store your API keys and other sensitive information in environment variables instead of hard-coding them in your application.
-- **Review Permissions**: Ensure that the API keys you use have the minimum required permissions for your application.
-- **Monitor for Vulnerabilities**: Stay informed about vulnerabilities in the libraries you use and apply patches as necessary.
+### Keep Dependencies Updated
 
-## License
+This library has minimal dependencies (`requests`, `pydantic`, `python-dotenv`, and a few utilities). We will regularly update to the latest version to receive security patches:
 
-This security policy is part of the WeFact Python Wrapper project and is subject to the same licensing terms as the project itself.
+### Example: Secure API Key Usage
+
+```python
+import os
+from wefact import WeFact
+
+# Good: Load from environment variable
+api_key = os.getenv('WEFACT_API_KEY')
+client = WeFact(api_key=api_key)
+
+# Bad: Hard-coded API key (never do this!)
+# client = WeFact(api_key='your-secret-key-here')
+```
+
+## Supported Versions
+
+We recommend always using the latest version. Security updates will be released as patch versions.

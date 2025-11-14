@@ -7,37 +7,56 @@
 
 An unofficial, batteries-included Python client for the WeFact API. Pragmatic, typed where it counts, and intentionally minimal on magic.
 
-This project is maintained by [zzinnovate](https://github.com/zzinnovate) and is not affiliated with WeFact. For the upstream API, see the official [WeFact API documentation](https://www.wefact.nl/api/).
+**Zero dependencies beyond `requests`.** Clean, lightweight, and production-ready.
+
+Maintained by [zzinnovate](https://github.com/zzinnovate) and used in production. Open source, community-friendly, and actively maintained. Not affiliated with WeFact. For the upstream API, see the official [WeFact API documentation](https://www.wefact.nl/api/).
 
 ## Requirements
 
-- Python 3.11+ (dropped 3.8–3.10 before first public release to align with supported ecosystem and newer typing features)
+- Python 3.11+
 
 ## Install
 
 *(This library is not yet published on PyPI)*
 
 ```bash
-# pip install wefact-python
+# Basic installation (library only)
+pip install wefact-python
+
+# With CLI testing tool
+pip install wefact-python[cli]
+
+# For development (includes CLI, testing, and docs)
+pip install -e ".[all]"
 ```
 
 ## Quick start
 
 ```python
+import os
 from wefact import WeFact
 
-client = WeFact(api_key="your-api-key")
+client = WeFact(api_key=os.getenv('WEFACT_API_KEY'))
 
 # List your latest invoices
 result = client.invoices.list(limit=25)
 print(result)
 ```
 
-## What you get
+## Features
 
-- First-class resources: invoices, debtors, creditors, products, groups, subscriptions, settings, cost categories
-- Clear exceptions for common failure modes
-- A thin, predictable layer over WeFact’s controller/action API
+- **Zero dependencies** - Only `requests`, nothing else
+- **Type hints** - Better IDE support and fewer runtime errors
+- **Direct API mapping** - Mirrors WeFact's controller/action structure
+- **Error handling** - Clear exceptions for common failure modes
+- **Attachment support** - Base64 encoding/decoding utilities built-in
+- **Production-tested** - Used by zzinnovate in client projects
+
+## Resources
+
+Complete coverage of all 13 WeFact API resources:
+
+Invoices • Credit Invoices • Debtors • Products • Creditors • Groups • Subscriptions • Quotes • Interactions • Tasks • Transactions • Cost Categories • Settings
 
 ## Common operations
 
@@ -47,35 +66,67 @@ debtor = client.debtors.show(Identifier="DB10000")
 
 # Create an invoice
 invoice = client.invoices.create(
-	DebtorCode="DB10000",
-	InvoiceLines=[{"Number": 1, "ProductCode": "P0001", "Description": "Service", "PriceExcl": 100}],
+    DebtorCode="DB10000",
+    InvoiceLines=[
+        {
+            "Number": 1,
+            "ProductCode": "P0001",
+            "Description": "Service",
+            "PriceExcl": 100
+        }
+    ],
 )
 
 # Mark invoice as paid
-client.invoices.mark_as_paid(Identifier=invoice["invoice"]["Identifier"])  # API returns nested objects
+client.invoices.mark_as_paid(Identifier=invoice["invoice"]["Identifier"])
 ```
 
 ## Documentation
 
-Head over to the docs for installation notes, examples, and deep dives:
-- Getting Started → Installation, Usage, Configuration
-- API → Endpoints and Errors
-- Project → Contributing, Changelog, Security, License
+Full documentation covers installation, examples, and implementation details:
+- **Getting Started** - Installation, usage, configuration
+- **API Reference** - Endpoints, parameters, errors, enums
+- **Testing** - CLI testing tool, endpoint examples
+- **Project** - Contributing, changelog, security, license
 
-*the docs are not yet published...*
-
-```python
-# https://zzinnovate.github.io/wefact-python/
-```
+*Documentation will be published at `https://zzinnovate.github.io/wefact-python/` soon.*
 
 ## Development
+
+### Installation Options
+
+```bash
+# Install with all development dependencies (CLI, testing, docs)
+pip install -e ".[all]"
+
+# Or install specific groups
+pip install -e ".[cli]"      # CLI testing tool only
+pip install -e ".[dev]"      # Testing tools only
+pip install -e ".[docs]"     # Documentation tools only
+```
+
+### CLI Testing Tool
+
+Test endpoints interactively against a real WeFact environment:
+
+```bash
+# Run the CLI tool
+python -m wefact_cli
+
+# Or after installation
+wefact-test
+```
+
+The CLI provides:
+- Interactive API endpoint testing
+- Dummy data generation for testing
+- Environment variable management
+
+See [docs/testing/cli-tool.md](docs/testing/cli-tool.md) for details.
 
 ### Running Tests
 
 ```bash
-# Install dependencies (if not already done)
-pip install -e ".[dev]"
-
 # Run all tests
 pytest
 
@@ -84,7 +135,6 @@ pytest --cov=wefact --cov-report=html
 
 # Run specific test file
 pytest tests/test_invoices.py
-
 ```
 
 ### Building Documentation
@@ -97,17 +147,13 @@ mkdocs serve
 mkdocs build
 ```
 
-## Changelog
-
-See [CHANGELOG](CHANGELOG.md).
-
 ## Contributing
 
-See [CONTRIBUTING](CONTRIBUTING.md).
+Contributions are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 ## Security
 
-See [SECURITY](SECURITY.md).
+See [SECURITY.md](SECURITY.md) for reporting vulnerabilities and best practices.
 
 ## Credits
 

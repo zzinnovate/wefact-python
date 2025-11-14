@@ -85,7 +85,7 @@ def render_main_menu() -> Table:
     Returns:
         Rich Table object
     """
-    table = Table(title="Main Menu", show_header=False, box=None, padding=(0, 2))
+    table = Table(show_header=False, box=None, padding=(0, 2))
     
     options = [
         ("1", "Test All Endpoints", "Run comprehensive test suite"),

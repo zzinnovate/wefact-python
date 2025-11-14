@@ -19,6 +19,7 @@ nav:
       - Variables (Enums): api/variables.md
       - Errors: api/errors.md
   - Testing:
+      - CLI Testing Tool: testing/cli-tool.md
       - Invoice Endpoints: testing/invoice-endpoints.md
   - Implementation:
       - Complete Coverage: implementation-complete.md

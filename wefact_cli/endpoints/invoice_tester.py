@@ -419,7 +419,18 @@ class InvoiceTester(BaseEndpointTester):
                     response=download_result
                 )
                 if results['download'].success:
-                    self.console.print("[green]✓[/green] Invoice PDF downloaded")
+                    # Save the PDF to downloads folder
+                    import base64
+                    from ..utils import save_invoice_pdf
+                    
+                    invoice_data = download_result.get('invoice', {})
+                    if 'Base64' in invoice_data:
+                        pdf_content = base64.b64decode(invoice_data['Base64'])
+                        filename = invoice_data.get('Filename', f'{invoice_code}.pdf')
+                        filepath = save_invoice_pdf(invoice_code, pdf_content, filename)
+                        self.console.print(f"[green]✓[/green] Invoice PDF downloaded and saved to: {filepath}")
+                    else:
+                        self.console.print("[green]✓[/green] Invoice PDF downloaded (no content to save)")
             except Exception as e:
                 results['download'] = TesterResult(success=False, message=str(e), endpoint="download", response={})
                 self.console.print(f"[red]✗[/red] Download failed: {e}")

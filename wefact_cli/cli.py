@@ -13,6 +13,7 @@ if __name__ == '__main__' and __package__ is None:
 
 from rich.console import Console
 from rich.prompt import Prompt
+from rich.panel import Panel
 
 from wefact import WeFact
 from .config import config
@@ -34,6 +35,24 @@ from .ui import (
     create_success_panel,
     create_error_panel,
 )
+
+
+def show_welcome_banner(console: Console):
+    """Display welcome banner."""
+    console.clear()
+    banner = """            
+    ░        ░░        ░░        ░░   ░░░  ░░   ░░░  ░░░      ░░░  ░░░░  ░░░      ░░░        ░░        ░
+    ▒▒▒▒▒▒  ▒▒▒▒▒▒▒▒  ▒▒▒▒▒▒  ▒▒▒▒▒    ▒▒  ▒▒    ▒▒  ▒▒  ▒▒▒▒  ▒▒  ▒▒▒▒  ▒▒  ▒▒▒▒  ▒▒▒▒▒  ▒▒▒▒▒  ▒▒▒▒▒▒▒
+    ▓▓▓▓  ▓▓▓▓▓▓▓▓  ▓▓▓▓▓▓▓▓  ▓▓▓▓▓  ▓  ▓  ▓▓  ▓  ▓  ▓▓  ▓▓▓▓  ▓▓▓  ▓▓  ▓▓▓  ▓▓▓▓  ▓▓▓▓▓  ▓▓▓▓▓      ▓▓▓
+    ██  ████████  ██████████  █████  ██    ██  ██    ██  ████  ████    ████        █████  █████  ███████
+    █        ██        ██        ██  ███   ██  ███   ███      ██████  █████  ████  █████  █████        █
+    """
+    console.print(banner, style="bold cyan")
+    console.print(Panel.fit(
+        "[bold cyan]WeFact API Testing Tool[/bold cyan]\n"
+        "[dim]Interactive endpoint testing and dummy data management[/dim]",
+        border_style="cyan"
+    ))
 
 
 class WefactTestCLI:
@@ -64,9 +83,7 @@ class WefactTestCLI:
     
     def _initialize(self) -> None:
         """Initialize the application"""
-        self.console.clear()
-        self.console.print(create_header("Interactive API Testing Tool"))
-        self.console.print(create_welcome_panel())
+        show_welcome_banner(self.console)
         
         # Ensure API key exists
         api_key = ensure_api_key()
@@ -78,7 +95,7 @@ class WefactTestCLI:
         self.client = WeFact(api_key=api_key)
         self.test_runner = EndpointTestRunner(self.client)
         
-        self.console.print("[green]✓ Connected to WeFact API[/green]\n")
+        self.console.print("\n[green]✓ Connected to WeFact API[/green]\n")
         
         # Ensure test email is configured
         test_email = ensure_test_email()
@@ -91,13 +108,9 @@ class WefactTestCLI:
         if not config.is_dummy_data_initialized():
             if prompt_initialize_dummy_data():
                 self._initialize_dummy_data()
-        
-        self.console.input("\n[dim]Press Enter to continue...[/dim]")
     
     def _show_main_menu(self) -> None:
         """Display and handle main menu"""
-        self.console.clear()
-        self.console.print(create_header())
         self.console.print(render_main_menu())
         
         choice = Prompt.ask(
