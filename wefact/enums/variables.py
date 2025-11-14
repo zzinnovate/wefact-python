@@ -183,6 +183,60 @@ class Currency(str, Enum):
     ZAR = "ZAR"  # South African Rand
 
 
+class BoolInt(str, Enum):
+    """Boolean values as 0/1 strings / Boolean waarden als 0/1"""
+    NO = "0"  # No / Nee
+    YES = "1"  # Yes / Ja
+    
+    # English aliases
+    FALSE = "0"
+    TRUE = "1"
+
+
+class YesNo(str, Enum):
+    """Boolean values as yes/no strings / Boolean waarden als ja/nee"""
+    NO = "no"  # No / Nee
+    YES = "yes"  # Yes / Ja
+
+
+class VatCalculation(str, Enum):
+    """VAT calculation method / BTW berekeningswijze"""
+    EXCLUSIVE = "excl"  # Price exclusive of VAT / Prijs exclusief BTW
+    INCLUSIVE = "incl"  # Price inclusive of VAT / Prijs inclusief BTW
+    
+    # English aliases
+    EXCL = "excl"
+    INCL = "incl"
+
+
+class Gender(str, Enum):
+    """Gender / Geslacht"""
+    MALE = "m"  # Male / Man
+    FEMALE = "f"  # Female / Vrouw
+    DIVERSE = "d"  # Diverse / Divers
+    FAMILY = "fam"  # Family / Familie
+    UNKNOWN = "u"  # Unknown / Onbekend
+    
+    # English aliases
+    M = "m"
+    F = "f"
+    D = "d"
+    FAM = "fam"
+    U = "u"
+
+
+class InvoiceSubStatus(str, Enum):
+    """Invoice sub-status / Factuur substatus"""
+    BLOCKED = "BLOCKED"  # Blocked / Geblokkeerd
+    PAUSED = "PAUSED"  # Paused / Gepauzeerd
+
+
+class PeriodicType(str, Enum):
+    """Invoice line periodic type / Factuurregel periodiek type"""
+    ONCE = "once"  # One-time / Eenmalig
+    PERIOD = "period"  # Periodic / Periodiek
+
+
 # Helper functions to convert between enum names and values
 def get_enum_value(enum_class, name_or_value):
     """

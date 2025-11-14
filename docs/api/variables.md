@@ -1,6 +1,6 @@
 # WeFact API Variables Quick Reference
 
-This guide maps the Dutch API values to English enum names for easier development.
+This guide maps the API values to English enum names for easier development.
 
 ## Import
 
@@ -12,6 +12,12 @@ from wefact.enums import (
     InvoiceStatus,
     QuoteStatus,
     TaskStatus,
+    BoolInt,
+    YesNo,
+    VatCalculation,
+    Gender,
+    InvoiceSubStatus,
+    PeriodicType,
     get_enum_value,
 )
 ```
@@ -35,7 +41,7 @@ Used for product subscriptions.
 ```python
 client.products.create(
     ProductName="Hosting",
-    PricePeriod=PricePeriod.MONTHLY.value  # 'm'
+    PricePeriod=PricePeriod.MONTHLY
 )
 ```
 
@@ -56,7 +62,7 @@ Used for interactions.
 client.interactions.create(
     DebtorId=1,
     Description="Follow-up call",
-    CommunicationMethod=CommunicationMethod.PHONE.value
+    CommunicationMethod=CommunicationMethod.PHONE
 )
 ```
 
@@ -104,6 +110,119 @@ client.interactions.create(
 | `IN_PROGRESS` | `"in_progress"` | In uitvoering | In progress |
 | `COMPLETED` / `DONE` | `"completed"` | Voltooid | Completed |
 
+## Boolean 0/1 Values (BoolInt)
+
+Used for parameters that accept "0" or "1" as boolean strings.
+
+| Enum Name | Value | English |
+|-----------|-------|---------|
+| `NO` / `FALSE` | `"0"` | No |
+| `YES` / `TRUE` | `"1"` | Yes |
+
+**Example:**
+```python
+client.invoices.create(
+    DebtorCode="DB10001",
+    IgnoreDiscount=BoolInt.YES,
+    InvoiceLines=[...]
+)
+```
+
+## Yes/No Values (YesNo)
+
+Used for parameters that accept "yes" or "no".
+
+| Enum Name | Value | English |
+|-----------|-------|---------|
+| `NO` | `"no"` | No |
+| `YES` | `"yes"` | Yes |
+
+**Example:**
+```python
+client.invoices.create(
+    DebtorCode="DB10001",
+    UseProductInventory=YesNo.YES,
+    InvoiceLines=[...]
+)
+```
+
+## VAT Calculation (VatCalculation)
+
+Price calculation method for VAT.
+
+| Enum Name | Value | Dutch | English |
+|-----------|-------|-------|---------|
+| `EXCLUSIVE` / `EXCL` | `"excl"` | Exclusief BTW | Exclusive of VAT |
+| `INCLUSIVE` / `INCL` | `"incl"` | Inclusief BTW | Inclusive of VAT |
+
+**Example:**
+```python
+client.invoices.create(
+    DebtorCode="DB10001",
+    VatCalcMethod=VatCalculation.EXCLUSIVE,
+    InvoiceLines=[...]
+)
+```
+
+## Gender (Gender)
+
+Person or entity gender/title.
+
+| Enum Name | Value | Dutch | English |
+|-----------|-------|-------|---------|
+| `MALE` / `M` | `"m"` | Man | Male |
+| `FEMALE` / `F` | `"f"` | Vrouw | Female |
+| `DIVERSE` / `D` | `"d"` | Divers | Diverse |
+| `FAMILY` / `FAM` | `"fam"` | Familie | Family |
+| `UNKNOWN` / `U` | `"u"` | Onbekend | Unknown |
+
+**Example:**
+```python
+client.debtors.create(
+    CompanyName="ABC Corp",
+    Sex=Gender.DIVERSE
+)
+```
+
+## Invoice Sub-Status (InvoiceSubStatus)
+
+Additional invoice status flags.
+
+| Enum Name | Value | Dutch | English |
+|-----------|-------|-------|---------|
+| `BLOCKED` | `"BLOCKED"` | Geblokkeerd | Blocked |
+| `PAUSED` | `"PAUSED"` | Gepauzeerd | Paused |
+
+**Example:**
+```python
+client.invoices.edit(
+    Identifier="123",
+    SubStatus=InvoiceSubStatus.PAUSED
+)
+```
+
+## Periodic Type (PeriodicType)
+
+Invoice line periodic billing type.
+
+| Enum Name | Value | Dutch | English |
+|-----------|-------|-------|---------|
+| `ONCE` | `"once"` | Eenmalig | One-time |
+| `PERIOD` | `"period"` | Periodiek | Periodic |
+
+**Example:**
+```python
+client.invoices.create(
+    DebtorCode="DB10001",
+    InvoiceLines=[{
+        'ProductCode': 'P0001',
+        'PeriodicType': PeriodicType.PERIOD,
+        'Periods': 1,
+        'Periodic': PricePeriod.MONTHLY
+    }]
+)
+```
+
 ## Helper Functions
 
 ### get_enum_value()
@@ -118,54 +237,4 @@ get_enum_value(PricePeriod, 'MONTHLY')   # Returns 'm'
 get_enum_value(PricePeriod, 'monthly')   # Returns 'm'
 get_enum_value(PricePeriod, 'MONTH')     # Returns 'm'
 get_enum_value(PricePeriod, 'm')         # Returns 'm'
-```
-
-### get_enum_name()
-
-Convert from API value to English name:
-
-```python
-from wefact.enums import get_enum_name, PricePeriod
-
-get_enum_name(PricePeriod, 'm')  # Returns 'MONTHLY'
-```
-
-## Benefits
-
-✅ **No more guessing**: Clear, English names instead of `'m'`, `'k'`, `'j'`  
-✅ **IDE autocomplete**: See all available options as you type  
-✅ **Type safety**: Enum validation catches typos  
-✅ **Self-documenting**: Code explains itself  
-✅ **Flexible**: Use English names or original Dutch values
-
-## Complete Example
-
-```python
-from wefact import WeFact
-from wefact.enums import PricePeriod, CommunicationMethod, TaskStatus
-
-client = WeFact(api_key="your_key")
-
-# Create monthly subscription product
-product = client.products.create(
-    ProductName="Premium Support",
-    ProductKeyPhrase="premium-support",
-    PriceExcl=49.99,
-    PricePeriod=PricePeriod.MONTHLY.value,  # Clear!
-    TaxPercentage=21.0
-)
-
-# Log phone interaction
-interaction = client.interactions.create(
-    AssigneeId=1,
-    DebtorId=1,
-    Description="Discussed subscription renewal",
-    CommunicationMethod=CommunicationMethod.PHONE.value  # Clear!
-)
-
-# Create task
-task = client.tasks.create(
-    Title="Follow up with customer",
-    Status=TaskStatus.OPEN.value  # Clear!
-)
 ```

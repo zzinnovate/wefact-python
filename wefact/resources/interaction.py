@@ -37,8 +37,8 @@ class InteractionResource(BaseResource):
         
         Args:
             ReferenceIdentifier: Interaction ID (numeric string)
-            Identifier: Attachment ID
-            Filename: Or use filename
+            Identifier: Attachment ID (numeric string)
+            Filename: Or use filename instead of Identifier
             
         Returns:
             Success confirmation
@@ -53,10 +53,11 @@ class InteractionResource(BaseResource):
         
         Args:
             ReferenceIdentifier: Interaction ID (numeric string)
-            Filename: Attachment filename
+            Identifier: Attachment ID (numeric string)
+            Filename: Or use filename instead of Identifier
             
         Returns:
-            Response with Base64 encoded file
+            Array with [AttachmentId, Filename, Base64Content, MimeType]
         """
         return self._send_request(
             self.controller_name, InteractionAction.ATTACHMENT_DOWNLOAD.value, params

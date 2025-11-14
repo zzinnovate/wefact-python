@@ -15,7 +15,7 @@ nav:
       - Usage: getting-started/usage.md
       - Configuration: getting-started/configuration.md
   - Api: 
-      - Endpoints: api/endpoints.md
+      - Resources: api/resources.md
       - Parameters: api/parameters.md
       - Variables (Enums): api/variables.md
       - Errors: api/errors.md

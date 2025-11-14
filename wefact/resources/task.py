@@ -20,7 +20,7 @@ class TaskResource(BaseResource):
         
         Args:
             Identifier: Task ID (numeric string)
-            Status: Task status (0=Open, 1=Closed)
+            Status: Task status string (e.g., "open", "completed")
             
         Returns:
             Task with updated status
@@ -40,6 +40,9 @@ class TaskResource(BaseResource):
             Filename: Attachment filename
             Base64: Base64 encoded file content
             
+        Note:
+            Type parameter is automatically set to "crm_task"
+            
         Returns:
             Success confirmation
         """
@@ -54,8 +57,11 @@ class TaskResource(BaseResource):
         
         Args:
             ReferenceIdentifier: Task ID (numeric string)
-            Identifier: Attachment ID
-            Filename: Or use filename
+            Identifier: Attachment ID (numeric string)
+            Filename: Or use filename instead of Identifier
+            
+        Note:
+            Type parameter is automatically set to "crm_task"
             
         Returns:
             Success confirmation
@@ -71,10 +77,14 @@ class TaskResource(BaseResource):
         
         Args:
             ReferenceIdentifier: Task ID (numeric string)
-            Filename: Attachment filename
+            Identifier: Attachment ID (numeric string)
+            Filename: Or use filename instead of Identifier
+            
+        Note:
+            Type parameter is automatically set to "crm_task"
             
         Returns:
-            Response with Base64 encoded file
+            Array with [AttachmentId, Filename, Base64Content, MimeType]
         """
         params["Type"] = self.controller_name
         return self._send_request(
