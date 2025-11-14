@@ -63,4 +63,4 @@ except (ValidationError, ClientError, ServerError) as e:
     print(f"API error: {e}")
 ```
 
-For available operations per resource, see [Endpoints](../api/endpoints.md).
+For available operations per resource, see [API Resources](../api/resources.md).

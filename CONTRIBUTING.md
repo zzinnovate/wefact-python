@@ -45,7 +45,7 @@ The CLI provides:
 - Nifty terminal UI
 - Environment variable management
 
-See [docs/testing/cli-tool.md](docs/testing/cli-tool.md) for details.
+See [docs/guides/cli-tool.md](docs/guides/cli-tool.md) for details.
 
 ### Running Tests
 

@@ -656,6 +656,6 @@ client.subscriptions.create(
 
 ## Additional Resources
 
-- [API Endpoints](endpoints.md) - Available methods for each resource
+- [API Resources](resources.md) - Available methods for each resource
 - [API Errors](errors.md) - Error codes and handling
 - [WeFact Variables](https://developer.wefact.com/variables) - Enumerated values (countries, payment methods, etc.)
