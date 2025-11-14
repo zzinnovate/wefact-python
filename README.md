@@ -1,5 +1,6 @@
 # WeFact Python Wrapper
 
+[![PyPI version](https://img.shields.io/pypi/v/wefact-python.svg)](https://pypi.org/project/wefact-python/)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/zzinnovate/wefact-python)
 [![Tests](https://github.com/zzinnovate/wefact-python/actions/workflows/run-tests.yml/badge.svg?branch=main)](https://github.com/zzinnovate/wefact-python/actions/workflows/run-tests.yml)
 [![codecov](https://codecov.io/gh/zzinnovate/wefact-python/graph/badge.svg?token=R08526JCXI)](https://codecov.io/gh/zzinnovate/wefact-python)
@@ -11,20 +12,28 @@ An unofficial, batteries-included Python client for the WeFact API. Pragmatic, t
 
 Maintained by [zzinnovate](https://github.com/zzinnovate) and used in production. Open source, community-friendly, and actively maintained. Not affiliated with WeFact. For the upstream API, see the official [WeFact API documentation](https://www.wefact.nl/api/).
 
+## Documentation
+
+📖 **[View Full Documentation →](https://zzinnovate.github.io/wefact-python/)**
+
+Complete guides and API reference:
+- **Getting Started** - [Installation](https://zzinnovate.github.io/wefact-python/getting-started/installation/) • [Usage](https://zzinnovate.github.io/wefact-python/getting-started/usage/) • [Configuration](https://zzinnovate.github.io/wefact-python/getting-started/configuration/)
+- **API Reference** - [Resources](https://zzinnovate.github.io/wefact-python/api/resources/) • [Parameters](https://zzinnovate.github.io/wefact-python/api/parameters/) • [Variables (Enums)](https://zzinnovate.github.io/wefact-python/api/variables/) • [Errors](https://zzinnovate.github.io/wefact-python/api/errors/)
+- **Guides** - [Invoice Lifecycle](https://zzinnovate.github.io/wefact-python/guides/invoice-lifecycle/) • [CLI Testing Tool](https://zzinnovate.github.io/wefact-python/guides/cli-tool/)
+- **Project** - [Contributing](https://zzinnovate.github.io/wefact-python/project/contributing/) • [Changelog](https://zzinnovate.github.io/wefact-python/project/changelog/) • [Security](https://zzinnovate.github.io/wefact-python/project/security/)
+
 ## Requirements
 
 - Python 3.11+
 
 ## Install
 
-*(This library is not yet published on PyPI)*
-
 ```bash
 # Basic installation (library only)
 pip install wefact-python
 
 # With CLI testing tool
-pip install wefact-python[cli]
+pip install "wefact-python[cli]"
 
 # For development (includes CLI, testing, and docs)
 pip install -e ".[all]"
@@ -80,16 +89,6 @@ invoice = client.invoices.create(
 # Mark invoice as paid
 client.invoices.mark_as_paid(Identifier=invoice["invoice"]["Identifier"])
 ```
-
-## Documentation
-
-Full documentation covers installation, examples, and implementation details:
-- **Getting Started** - Installation, usage, configuration
-- **API Reference** - Endpoints, parameters, errors, enums
-- **Testing** - CLI testing tool, endpoint examples
-- **Project** - Contributing, changelog, security, license
-
-**[View Full Documentation →](https://zzinnovate.github.io/wefact-python/)**
 
 ## Contributing
 

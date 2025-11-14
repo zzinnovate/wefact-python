@@ -49,3 +49,6 @@ downloads/
 
 # Documentation build
 /docs/_build/
+
+# Internal maintainer docs
+PUBLISHING.md
