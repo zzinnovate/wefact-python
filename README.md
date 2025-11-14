@@ -91,65 +91,9 @@ Full documentation covers installation, examples, and implementation details:
 
 *Documentation will be published at `https://zzinnovate.github.io/wefact-python/` soon.*
 
-## Development
-
-### Installation Options
-
-```bash
-# Install with all development dependencies (CLI, testing, docs)
-pip install -e ".[all]"
-
-# Or install specific groups
-pip install -e ".[cli]"      # CLI testing tool only
-pip install -e ".[dev]"      # Testing tools only
-pip install -e ".[docs]"     # Documentation tools only
-```
-
-### CLI Testing Tool
-
-Test endpoints interactively against a real WeFact environment:
-
-```bash
-# Run the CLI tool
-python -m wefact_cli
-
-# Or after installation
-wefact-test
-```
-
-The CLI provides:
-- Interactive API endpoint testing
-- Dummy data generation for testing
-- Environment variable management
-
-See [docs/testing/cli-tool.md](docs/testing/cli-tool.md) for details.
-
-### Running Tests
-
-```bash
-# Run all tests
-pytest
-
-# Run tests with coverage
-pytest --cov=wefact --cov-report=html
-
-# Run specific test file
-pytest tests/test_invoices.py
-```
-
-### Building Documentation
-
-```bash
-# Serve docs locally with live reload
-mkdocs serve
-
-# Build static site
-mkdocs build
-```
-
 ## Contributing
 
-Contributions are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+Contributions are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for development setup, testing, and workflow guidelines.
 
 ## Security
 
