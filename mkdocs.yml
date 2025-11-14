@@ -1,6 +1,6 @@
 site_name: WeFact Python Wrapper
 site_description: Unofficial open-source Python wrapper for the WeFact API
-site_url: https://wefact-python.zzinnovate.com/
+site_url: https://zzinnovate.github.io/wefact-python/
 use_directory_urls: true
 repo_name: zzinnovate/wefact-python
 repo_url: https://github.com/zzinnovate/wefact-python
@@ -101,4 +101,4 @@ theme:
 extra_css:
   - assets/style.css
 
-strict: false
+strict: true
