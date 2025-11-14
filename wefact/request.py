@@ -29,6 +29,14 @@ def flatten_params(params: Dict[str, Any], parent_key: str = '') -> List[tuple]:
     Returns:
         List of (key, value) tuples suitable for urlencode with doseq=True
     """
+    from enum import Enum
+    
+    def to_string(val):
+        """Convert value to string, handling enums properly."""
+        if isinstance(val, Enum):
+            return val.value
+        return str(val)
+    
     items = []
     
     for key, value in params.items():
@@ -45,10 +53,10 @@ def flatten_params(params: Dict[str, Any], parent_key: str = '') -> List[tuple]:
                     items.extend(flatten_params(item, f"{new_key}[{idx}]"))
                 else:
                     # Simple list: Tags[0]=tag1, Tags[1]=tag2
-                    items.append((f"{new_key}[{idx}]", item))
+                    items.append((f"{new_key}[{idx}]", to_string(item)))
         else:
             # Simple scalar value
-            items.append((new_key, value))
+            items.append((new_key, to_string(value)))
     
     return items
 
