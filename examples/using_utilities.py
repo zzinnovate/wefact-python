@@ -37,10 +37,10 @@ print(f"Attachment added: {response['status']}")
 print("\n=== Example 2: Downloading an Invoice ===")
 download_response = client.invoices.download(Identifier=invoice_id)
 
-# The response contains Base64 encoded PDF
-if 'Base64' in download_response:
+# The response contains Base64 encoded PDF inside 'invoice' key
+if 'invoice' in download_response and 'Base64' in download_response['invoice']:
     # Decode and save to file
-    decode_base64_to_file(download_response['Base64'], "downloaded_invoice.pdf")
+    decode_base64_to_file(download_response['invoice']['Base64'], "downloaded_invoice.pdf")
     print("Invoice saved to downloaded_invoice.pdf")
 
 # Example 3: Marking an invoice as paid with formatted date

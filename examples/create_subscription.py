@@ -1,6 +1,7 @@
 # create_subscription.py
 
 from wefact import WeFact
+from wefact.enums import PricePeriod
 
 def create_subscription(api_key, debtor_code, product_code, description, price_excl, periodic, terminate_after):
     # Initialize the WeFact client
@@ -32,7 +33,7 @@ if __name__ == "__main__":
     PRODUCT_CODE = 'P0001'
     DESCRIPTION = 'Your product description'
     PRICE_EXCL = 100
-    PERIODIC = 'month'
+    PERIODIC = PricePeriod.MONTHLY.value  # Use enum instead of 'month'
     TERMINATE_AFTER = 12
 
     create_subscription(API_KEY, DEBTOR_CODE, PRODUCT_CODE, DESCRIPTION, PRICE_EXCL, PERIODIC, TERMINATE_AFTER)
