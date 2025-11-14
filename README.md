@@ -89,7 +89,7 @@ Full documentation covers installation, examples, and implementation details:
 - **Testing** - CLI testing tool, endpoint examples
 - **Project** - Contributing, changelog, security, license
 
-*Documentation will be published at `https://zzinnovate.github.io/wefact-python/` soon.*
+**[View Full Documentation →](https://wefact-python.zzinnovate.com/)**
 
 ## Contributing
 
