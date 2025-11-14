@@ -50,7 +50,7 @@ interaction = client.interactions.create(
     AssigneeId=1,
     DebtorId=1,
     Description="Follow-up call about subscription renewal",
-    CommunicationMethod=CommunicationMethod.PHONE.value,  # Instead of 'phone'
+    CommunicationMethod=CommunicationMethod.PHONE.value,
 )
 print(f"Created interaction via: {interaction['interaction']['CommunicationMethod']}")
 
@@ -59,7 +59,7 @@ email_interaction = client.interactions.create(
     AssigneeId=1,
     DebtorId=1,
     Description="Sent renewal confirmation",
-    CommunicationMethod=CommunicationMethod.EMAIL.value,  # Clear and readable
+    CommunicationMethod=CommunicationMethod.EMAIL.value,
 )
 
 # ============================================================================
@@ -99,27 +99,3 @@ print(f"Task Statuses: {[t.name for t in TaskStatus]}")
 print(f"Invoice Statuses: {[i.name for i in InvoiceStatus]}")
 print(f"Payment Methods: {[p.name for p in PaymentMethod]}")
 
-# ============================================================================
-# Example 6: Why this is better
-# ============================================================================
-print("\n=== Before vs After ===")
-
-# BEFORE (unclear what 'm' and 'phone' mean):
-# product = client.products.create(
-#     ProductName="Hosting",
-#     ProductKeyPhrase="hosting",
-#     PriceExcl=9.99,
-#     PricePeriod='m',  # What does 'm' mean?
-# )
-
-# AFTER (crystal clear):
-product = client.products.create(
-    ProductName="Hosting",
-    ProductKeyPhrase="hosting",
-    PriceExcl=9.99,
-    PricePeriod=PricePeriod.MONTHLY.value,  # Obvious!
-)
-
-print("\n✓ Much more readable and IDE-friendly!")
-print("✓ No need to remember Dutch abbreviations!")
-print("✓ Autocomplete shows all available options!")
