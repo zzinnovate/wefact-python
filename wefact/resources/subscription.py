@@ -31,5 +31,5 @@ class SubscriptionResource(BaseResource):
             Terminated subscription details
         """
         return self._send_request(
-            self.controller_name, SubscriptionAction.TERMINATE.value, params
+            self.controller_name, SubscriptionAction.TERMINATE, params
         )

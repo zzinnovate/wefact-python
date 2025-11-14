@@ -34,7 +34,7 @@ class InvoiceResource(BaseResource):
             Response with the new credit invoice details
         """
         return self._send_request(
-            self.controller_name, InvoiceAction.CREDIT.value, params
+            self.controller_name, InvoiceAction.CREDIT, params
         )
 
     def part_payment(self, **params):
@@ -52,7 +52,7 @@ class InvoiceResource(BaseResource):
             Updated invoice with payment applied
         """
         return self._send_request(
-            self.controller_name, InvoiceAction.PART_PAYMENT.value, params
+            self.controller_name, InvoiceAction.PART_PAYMENT, params
         )
 
     def mark_as_paid(self, **params):
@@ -69,7 +69,7 @@ class InvoiceResource(BaseResource):
             Invoice with status changed to Paid (4)
         """
         return self._send_request(
-            self.controller_name, InvoiceAction.MARK_AS_PAID.value, params
+            self.controller_name, InvoiceAction.MARK_AS_PAID, params
         )
 
     def mark_as_unpaid(self, **params):
@@ -84,7 +84,7 @@ class InvoiceResource(BaseResource):
             Invoice with status changed back to Sent (2)
         """
         return self._send_request(
-            self.controller_name, InvoiceAction.MARK_AS_UNPAID.value, params
+            self.controller_name, InvoiceAction.MARK_AS_UNPAID, params
         )
 
     # Email operations
@@ -102,7 +102,7 @@ class InvoiceResource(BaseResource):
             Sent invoice details
         """
         return self._send_request(
-            self.controller_name, InvoiceAction.SEND_BY_EMAIL.value, params
+            self.controller_name, InvoiceAction.SEND_BY_EMAIL, params
         )
 
     def send_reminder_by_email(self, **params):
@@ -118,7 +118,7 @@ class InvoiceResource(BaseResource):
             Success confirmation
         """
         return self._send_request(
-            self.controller_name, InvoiceAction.SEND_REMINDER_BY_EMAIL.value, params
+            self.controller_name, InvoiceAction.SEND_REMINDER_BY_EMAIL, params
         )
 
     def send_summation_by_email(self, **params):
@@ -134,7 +134,7 @@ class InvoiceResource(BaseResource):
             Success confirmation
         """
         return self._send_request(
-            self.controller_name, InvoiceAction.SEND_SUMMATION_BY_EMAIL.value, params
+            self.controller_name, InvoiceAction.SEND_SUMMATION_BY_EMAIL, params
         )
 
     # Document operations
@@ -151,7 +151,7 @@ class InvoiceResource(BaseResource):
             Response with Base64 encoded PDF in invoice.Base64
         """
         return self._send_request(
-            self.controller_name, InvoiceAction.DOWNLOAD.value, params
+            self.controller_name, InvoiceAction.DOWNLOAD, params
         )
 
     # State management
@@ -170,7 +170,7 @@ class InvoiceResource(BaseResource):
             Invoice with SubStatus = 'BLOCKED'
         """
         return self._send_request(
-            self.controller_name, InvoiceAction.BLOCK.value, params
+            self.controller_name, InvoiceAction.BLOCK, params
         )
 
     def unblock(self, **params):
@@ -186,7 +186,7 @@ class InvoiceResource(BaseResource):
             Invoice with SubStatus cleared
         """
         return self._send_request(
-            self.controller_name, InvoiceAction.UNBLOCK.value, params
+            self.controller_name, InvoiceAction.UNBLOCK, params
         )
 
     def schedule(self, **params):
@@ -203,7 +203,7 @@ class InvoiceResource(BaseResource):
             Invoice with ScheduledAt set
         """
         return self._send_request(
-            self.controller_name, InvoiceAction.SCHEDULE.value, params
+            self.controller_name, InvoiceAction.SCHEDULE, params
         )
 
     def cancel_schedule(self, **params):
@@ -219,7 +219,7 @@ class InvoiceResource(BaseResource):
             Invoice with ScheduledAt cleared
         """
         return self._send_request(
-            self.controller_name, InvoiceAction.CANCEL_SCHEDULE.value, params
+            self.controller_name, InvoiceAction.CANCEL_SCHEDULE, params
         )
 
     # Payment process management
@@ -240,7 +240,7 @@ class InvoiceResource(BaseResource):
             Invoice with SubStatus = 'PAUSED'
         """
         return self._send_request(
-            self.controller_name, InvoiceAction.PAYMENT_PROCESS_PAUSE.value, params
+            self.controller_name, InvoiceAction.PAYMENT_PROCESS_PAUSE, params
         )
 
     def payment_process_reactivate(self, **params):
@@ -256,7 +256,7 @@ class InvoiceResource(BaseResource):
             Invoice with SubStatus cleared
         """
         return self._send_request(
-            self.controller_name, InvoiceAction.PAYMENT_PROCESS_REACTIVATE.value, params
+            self.controller_name, InvoiceAction.PAYMENT_PROCESS_REACTIVATE, params
         )
 
     # Line management
@@ -275,7 +275,7 @@ class InvoiceResource(BaseResource):
             Invoice with lines in new order
         """
         return self._send_request(
-            self.controller_name, InvoiceAction.SORT_LINES.value, params
+            self.controller_name, InvoiceAction.SORT_LINES, params
         )
 
     def invoice_line_add(self, **params):
@@ -292,7 +292,7 @@ class InvoiceResource(BaseResource):
             Invoice with new lines added
         """
         return self._send_request(
-            self.controller_name, InvoiceAction.INVOICE_LINE_ADD.value, params
+            self.controller_name, InvoiceAction.INVOICE_LINE_ADD, params
         )
 
     def invoice_line_delete(self, **params):
@@ -309,7 +309,7 @@ class InvoiceResource(BaseResource):
             Invoice with lines removed
         """
         return self._send_request(
-            self.controller_name, InvoiceAction.INVOICE_LINE_DELETE.value, params
+            self.controller_name, InvoiceAction.INVOICE_LINE_DELETE, params
         )
 
     # Attachments
@@ -330,7 +330,7 @@ class InvoiceResource(BaseResource):
         """
         params["Type"] = self.controller_name
         return self._send_request(
-            self.controller_name, Action.ATTACHMENT_ADD.value, params
+            self.controller_name, Action.ATTACHMENT_ADD, params
         )
 
     def attachment_delete(self, **params):
@@ -348,7 +348,7 @@ class InvoiceResource(BaseResource):
         """
         params["Type"] = self.controller_name
         return self._send_request(
-            self.controller_name, Action.ATTACHMENT_DELETE.value, params
+            self.controller_name, Action.ATTACHMENT_DELETE, params
         )
 
     def attachment_download(self, **params):
@@ -365,5 +365,5 @@ class InvoiceResource(BaseResource):
         """
         params["Type"] = self.controller_name
         return self._send_request(
-            self.controller_name, Action.ATTACHMENT_DOWNLOAD.value, params
+            self.controller_name, Action.ATTACHMENT_DOWNLOAD, params
         )

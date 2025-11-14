@@ -28,7 +28,7 @@ class InteractionResource(BaseResource):
             Success confirmation
         """
         return self._send_request(
-            self.controller_name, InteractionAction.ATTACHMENT_ADD.value, params
+            self.controller_name, InteractionAction.ATTACHMENT_ADD, params
         )
 
     def attachment_delete(self, **params):
@@ -44,7 +44,7 @@ class InteractionResource(BaseResource):
             Success confirmation
         """
         return self._send_request(
-            self.controller_name, InteractionAction.ATTACHMENT_DELETE.value, params
+            self.controller_name, InteractionAction.ATTACHMENT_DELETE, params
         )
 
     def attachment_download(self, **params):
@@ -60,5 +60,5 @@ class InteractionResource(BaseResource):
             Array with [AttachmentId, Filename, Base64Content, MimeType]
         """
         return self._send_request(
-            self.controller_name, InteractionAction.ATTACHMENT_DOWNLOAD.value, params
+            self.controller_name, InteractionAction.ATTACHMENT_DOWNLOAD, params
         )

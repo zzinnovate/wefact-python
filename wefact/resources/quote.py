@@ -28,7 +28,7 @@ class QuoteResource(BaseResource):
             Success confirmation
         """
         return self._send_request(
-            self.controller_name, QuoteAction.SEND_BY_EMAIL.value, params
+            self.controller_name, QuoteAction.SEND_BY_EMAIL, params
         )
 
     def download(self, **params):
@@ -43,7 +43,7 @@ class QuoteResource(BaseResource):
             Response with Base64 encoded PDF
         """
         return self._send_request(
-            self.controller_name, QuoteAction.DOWNLOAD.value, params
+            self.controller_name, QuoteAction.DOWNLOAD, params
         )
 
     # Scheduling
@@ -61,7 +61,7 @@ class QuoteResource(BaseResource):
             Quote with ScheduledAt set
         """
         return self._send_request(
-            self.controller_name, QuoteAction.SCHEDULE.value, params
+            self.controller_name, QuoteAction.SCHEDULE, params
         )
 
     def cancel_schedule(self, **params):
@@ -76,7 +76,7 @@ class QuoteResource(BaseResource):
             Quote with ScheduledAt cleared
         """
         return self._send_request(
-            self.controller_name, QuoteAction.CANCEL_SCHEDULE.value, params
+            self.controller_name, QuoteAction.CANCEL_SCHEDULE, params
         )
 
     # Status management
@@ -93,7 +93,7 @@ class QuoteResource(BaseResource):
             Quote with accepted status
         """
         return self._send_request(
-            self.controller_name, QuoteAction.ACCEPT.value, params
+            self.controller_name, QuoteAction.ACCEPT, params
         )
 
     def decline(self, **params):
@@ -108,7 +108,7 @@ class QuoteResource(BaseResource):
             Quote with declined status
         """
         return self._send_request(
-            self.controller_name, QuoteAction.DECLINE.value, params
+            self.controller_name, QuoteAction.DECLINE, params
         )
 
     def archive(self, **params):
@@ -123,7 +123,7 @@ class QuoteResource(BaseResource):
             Archived quote
         """
         return self._send_request(
-            self.controller_name, QuoteAction.ARCHIVE.value, params
+            self.controller_name, QuoteAction.ARCHIVE, params
         )
 
     # Line management
@@ -141,7 +141,7 @@ class QuoteResource(BaseResource):
             Quote with lines in new order
         """
         return self._send_request(
-            self.controller_name, QuoteAction.SORT_LINES.value, params
+            self.controller_name, QuoteAction.SORT_LINES, params
         )
 
     def price_quote_line_add(self, **params):
@@ -157,7 +157,7 @@ class QuoteResource(BaseResource):
             Quote with new lines added
         """
         return self._send_request(
-            self.controller_name, QuoteAction.PRICE_QUOTE_LINE_ADD.value, params
+            self.controller_name, QuoteAction.PRICE_QUOTE_LINE_ADD, params
         )
 
     def price_quote_line_delete(self, **params):
@@ -173,7 +173,7 @@ class QuoteResource(BaseResource):
             Quote with lines removed
         """
         return self._send_request(
-            self.controller_name, QuoteAction.PRICE_QUOTE_LINE_DELETE.value, params
+            self.controller_name, QuoteAction.PRICE_QUOTE_LINE_DELETE, params
         )
 
     # Attachments
@@ -193,7 +193,7 @@ class QuoteResource(BaseResource):
         """
         params["Type"] = self.controller_name
         return self._send_request(
-            self.controller_name, Action.ATTACHMENT_ADD.value, params
+            self.controller_name, Action.ATTACHMENT_ADD, params
         )
 
     def attachment_delete(self, **params):
@@ -211,7 +211,7 @@ class QuoteResource(BaseResource):
         """
         params["Type"] = self.controller_name
         return self._send_request(
-            self.controller_name, Action.ATTACHMENT_DELETE.value, params
+            self.controller_name, Action.ATTACHMENT_DELETE, params
         )
 
     def attachment_download(self, **params):
@@ -228,5 +228,5 @@ class QuoteResource(BaseResource):
         """
         params["Type"] = self.controller_name
         return self._send_request(
-            self.controller_name, Action.ATTACHMENT_DOWNLOAD.value, params
+            self.controller_name, Action.ATTACHMENT_DOWNLOAD, params
         )

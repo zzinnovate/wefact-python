@@ -26,7 +26,7 @@ class TaskResource(BaseResource):
             Task with updated status
         """
         return self._send_request(
-            self.controller_name, TaskAction.CHANGE_STATUS.value, params
+            self.controller_name, TaskAction.CHANGE_STATUS, params
         )
 
     # Attachments
@@ -48,7 +48,7 @@ class TaskResource(BaseResource):
         """
         params["Type"] = self.controller_name
         return self._send_request(
-            self.controller_name, Action.ATTACHMENT_ADD.value, params
+            self.controller_name, Action.ATTACHMENT_ADD, params
         )
 
     def attachment_delete(self, **params):
@@ -68,7 +68,7 @@ class TaskResource(BaseResource):
         """
         params["Type"] = self.controller_name
         return self._send_request(
-            self.controller_name, Action.ATTACHMENT_DELETE.value, params
+            self.controller_name, Action.ATTACHMENT_DELETE, params
         )
 
     def attachment_download(self, **params):
@@ -88,5 +88,5 @@ class TaskResource(BaseResource):
         """
         params["Type"] = self.controller_name
         return self._send_request(
-            self.controller_name, Action.ATTACHMENT_DOWNLOAD.value, params
+            self.controller_name, Action.ATTACHMENT_DOWNLOAD, params
         )

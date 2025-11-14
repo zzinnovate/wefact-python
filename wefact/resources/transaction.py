@@ -25,7 +25,7 @@ class TransactionResource(BaseResource):
             Matched transaction details
         """
         return self._send_request(
-            self.controller_name, TransactionAction.MATCH.value, params
+            self.controller_name, TransactionAction.MATCH, params
         )
 
     def ignore(self, **params):
@@ -39,5 +39,5 @@ class TransactionResource(BaseResource):
             Ignored transaction details
         """
         return self._send_request(
-            self.controller_name, TransactionAction.IGNORE.value, params
+            self.controller_name, TransactionAction.IGNORE, params
         )

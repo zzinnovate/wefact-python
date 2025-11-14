@@ -33,7 +33,7 @@ if __name__ == "__main__":
     PRODUCT_CODE = 'P0001'
     DESCRIPTION = 'Your product description'
     PRICE_EXCL = 100
-    PERIODIC = PricePeriod.MONTHLY.value  # Use enum instead of 'month'
+    PERIODIC = PricePeriod.MONTHLY  # Use enum instead of 'month'
     TERMINATE_AFTER = 12
 
     create_subscription(API_KEY, DEBTOR_CODE, PRODUCT_CODE, DESCRIPTION, PRICE_EXCL, PERIODIC, TERMINATE_AFTER)

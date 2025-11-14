@@ -26,7 +26,7 @@ class CostCategoryResource(BaseResource):
             Response with 'costcategories' array unwrapped from nested structure
         """
         response = self._send_request(
-            self.controller_name, CostCategoryAction.LIST.value, params
+            self.controller_name, CostCategoryAction.LIST, params
         )
         # Unwrap the nested structure: {'settings': {'costcategories': [...]}}
         if 'settings' in response and 'costcategories' in response['settings']:
@@ -47,7 +47,7 @@ class CostCategoryResource(BaseResource):
             Response with 'costcategory' unwrapped from nested structure
         """
         response = self._send_request(
-            self.controller_name, CostCategoryAction.SHOW.value, params
+            self.controller_name, CostCategoryAction.SHOW, params
         )
         # Unwrap the nested structure if needed
         if 'settings' in response and 'costcategory' in response['settings']:
@@ -68,7 +68,7 @@ class CostCategoryResource(BaseResource):
             Response with new cost category unwrapped
         """
         response = self._send_request(
-            self.controller_name, CostCategoryAction.ADD.value, params
+            self.controller_name, CostCategoryAction.ADD, params
         )
         # Unwrap the nested structure: {'settings': {'costcategory': {...}}}
         if 'settings' in response and 'costcategory' in response['settings']:
@@ -90,7 +90,7 @@ class CostCategoryResource(BaseResource):
             Response with updated cost category unwrapped
         """
         response = self._send_request(
-            self.controller_name, CostCategoryAction.EDIT.value, params
+            self.controller_name, CostCategoryAction.EDIT, params
         )
         # Unwrap if needed
         if 'settings' in response and 'costcategory' in response['settings']:
@@ -111,5 +111,5 @@ class CostCategoryResource(BaseResource):
             Success confirmation
         """
         return self._send_request(
-            self.controller_name, CostCategoryAction.DELETE.value, params
+            self.controller_name, CostCategoryAction.DELETE, params
         )

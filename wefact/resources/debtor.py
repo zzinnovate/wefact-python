@@ -39,7 +39,7 @@ class DebtorResource(BaseResource):
             Debtor with new contact added
         """
         return self._send_request(
-            self.controller_name, DebtorAction.EXTRA_CLIENT_CONTACT_ADD.value, params
+            self.controller_name, DebtorAction.EXTRA_CLIENT_CONTACT_ADD, params
         )
 
     def extra_client_contact_edit(self, **params):
@@ -60,7 +60,7 @@ class DebtorResource(BaseResource):
             Debtor with updated contact
         """
         return self._send_request(
-            self.controller_name, DebtorAction.EXTRA_CLIENT_CONTACT_EDIT.value, params
+            self.controller_name, DebtorAction.EXTRA_CLIENT_CONTACT_EDIT, params
         )
 
     def extra_client_contact_delete(self, **params):
@@ -76,7 +76,7 @@ class DebtorResource(BaseResource):
             Debtor with contact removed
         """
         return self._send_request(
-            self.controller_name, DebtorAction.EXTRA_CLIENT_CONTACT_DELETE.value, params
+            self.controller_name, DebtorAction.EXTRA_CLIENT_CONTACT_DELETE, params
         )
 
     # Attachments
@@ -96,7 +96,7 @@ class DebtorResource(BaseResource):
         """
         params["Type"] = self.controller_name
         return self._send_request(
-            self.controller_name, Action.ATTACHMENT_ADD.value, params
+            self.controller_name, Action.ATTACHMENT_ADD, params
         )
 
     def attachment_delete(self, **params):
@@ -114,7 +114,7 @@ class DebtorResource(BaseResource):
         """
         params["Type"] = self.controller_name
         return self._send_request(
-            self.controller_name, Action.ATTACHMENT_DELETE.value, params
+            self.controller_name, Action.ATTACHMENT_DELETE, params
         )
 
     def attachment_download(self, **params):
@@ -131,5 +131,5 @@ class DebtorResource(BaseResource):
         """
         params["Type"] = self.controller_name
         return self._send_request(
-            self.controller_name, Action.ATTACHMENT_DOWNLOAD.value, params
+            self.controller_name, Action.ATTACHMENT_DOWNLOAD, params
         )

@@ -27,7 +27,7 @@ product = client.products.create(
     ProductName="Premium Hosting",
     ProductKeyPhrase="premium-hosting",
     PriceExcl=24.99,
-    PricePeriod=PricePeriod.MONTHLY.value,  # Instead of 'm'
+    PricePeriod=PricePeriod.MONTHLY,  # Instead of 'm'
     TaxPercentage=21.0
 )
 print(f"Created product: {product['product']['ProductCode']}")
@@ -50,7 +50,7 @@ interaction = client.interactions.create(
     AssigneeId=1,
     DebtorId=1,
     Description="Follow-up call about subscription renewal",
-    CommunicationMethod=CommunicationMethod.PHONE.value,
+    CommunicationMethod=CommunicationMethod.PHONE,
 )
 print(f"Created interaction via: {interaction['interaction']['CommunicationMethod']}")
 
@@ -59,7 +59,7 @@ email_interaction = client.interactions.create(
     AssigneeId=1,
     DebtorId=1,
     Description="Sent renewal confirmation",
-    CommunicationMethod=CommunicationMethod.EMAIL.value,
+    CommunicationMethod=CommunicationMethod.EMAIL,
 )
 
 # ============================================================================
@@ -85,7 +85,7 @@ task = client.tasks.create(
     Description="Annual contract review for customer",
     DebtorId=1,
     # Status defaults to 'open', but you can set it:
-    # Status=TaskStatus.IN_PROGRESS.value
+    # Status=TaskStatus.IN_PROGRESS
 )
 print(f"Task created with status: {task['task'].get('Status', 'open')}")
 

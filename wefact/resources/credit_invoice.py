@@ -34,7 +34,7 @@ class CreditInvoiceResource(BaseResource):
             Updated credit invoice with payment applied
         """
         return self._send_request(
-            self.controller_name, CreditInvoiceAction.PART_PAYMENT.value, params
+            self.controller_name, CreditInvoiceAction.PART_PAYMENT, params
         )
 
     def mark_as_paid(self, **params):
@@ -51,7 +51,7 @@ class CreditInvoiceResource(BaseResource):
             Credit invoice with status changed to Paid
         """
         return self._send_request(
-            self.controller_name, CreditInvoiceAction.MARK_AS_PAID.value, params
+            self.controller_name, CreditInvoiceAction.MARK_AS_PAID, params
         )
 
     # Line management
@@ -69,7 +69,7 @@ class CreditInvoiceResource(BaseResource):
             Credit invoice with new lines added
         """
         return self._send_request(
-            self.controller_name, CreditInvoiceAction.CREDIT_INVOICE_LINE_ADD.value, params
+            self.controller_name, CreditInvoiceAction.CREDIT_INVOICE_LINE_ADD, params
         )
 
     def credit_invoice_line_delete(self, **params):
@@ -85,7 +85,7 @@ class CreditInvoiceResource(BaseResource):
             Credit invoice with lines removed
         """
         return self._send_request(
-            self.controller_name, CreditInvoiceAction.CREDIT_INVOICE_LINE_DELETE.value, params
+            self.controller_name, CreditInvoiceAction.CREDIT_INVOICE_LINE_DELETE, params
         )
 
     # Attachments
@@ -105,7 +105,7 @@ class CreditInvoiceResource(BaseResource):
         """
         params["Type"] = self.controller_name
         return self._send_request(
-            self.controller_name, Action.ATTACHMENT_ADD.value, params
+            self.controller_name, Action.ATTACHMENT_ADD, params
         )
 
     def attachment_delete(self, **params):
@@ -123,7 +123,7 @@ class CreditInvoiceResource(BaseResource):
         """
         params["Type"] = self.controller_name
         return self._send_request(
-            self.controller_name, Action.ATTACHMENT_DELETE.value, params
+            self.controller_name, Action.ATTACHMENT_DELETE, params
         )
 
     def attachment_download(self, **params):
@@ -140,5 +140,5 @@ class CreditInvoiceResource(BaseResource):
         """
         params["Type"] = self.controller_name
         return self._send_request(
-            self.controller_name, Action.ATTACHMENT_DOWNLOAD.value, params
+            self.controller_name, Action.ATTACHMENT_DOWNLOAD, params
         )

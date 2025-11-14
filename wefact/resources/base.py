@@ -23,7 +23,7 @@ class BaseResource(RequestMixin):
 
     def list(self, **params) -> Dict[str, Any]:
         """List items with optional filtering and pagination."""
-        return self._send_request(self.controller_name, Action.LIST.value, params)
+        return self._send_request(self.controller_name, Action.LIST params)
 
     def list_all(self, offset: int = 0, per_page: int = 1000) -> List[Dict[str, Any]]:
         """
@@ -57,19 +57,19 @@ class BaseResource(RequestMixin):
 
     def show(self, **params) -> Dict[str, Any]:
         """Get detailed information about a specific item."""
-        return self._send_request(self.controller_name, Action.SHOW.value, params)
+        return self._send_request(self.controller_name, Action.SHOW params)
 
     def create(self, **params) -> Dict[str, Any]:
         """Create a new item."""
-        return self._send_request(self.controller_name, Action.ADD.value, params)
+        return self._send_request(self.controller_name, Action.ADD params)
 
     def edit(self, **params) -> Dict[str, Any]:
         """Update an existing item."""
-        return self._send_request(self.controller_name, Action.EDIT.value, params)
+        return self._send_request(self.controller_name, Action.EDIT params)
 
     def delete(self, **params) -> Dict[str, Any]:
         """Delete an item."""
-        return self._send_request(self.controller_name, Action.DELETE.value, params)
+        return self._send_request(self.controller_name, Action.DELETE params)
 
     def get_plural_resource_name(self) -> str:
         """Get the plural name for this resource (used in API responses)."""

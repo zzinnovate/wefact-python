@@ -108,7 +108,7 @@ from wefact.enums import PricePeriod, TaskStatus
 # Good - readable and IDE-friendly
 product = client.products.create(
     ProductName="Hosting",
-    PricePeriod=PricePeriod.MONTHLY.value  # Clear what this means
+    PricePeriod=PricePeriod.MONTHLY
 )
 
 # Avoid - unclear abbreviations
