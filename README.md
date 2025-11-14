@@ -1,14 +1,13 @@
 # WeFact Python Wrapper
 
 [![PyPI version](https://img.shields.io/pypi/v/wefact-python.svg)](https://pypi.org/project/wefact-python/)
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/zzinnovate/wefact-python)
 [![Tests](https://github.com/zzinnovate/wefact-python/actions/workflows/run-tests.yml/badge.svg?branch=main)](https://github.com/zzinnovate/wefact-python/actions/workflows/run-tests.yml)
 [![codecov](https://codecov.io/gh/zzinnovate/wefact-python/graph/badge.svg?token=R08526JCXI)](https://codecov.io/gh/zzinnovate/wefact-python)
 ![Python Version](https://img.shields.io/badge/python-3.11%20%7C%203.12%20%7C%203.13%20%7C%203.14-blue)
 
 An unofficial, batteries-included Python client for the WeFact API. Pragmatic, typed where it counts, and intentionally minimal on magic.
 
-**Zero dependencies beyond `requests`.** Clean, lightweight, and production-ready.
+**Minimal dependencies.** Clean, lightweight, and production-ready.
 
 Maintained by [zzinnovate](https://github.com/zzinnovate) and used in production. Open source, community-friendly, and actively maintained. Not affiliated with WeFact. For the upstream API, see the official [WeFact API documentation](https://www.wefact.nl/api/).
 
@@ -54,7 +53,7 @@ print(result)
 
 ## Features
 
-- **Zero dependencies** - Only `requests`, nothing else
+- **Minimal dependencies** - Only `requests` for HTTP calls
 - **Type hints** - Better IDE support and fewer runtime errors
 - **Direct API mapping** - Mirrors WeFact's controller/action structure
 - **Error handling** - Clear exceptions for common failure modes
