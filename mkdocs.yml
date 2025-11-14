@@ -19,11 +19,9 @@ nav:
       - Parameters: api/parameters.md
       - Variables (Enums): api/variables.md
       - Errors: api/errors.md
-  - Testing:
-      - CLI Testing Tool: testing/cli-tool.md
-      - Invoice Endpoints: testing/invoice-endpoints.md
-  - Implementation:
-      - Complete Coverage: implementation-complete.md
+  - Guides:
+      - Invoice Lifecycle: guides/invoice-lifecycle.md
+      - CLI Testing Tool: guides/cli-tool.md
   - Project:
       - Contributing: project/contributing.md
       - Changelog: project/changelog.md

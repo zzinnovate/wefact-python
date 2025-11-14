@@ -64,6 +64,6 @@ client.invoices.mark_as_paid(Identifier=invoice["invoice"]["Identifier"])
 ## Next steps
 
 - Getting Started → [Installation](getting-started/installation.md), [Usage](getting-started/usage.md), [Configuration](getting-started/configuration.md)
-- API → [Endpoints](api/endpoints.md), [Parameters](api/parameters.md), [Variables (Enums)](api/variables.md), [Errors](api/errors.md)
-- Testing → [CLI Testing Tool](testing/cli-tool.md), [Invoice Endpoints](testing/invoice-endpoints.md)
+- API → [Resources](api/resources.md), [Parameters](api/parameters.md), [Variables (Enums)](api/variables.md), [Errors](api/errors.md)
+- Guides → [Invoice Lifecycle](guides/invoice-lifecycle.md)
 - Project → [Contributing](project/contributing.md), [Changelog](project/changelog.md), [License](project/license.md), [Security](project/security.md)
