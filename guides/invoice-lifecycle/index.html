@@ -1,0 +1,1814 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Unofficial open-source Python wrapper for the WeFact API">
+      
+      
+      
+        <link rel="canonical" href="https://zzinnovate.github.io/wefact-python/guides/invoice-lifecycle/">
+      
+      
+        <link rel="prev" href="../../api/errors/">
+      
+      
+        <link rel="next" href="../cli-tool/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>Invoice Lifecycle - WeFact Python Wrapper</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+  
+  
+    
+      
+      
+    
+  
+  
+  <style>:root{--md-admonition-icon--note:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M1%207.775V2.75C1%201.784%201.784%201%202.75%201h5.025c.464%200%20.91.184%201.238.513l6.25%206.25a1.75%201.75%200%200%201%200%202.474l-5.026%205.026a1.75%201.75%200%200%201-2.474%200l-6.25-6.25A1.75%201.75%200%200%201%201%207.775m1.5%200c0%20.066.026.13.073.177l6.25%206.25a.25.25%200%200%200%20.354%200l5.025-5.025a.25.25%200%200%200%200-.354l-6.25-6.25a.25.25%200%200%200-.177-.073H2.75a.25.25%200%200%200-.25.25ZM6%205a1%201%200%201%201%200%202%201%201%200%200%201%200-2%22/%3E%3C/svg%3E');}</style>
+
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/style.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#invoice-lifecycle" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="https://github.com/zzinnovate/wefact-python" title="WeFact Python Wrapper" class="md-header__button md-logo" aria-label="WeFact Python Wrapper" data-md-component="logo">
+      
+  <img src="../../assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            WeFact Python Wrapper
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Invoice Lifecycle
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/zzinnovate/wefact-python" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    zzinnovate/wefact-python
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../.." class="md-tabs__link">
+          
+  
+  
+  Getting Started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../api/resources/" class="md-tabs__link">
+          
+  
+  
+  Api
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+  
+  Guides
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../project/contributing/" class="md-tabs__link">
+          
+  
+  
+  Project
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="https://github.com/zzinnovate/wefact-python" title="WeFact Python Wrapper" class="md-nav__button md-logo" aria-label="WeFact Python Wrapper" data-md-component="logo">
+      
+  <img src="../../assets/logo.png" alt="logo">
+
+    </a>
+    WeFact Python Wrapper
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/zzinnovate/wefact-python" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    zzinnovate/wefact-python
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Api
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Api
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/resources/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Resources
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/parameters/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Parameters
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/variables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Variables (Enums)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/errors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Errors
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guides
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Guides
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Invoice Lifecycle
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Invoice Lifecycle
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#invoice-states" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Invoice States
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Invoice States">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#status-values" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Status Values
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#state-transitions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        State Transitions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Patterns
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Patterns">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-invoice-creation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic Invoice Creation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#processing-payments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Processing Payments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#credit-invoice-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Credit Invoice Flow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#payment-reminders" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Payment Reminders
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#draft-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Draft Management
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scheduled-sending" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scheduled Sending
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#payment-process-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Payment Process Management
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#working-with-attachments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Working with Attachments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#downloading-pdfs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Downloading PDFs
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#important-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Important Constraints
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Important Constraints">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#status-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Status Requirements
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#common-mistakes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Mistakes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#complete-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Complete Example
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reference
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#all-invoice-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        All Invoice Methods
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cli-tool/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI Testing Tool
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Project
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../project/contributing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../project/changelog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Changelog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../project/license/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    License
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../project/security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="invoice-lifecycle">Invoice Lifecycle<a class="headerlink" href="#invoice-lifecycle" title="Permanent link">&para;</a></h1>
+<p>Understanding how invoices move through different states is essential for building reliable integrations with WeFact. This guide covers common patterns and best practices.</p>
+<h2 id="invoice-states">Invoice States<a class="headerlink" href="#invoice-states" title="Permanent link">&para;</a></h2>
+<p>WeFact invoices follow a well-defined lifecycle. Understanding these states helps you build robust integrations that respect business rules.</p>
+<h3 id="status-values">Status Values<a class="headerlink" href="#status-values" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Status</th>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>Draft</td>
+<td>Invoice is being prepared, can be edited</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Sent</td>
+<td>Invoice sent to customer, awaiting payment</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Partially Paid</td>
+<td>Some payment received, balance outstanding</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Paid</td>
+<td>Fully paid</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Credited</td>
+<td>Credit invoice issued (reversal)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="state-transitions">State Transitions<a class="headerlink" href="#state-transitions" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>DRAFT (0)
+  │
+  ├─→ send_by_email() ─→ SENT (2)
+  ├─→ block() ─→ (blocked, still draft)
+  ├─→ schedule() ─→ (scheduled for auto-send)
+  └─→ delete() ─→ (removed)
+
+SENT (2)
+  │
+  ├─→ part_payment() ─→ PARTIALLY PAID (3)
+  ├─→ mark_as_paid() ─→ PAID (4)
+  ├─→ send_reminder_by_email() ─→ (reminder sent)
+  └─→ credit() ─→ CREDITED (8)
+
+PARTIALLY PAID (3)
+  │
+  ├─→ part_payment() ─→ (more payments) ─→ PAID (4)
+  └─→ mark_as_paid() ─→ PAID (4)
+
+PAID (4)
+  │
+  ├─→ mark_as_unpaid() ─→ SENT (2)
+  └─→ credit() ─→ CREDITED (8)
+</code></pre></div>
+<h2 id="common-patterns">Common Patterns<a class="headerlink" href="#common-patterns" title="Permanent link">&para;</a></h2>
+<h3 id="basic-invoice-creation">Basic Invoice Creation<a class="headerlink" href="#basic-invoice-creation" title="Permanent link">&para;</a></h3>
+<p>Create and send an invoice in one flow:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">wefact</span><span class="w"> </span><span class="kn">import</span> <span class="n">WeFact</span>
+
+<span class="n">client</span> <span class="o">=</span> <span class="n">WeFact</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;your_api_key&quot;</span><span class="p">)</span>
+
+<span class="c1"># Create invoice</span>
+<span class="n">invoice</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">invoices</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="n">DebtorCode</span><span class="o">=</span><span class="s2">&quot;DB10000&quot;</span><span class="p">,</span>
+    <span class="n">InvoiceLines</span><span class="o">=</span><span class="p">[{</span>
+        <span class="s1">&#39;Number&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s1">&#39;Description&#39;</span><span class="p">:</span> <span class="s1">&#39;Consulting services&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;PriceExcl&#39;</span><span class="p">:</span> <span class="mf">150.00</span><span class="p">,</span>
+        <span class="s1">&#39;TaxPercentage&#39;</span><span class="p">:</span> <span class="mi">21</span>
+    <span class="p">}]</span>
+<span class="p">)</span>
+
+<span class="n">invoice_code</span> <span class="o">=</span> <span class="n">invoice</span><span class="p">[</span><span class="s1">&#39;invoice&#39;</span><span class="p">][</span><span class="s1">&#39;InvoiceCode&#39;</span><span class="p">]</span>
+
+<span class="c1"># Send to customer</span>
+<span class="n">client</span><span class="o">.</span><span class="n">invoices</span><span class="o">.</span><span class="n">send_by_email</span><span class="p">(</span><span class="n">InvoiceCode</span><span class="o">=</span><span class="n">invoice_code</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="processing-payments">Processing Payments<a class="headerlink" href="#processing-payments" title="Permanent link">&para;</a></h3>
+<p>Handle partial and full payments:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Partial payment received</span>
+<span class="n">client</span><span class="o">.</span><span class="n">invoices</span><span class="o">.</span><span class="n">part_payment</span><span class="p">(</span>
+    <span class="n">InvoiceCode</span><span class="o">=</span><span class="s2">&quot;F2024-0001&quot;</span><span class="p">,</span>
+    <span class="n">AmountPaid</span><span class="o">=</span><span class="mf">50.00</span><span class="p">,</span>
+    <span class="n">Date</span><span class="o">=</span><span class="s2">&quot;2024-01-15&quot;</span>
+<span class="p">)</span>
+
+<span class="c1"># Check remaining balance</span>
+<span class="n">invoice</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">invoices</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">InvoiceCode</span><span class="o">=</span><span class="s2">&quot;F2024-0001&quot;</span><span class="p">)</span>
+<span class="n">remaining</span> <span class="o">=</span> <span class="n">invoice</span><span class="p">[</span><span class="s1">&#39;invoice&#39;</span><span class="p">][</span><span class="s1">&#39;AmountOpen&#39;</span><span class="p">]</span>
+
+<span class="c1"># Mark as fully paid</span>
+<span class="n">client</span><span class="o">.</span><span class="n">invoices</span><span class="o">.</span><span class="n">mark_as_paid</span><span class="p">(</span>
+    <span class="n">InvoiceCode</span><span class="o">=</span><span class="s2">&quot;F2024-0001&quot;</span><span class="p">,</span>
+    <span class="n">Date</span><span class="o">=</span><span class="s2">&quot;2024-01-20&quot;</span>
+<span class="p">)</span>
+</code></pre></div>
+<h3 id="credit-invoice-flow">Credit Invoice Flow<a class="headerlink" href="#credit-invoice-flow" title="Permanent link">&para;</a></h3>
+<p>Issue a credit invoice (reversal) for a paid or sent invoice:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Original invoice must be sent or paid</span>
+<span class="n">credit</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">invoices</span><span class="o">.</span><span class="n">credit</span><span class="p">(</span>
+    <span class="n">InvoiceCode</span><span class="o">=</span><span class="s2">&quot;F2024-0001&quot;</span><span class="p">,</span>
+    <span class="n">SendEmail</span><span class="o">=</span><span class="s2">&quot;yes&quot;</span>  <span class="c1"># Automatically email credit invoice</span>
+<span class="p">)</span>
+
+<span class="n">credit_code</span> <span class="o">=</span> <span class="n">credit</span><span class="p">[</span><span class="s1">&#39;invoice&#39;</span><span class="p">][</span><span class="s1">&#39;InvoiceCode&#39;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Credit invoice created: </span><span class="si">{</span><span class="n">credit_code</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="payment-reminders">Payment Reminders<a class="headerlink" href="#payment-reminders" title="Permanent link">&para;</a></h3>
+<p>Send reminder emails for overdue invoices:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Invoice must be in Sent or Partially Paid status</span>
+<span class="n">client</span><span class="o">.</span><span class="n">invoices</span><span class="o">.</span><span class="n">send_reminder_by_email</span><span class="p">(</span>
+    <span class="n">InvoiceCode</span><span class="o">=</span><span class="s2">&quot;F2024-0001&quot;</span>
+<span class="p">)</span>
+
+<span class="c1"># For serious overdue cases</span>
+<span class="n">client</span><span class="o">.</span><span class="n">invoices</span><span class="o">.</span><span class="n">send_summation_by_email</span><span class="p">(</span>
+    <span class="n">InvoiceCode</span><span class="o">=</span><span class="s2">&quot;F2024-0001&quot;</span>
+<span class="p">)</span>
+</code></pre></div>
+<h3 id="draft-management">Draft Management<a class="headerlink" href="#draft-management" title="Permanent link">&para;</a></h3>
+<p>Work with draft invoices before sending:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Create draft</span>
+<span class="n">invoice</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">invoices</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="n">DebtorCode</span><span class="o">=</span><span class="s2">&quot;DB10000&quot;</span><span class="p">,</span>
+    <span class="n">InvoiceLines</span><span class="o">=</span><span class="p">[</span><span class="o">...</span><span class="p">]</span>
+<span class="p">)</span>
+
+<span class="n">invoice_code</span> <span class="o">=</span> <span class="n">invoice</span><span class="p">[</span><span class="s1">&#39;invoice&#39;</span><span class="p">][</span><span class="s1">&#39;InvoiceCode&#39;</span><span class="p">]</span>
+
+<span class="c1"># Edit before sending</span>
+<span class="n">client</span><span class="o">.</span><span class="n">invoices</span><span class="o">.</span><span class="n">edit</span><span class="p">(</span>
+    <span class="n">InvoiceCode</span><span class="o">=</span><span class="n">invoice_code</span><span class="p">,</span>
+    <span class="n">Discount</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>  <span class="c1"># 10% discount</span>
+    <span class="n">TermDays</span><span class="o">=</span><span class="mi">30</span>   <span class="c1"># 30 day payment term</span>
+<span class="p">)</span>
+
+<span class="c1"># Block from being sent (e.g., awaiting approval)</span>
+<span class="n">client</span><span class="o">.</span><span class="n">invoices</span><span class="o">.</span><span class="n">block</span><span class="p">(</span><span class="n">InvoiceCode</span><span class="o">=</span><span class="n">invoice_code</span><span class="p">)</span>
+
+<span class="c1"># Later: unblock and send</span>
+<span class="n">client</span><span class="o">.</span><span class="n">invoices</span><span class="o">.</span><span class="n">unblock</span><span class="p">(</span><span class="n">InvoiceCode</span><span class="o">=</span><span class="n">invoice_code</span><span class="p">)</span>
+<span class="n">client</span><span class="o">.</span><span class="n">invoices</span><span class="o">.</span><span class="n">send_by_email</span><span class="p">(</span><span class="n">InvoiceCode</span><span class="o">=</span><span class="n">invoice_code</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="scheduled-sending">Scheduled Sending<a class="headerlink" href="#scheduled-sending" title="Permanent link">&para;</a></h3>
+<p>Schedule invoices to be sent automatically:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Create and schedule for future sending</span>
+<span class="n">invoice</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">invoices</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="n">invoice_code</span> <span class="o">=</span> <span class="n">invoice</span><span class="p">[</span><span class="s1">&#39;invoice&#39;</span><span class="p">][</span><span class="s1">&#39;InvoiceCode&#39;</span><span class="p">]</span>
+
+<span class="n">client</span><span class="o">.</span><span class="n">invoices</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span>
+    <span class="n">InvoiceCode</span><span class="o">=</span><span class="n">invoice_code</span><span class="p">,</span>
+    <span class="n">ScheduledAt</span><span class="o">=</span><span class="s2">&quot;2024-12-31 09:00:00&quot;</span>
+<span class="p">)</span>
+
+<span class="c1"># Cancel scheduled send if needed</span>
+<span class="n">client</span><span class="o">.</span><span class="n">invoices</span><span class="o">.</span><span class="n">cancel_schedule</span><span class="p">(</span><span class="n">InvoiceCode</span><span class="o">=</span><span class="n">invoice_code</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="payment-process-management">Payment Process Management<a class="headerlink" href="#payment-process-management" title="Permanent link">&para;</a></h3>
+<p>Pause and resume automatic payment collection:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Pause payment process (e.g., customer requests delay)</span>
+<span class="n">client</span><span class="o">.</span><span class="n">invoices</span><span class="o">.</span><span class="n">payment_process_pause</span><span class="p">(</span>
+    <span class="n">InvoiceCode</span><span class="o">=</span><span class="s2">&quot;F2024-0001&quot;</span><span class="p">,</span>
+    <span class="n">PaymentPausedEndDate</span><span class="o">=</span><span class="s2">&quot;2024-12-31&quot;</span><span class="p">,</span>
+    <span class="n">PaymentPausedReason</span><span class="o">=</span><span class="s2">&quot;Customer requested delay&quot;</span><span class="p">,</span>
+    <span class="n">DisableOnlinePayment</span><span class="o">=</span><span class="s2">&quot;yes&quot;</span>  <span class="c1"># Also disable online payment link</span>
+<span class="p">)</span>
+
+<span class="c1"># Resume when ready</span>
+<span class="n">client</span><span class="o">.</span><span class="n">invoices</span><span class="o">.</span><span class="n">payment_process_reactivate</span><span class="p">(</span>
+    <span class="n">InvoiceCode</span><span class="o">=</span><span class="s2">&quot;F2024-0001&quot;</span>
+<span class="p">)</span>
+</code></pre></div>
+<h3 id="working-with-attachments">Working with Attachments<a class="headerlink" href="#working-with-attachments" title="Permanent link">&para;</a></h3>
+<p>Add supporting documents to invoices:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">base64</span>
+
+<span class="c1"># Read and encode file</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;contract.pdf&#39;</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">pdf_content</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+
+<span class="c1"># Attach to invoice</span>
+<span class="n">client</span><span class="o">.</span><span class="n">invoices</span><span class="o">.</span><span class="n">attachment_add</span><span class="p">(</span>
+    <span class="n">ReferenceIdentifier</span><span class="o">=</span><span class="n">invoice_id</span><span class="p">,</span>  <span class="c1"># Numeric ID, not InvoiceCode</span>
+    <span class="n">Filename</span><span class="o">=</span><span class="s2">&quot;contract.pdf&quot;</span><span class="p">,</span>
+    <span class="n">Base64</span><span class="o">=</span><span class="n">pdf_content</span>
+<span class="p">)</span>
+
+<span class="c1"># Download attachment later</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">invoices</span><span class="o">.</span><span class="n">attachment_download</span><span class="p">(</span>
+    <span class="n">ReferenceIdentifier</span><span class="o">=</span><span class="n">invoice_id</span><span class="p">,</span>
+    <span class="n">Filename</span><span class="o">=</span><span class="s2">&quot;contract.pdf&quot;</span>
+<span class="p">)</span>
+
+<span class="c1"># Save downloaded file</span>
+<span class="k">if</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;success&#39;</span><span class="p">:</span>
+    <span class="n">content</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64decode</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;attachment&#39;</span><span class="p">][</span><span class="s1">&#39;Base64&#39;</span><span class="p">])</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;downloaded.pdf&#39;</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+
+<span class="c1"># Remove attachment</span>
+<span class="n">client</span><span class="o">.</span><span class="n">invoices</span><span class="o">.</span><span class="n">attachment_delete</span><span class="p">(</span>
+    <span class="n">ReferenceIdentifier</span><span class="o">=</span><span class="n">invoice_id</span><span class="p">,</span>
+    <span class="n">Filename</span><span class="o">=</span><span class="s2">&quot;contract.pdf&quot;</span>
+<span class="p">)</span>
+</code></pre></div>
+<h3 id="downloading-pdfs">Downloading PDFs<a class="headerlink" href="#downloading-pdfs" title="Permanent link">&para;</a></h3>
+<p>Retrieve invoice PDFs programmatically:</p>
+<div class="highlight"><pre><span></span><code><span class="n">result</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">invoices</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="n">InvoiceCode</span><span class="o">=</span><span class="s2">&quot;F2024-0001&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;success&#39;</span><span class="p">:</span>
+    <span class="c1"># PDF is base64 encoded</span>
+    <span class="n">pdf_base64</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;invoice&#39;</span><span class="p">][</span><span class="s1">&#39;Base64&#39;</span><span class="p">]</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;invoice&#39;</span><span class="p">][</span><span class="s1">&#39;Filename&#39;</span><span class="p">]</span>
+
+    <span class="c1"># Decode and save</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">base64</span>
+    <span class="n">pdf_content</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64decode</span><span class="p">(</span><span class="n">pdf_base64</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">pdf_content</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="important-constraints">Important Constraints<a class="headerlink" href="#important-constraints" title="Permanent link">&para;</a></h2>
+<h3 id="status-requirements">Status Requirements<a class="headerlink" href="#status-requirements" title="Permanent link">&para;</a></h3>
+<p>Different operations require specific invoice states:</p>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Required Status</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>edit()</code></td>
+<td>Draft (0)</td>
+<td>Cannot edit sent invoices</td>
+</tr>
+<tr>
+<td><code>delete()</code></td>
+<td>Draft (0)</td>
+<td>Cannot delete sent invoices</td>
+</tr>
+<tr>
+<td><code>block()</code></td>
+<td>Draft (0)</td>
+<td>Only blocks drafts from sending</td>
+</tr>
+<tr>
+<td><code>schedule()</code></td>
+<td>Draft (0)</td>
+<td>Only drafts can be scheduled</td>
+</tr>
+<tr>
+<td><code>send_by_email()</code></td>
+<td>Draft (0)</td>
+<td>Transitions to Sent (2)</td>
+</tr>
+<tr>
+<td><code>send_reminder_by_email()</code></td>
+<td>Sent/Partial (2, 3)</td>
+<td>Cannot remind on paid invoices</td>
+</tr>
+<tr>
+<td><code>part_payment()</code></td>
+<td>Sent/Partial (2, 3)</td>
+<td>Cannot pay draft invoices</td>
+</tr>
+<tr>
+<td><code>mark_as_paid()</code></td>
+<td>Sent/Partial (2, 3)</td>
+<td>Cannot mark drafts as paid</td>
+</tr>
+<tr>
+<td><code>mark_as_unpaid()</code></td>
+<td>Paid (4)</td>
+<td>Reverts to Sent (2)</td>
+</tr>
+<tr>
+<td><code>credit()</code></td>
+<td>Sent or higher</td>
+<td>Cannot credit drafts</td>
+</tr>
+<tr>
+<td><code>download()</code></td>
+<td>Any</td>
+<td>Always available</td>
+</tr>
+</tbody>
+</table>
+<h3 id="common-mistakes">Common Mistakes<a class="headerlink" href="#common-mistakes" title="Permanent link">&para;</a></h3>
+<p><strong>Cannot credit a draft invoice</strong>
+<div class="highlight"><pre><span></span><code><span class="c1"># ❌ This will fail</span>
+<span class="n">invoice</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">invoices</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="n">client</span><span class="o">.</span><span class="n">invoices</span><span class="o">.</span><span class="n">credit</span><span class="p">(</span><span class="n">InvoiceCode</span><span class="o">=</span><span class="n">invoice_code</span><span class="p">)</span>
+
+<span class="c1"># ✅ Send first</span>
+<span class="n">client</span><span class="o">.</span><span class="n">invoices</span><span class="o">.</span><span class="n">send_by_email</span><span class="p">(</span><span class="n">InvoiceCode</span><span class="o">=</span><span class="n">invoice_code</span><span class="p">)</span>
+<span class="n">client</span><span class="o">.</span><span class="n">invoices</span><span class="o">.</span><span class="n">credit</span><span class="p">(</span><span class="n">InvoiceCode</span><span class="o">=</span><span class="n">invoice_code</span><span class="p">)</span>
+</code></pre></div></p>
+<p><strong>Cannot edit a sent invoice</strong>
+<div class="highlight"><pre><span></span><code><span class="c1"># ❌ This will fail</span>
+<span class="n">client</span><span class="o">.</span><span class="n">invoices</span><span class="o">.</span><span class="n">send_by_email</span><span class="p">(</span><span class="n">InvoiceCode</span><span class="o">=</span><span class="n">invoice_code</span><span class="p">)</span>
+<span class="n">client</span><span class="o">.</span><span class="n">invoices</span><span class="o">.</span><span class="n">edit</span><span class="p">(</span><span class="n">InvoiceCode</span><span class="o">=</span><span class="n">invoice_code</span><span class="p">,</span> <span class="n">Discount</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="c1"># ✅ Edit before sending</span>
+<span class="n">client</span><span class="o">.</span><span class="n">invoices</span><span class="o">.</span><span class="n">edit</span><span class="p">(</span><span class="n">InvoiceCode</span><span class="o">=</span><span class="n">invoice_code</span><span class="p">,</span> <span class="n">Discount</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">client</span><span class="o">.</span><span class="n">invoices</span><span class="o">.</span><span class="n">send_by_email</span><span class="p">(</span><span class="n">InvoiceCode</span><span class="o">=</span><span class="n">invoice_code</span><span class="p">)</span>
+</code></pre></div></p>
+<p><strong>Cannot delete a sent invoice</strong>
+<div class="highlight"><pre><span></span><code><span class="c1"># ❌ Cannot delete sent invoices</span>
+<span class="n">client</span><span class="o">.</span><span class="n">invoices</span><span class="o">.</span><span class="n">send_by_email</span><span class="p">(</span><span class="n">InvoiceCode</span><span class="o">=</span><span class="n">invoice_code</span><span class="p">)</span>
+<span class="n">client</span><span class="o">.</span><span class="n">invoices</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">InvoiceCode</span><span class="o">=</span><span class="n">invoice_code</span><span class="p">)</span>
+
+<span class="c1"># ✅ Use credit invoice instead</span>
+<span class="n">client</span><span class="o">.</span><span class="n">invoices</span><span class="o">.</span><span class="n">credit</span><span class="p">(</span><span class="n">InvoiceCode</span><span class="o">=</span><span class="n">invoice_code</span><span class="p">)</span>
+</code></pre></div></p>
+<h2 id="complete-example">Complete Example<a class="headerlink" href="#complete-example" title="Permanent link">&para;</a></h2>
+<p>See <code>examples/invoice_lifecycle.py</code> for a complete working example that demonstrates:</p>
+<ul>
+<li>Creating an invoice</li>
+<li>Sending it by email</li>
+<li>Marking it as paid</li>
+<li>Creating a credit invoice</li>
+<li>Downloading the PDF</li>
+</ul>
+<p>Run it with:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">WEFACT_API_KEY</span><span class="o">=</span><span class="s2">&quot;your_api_key&quot;</span>
+python<span class="w"> </span>examples/invoice_lifecycle.py
+</code></pre></div>
+<h2 id="reference">Reference<a class="headerlink" href="#reference" title="Permanent link">&para;</a></h2>
+<h3 id="all-invoice-methods">All Invoice Methods<a class="headerlink" href="#all-invoice-methods" title="Permanent link">&para;</a></h3>
+<p>The <code>client.invoices</code> resource provides 25 methods covering the complete invoice lifecycle:</p>
+<h4 id="crud-operations">CRUD Operations<a class="headerlink" href="#crud-operations" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong><code>list()</code></strong> - List invoices with pagination</li>
+<li><strong><code>show()</code></strong> - Get single invoice details</li>
+<li><strong><code>create()</code></strong> - Create new invoice</li>
+<li><strong><code>edit()</code></strong> - Modify draft invoice</li>
+<li><strong><code>delete()</code></strong> - Delete draft invoice</li>
+</ul>
+<h4 id="status-changes">Status Changes<a class="headerlink" href="#status-changes" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong><code>send_by_email()</code></strong> - Send draft invoice to customer</li>
+<li><strong><code>mark_as_paid()</code></strong> - Mark invoice as fully paid</li>
+<li><strong><code>mark_as_unpaid()</code></strong> - Revert paid invoice to sent</li>
+<li><strong><code>part_payment()</code></strong> - Record partial payment</li>
+</ul>
+<h4 id="payment-communication">Payment Communication<a class="headerlink" href="#payment-communication" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong><code>send_reminder_by_email()</code></strong> - Send payment reminder</li>
+<li><strong><code>send_summation_by_email()</code></strong> - Send summation notice</li>
+</ul>
+<h4 id="draft-management_1">Draft Management<a class="headerlink" href="#draft-management_1" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong><code>block()</code></strong> - Prevent draft from being sent</li>
+<li><strong><code>unblock()</code></strong> - Remove sending block</li>
+<li><strong><code>schedule()</code></strong> - Schedule automatic sending</li>
+<li><strong><code>cancel_schedule()</code></strong> - Cancel scheduled sending</li>
+</ul>
+<h4 id="payment-process">Payment Process<a class="headerlink" href="#payment-process" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong><code>payment_process_pause()</code></strong> - Temporarily stop collection</li>
+<li><strong><code>payment_process_reactivate()</code></strong> - Resume collection</li>
+</ul>
+<h4 id="additional-operations">Additional Operations<a class="headerlink" href="#additional-operations" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong><code>credit()</code></strong> - Create credit invoice (reversal)</li>
+<li><strong><code>download()</code></strong> - Get invoice PDF</li>
+<li><strong><code>sort_lines()</code></strong> - Reorder invoice lines</li>
+<li><strong><code>invoice_line_add()</code></strong> - Add line item</li>
+<li><strong><code>invoice_line_delete()</code></strong> - Remove line item</li>
+</ul>
+<h4 id="attachments">Attachments<a class="headerlink" href="#attachments" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong><code>attachment_add()</code></strong> - Upload file to invoice</li>
+<li><strong><code>attachment_download()</code></strong> - Download attached file</li>
+<li><strong><code>attachment_delete()</code></strong> - Remove attachment</li>
+</ul>
+<p>For parameter details, see the <a href="https://developer.wefact.com/invoice/show">WeFact API documentation</a>.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../../api/errors/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Errors">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Errors
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../cli-tool/" class="md-footer__link md-footer__link--next" aria-label="Next: CLI Testing Tool">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                CLI Testing Tool
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2025 zzinnovate
+    </div>
+  
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/zzinnovate/wefact-python" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://pypi.org/project/wefact-python" target="_blank" rel="noopener" title="pypi.org" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M360.8 1.2c-17-4.9-34.7 5-39.6 22l-128 448c-4.9 17 5 34.7 22 39.6s34.7-5 39.6-22l128-448c4.9-17-5-34.7-22-39.6m64.6 136.1c-12.5 12.5-12.5 32.8 0 45.3l73.4 73.4-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l96-96c12.5-12.5 12.5-32.8 0-45.3l-96-96c-12.5-12.5-32.8-12.5-45.3 0zm-274.7 0c-12.5-12.5-32.8-12.5-45.3 0l-96 96c-12.5 12.5-12.5 32.8 0 45.3l96 96c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l73.3-73.4c12.5-12.5 12.5-32.8 0-45.3z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.copy", "navigation.tabs", "navigation.expand", "toc.integrate", "navigation.footer", "header.autohide", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  </body>
+</html>
