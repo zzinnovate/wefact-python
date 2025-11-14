@@ -20,9 +20,9 @@ class InteractionResource(BaseResource):
         Add an attachment to an interaction.
         
         Args:
-            ReferenceIdentifier: Required
-            Filename: Required
-            Base64: Required (base64 encoded file)
+            ReferenceIdentifier: Interaction ID (numeric string)
+            Filename: Attachment filename
+            Base64: Base64 encoded file content
             
         Returns:
             Success confirmation
@@ -36,8 +36,9 @@ class InteractionResource(BaseResource):
         Delete an attachment from an interaction.
         
         Args:
-            ReferenceIdentifier: Required
-            Identifier or Filename: Required
+            ReferenceIdentifier: Interaction ID (numeric string)
+            Identifier: Attachment ID
+            Filename: Or use filename
             
         Returns:
             Success confirmation
@@ -51,8 +52,8 @@ class InteractionResource(BaseResource):
         Download an interaction attachment.
         
         Args:
-            ReferenceIdentifier: Required
-            Filename: Required
+            ReferenceIdentifier: Interaction ID (numeric string)
+            Filename: Attachment filename
             
         Returns:
             Response with Base64 encoded file

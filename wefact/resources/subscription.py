@@ -23,7 +23,8 @@ class SubscriptionResource(BaseResource):
         Terminate a subscription.
         
         Args:
-            Identifier or SubscriptionCode: Required
+            Identifier: Subscription ID (numeric string)
+            SubscriptionCode: Or use subscription code
             TerminationDate: Optional (defaults to today)
             
         Returns:

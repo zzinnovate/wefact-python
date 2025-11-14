@@ -21,7 +21,8 @@ class QuoteResource(BaseResource):
         Send quote by email.
         
         Args:
-            Identifier or PriceQuoteCode: Required
+            Identifier: Quote ID (numeric string)
+            PriceQuoteCode: Or use quote code
             
         Returns:
             Success confirmation
@@ -35,7 +36,8 @@ class QuoteResource(BaseResource):
         Download quote PDF.
         
         Args:
-            Identifier or PriceQuoteCode: Required
+            Identifier: Quote ID (numeric string)
+            PriceQuoteCode: Or use quote code
             
         Returns:
             Response with Base64 encoded PDF
@@ -51,7 +53,8 @@ class QuoteResource(BaseResource):
         Schedule a quote to be sent automatically.
         
         Args:
-            Identifier or PriceQuoteCode: Required
+            Identifier: Quote ID (numeric string)
+            PriceQuoteCode: Or use quote code
             ScheduledAt: Required (datetime string)
             
         Returns:
@@ -66,7 +69,8 @@ class QuoteResource(BaseResource):
         Cancel a scheduled quote send.
         
         Args:
-            Identifier or PriceQuoteCode: Required
+            Identifier: Quote ID (numeric string)
+            PriceQuoteCode: Or use quote code
             
         Returns:
             Quote with ScheduledAt cleared
@@ -82,7 +86,8 @@ class QuoteResource(BaseResource):
         Mark quote as accepted.
         
         Args:
-            Identifier or PriceQuoteCode: Required
+            Identifier: Quote ID (numeric string)
+            PriceQuoteCode: Or use quote code
             
         Returns:
             Quote with accepted status
@@ -96,7 +101,8 @@ class QuoteResource(BaseResource):
         Mark quote as declined.
         
         Args:
-            Identifier or PriceQuoteCode: Required
+            Identifier: Quote ID (numeric string)
+            PriceQuoteCode: Or use quote code
             
         Returns:
             Quote with declined status
@@ -110,7 +116,8 @@ class QuoteResource(BaseResource):
         Archive a quote.
         
         Args:
-            Identifier or PriceQuoteCode: Required
+            Identifier: Quote ID (numeric string)
+            PriceQuoteCode: Or use quote code
             
         Returns:
             Archived quote
@@ -126,7 +133,8 @@ class QuoteResource(BaseResource):
         Reorder quote lines.
         
         Args:
-            Identifier or PriceQuoteCode: Required
+            Identifier: Quote ID (numeric string)
+            PriceQuoteCode: Or use quote code
             PriceQuoteLines: Required (array of {Identifier: line_id})
             
         Returns:
@@ -141,7 +149,8 @@ class QuoteResource(BaseResource):
         Add one or more lines to a quote.
         
         Args:
-            Identifier or PriceQuoteCode: Required
+            Identifier: Quote ID (numeric string)
+            PriceQuoteCode: Or use quote code
             PriceQuoteLines: Required (array of line objects)
             
         Returns:
@@ -156,7 +165,8 @@ class QuoteResource(BaseResource):
         Delete one or more lines from a quote.
         
         Args:
-            Identifier or PriceQuoteCode: Required
+            Identifier: Quote ID (numeric string)
+            PriceQuoteCode: Or use quote code
             PriceQuoteLines: Required (array of {Identifier: line_id})
             
         Returns:
@@ -173,9 +183,10 @@ class QuoteResource(BaseResource):
         Add an attachment to a quote.
         
         Args:
-            ReferenceIdentifier or PriceQuoteCode: Required
-            Filename: Required
-            Base64: Required (base64 encoded file)
+            ReferenceIdentifier: Quote ID (numeric string)
+            PriceQuoteCode: Or use quote code
+            Filename: Attachment filename
+            Base64: Base64 encoded file content
             
         Returns:
             Success confirmation
@@ -190,8 +201,10 @@ class QuoteResource(BaseResource):
         Delete an attachment from a quote.
         
         Args:
-            ReferenceIdentifier or PriceQuoteCode: Required
-            Identifier or Filename: Required
+            ReferenceIdentifier: Quote ID (numeric string)
+            PriceQuoteCode: Or use quote code
+            Identifier: Attachment ID
+            Filename: Or use filename
             
         Returns:
             Success confirmation
@@ -206,8 +219,9 @@ class QuoteResource(BaseResource):
         Download a quote attachment.
         
         Args:
-            ReferenceIdentifier or PriceQuoteCode: Required
-            Filename: Required
+            ReferenceIdentifier: Quote ID (numeric string)
+            PriceQuoteCode: Or use quote code
+            Filename: Attachment filename
             
         Returns:
             Response with Base64 encoded file

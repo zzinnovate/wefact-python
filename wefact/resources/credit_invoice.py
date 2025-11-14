@@ -24,7 +24,8 @@ class CreditInvoiceResource(BaseResource):
         Process a partial payment for a credit invoice.
         
         Args:
-            Identifier or CreditInvoiceCode: Required
+            Identifier: Credit invoice ID (numeric string)
+            CreditInvoiceCode: Or use credit invoice code
             AmountPaid: Required (float)
             PayDate: Optional (date)
             PaymentMethod: Optional (see variables list)
@@ -41,7 +42,8 @@ class CreditInvoiceResource(BaseResource):
         Mark a credit invoice as fully paid.
         
         Args:
-            Identifier or CreditInvoiceCode: Required
+            Identifier: Credit invoice ID (numeric string)
+            CreditInvoiceCode: Or use credit invoice code
             PayDate: Optional (defaults to today)
             PaymentMethod: Optional (defaults to wire transfer)
             
@@ -59,7 +61,8 @@ class CreditInvoiceResource(BaseResource):
         Add one or more lines to a credit invoice.
         
         Args:
-            Identifier or CreditInvoiceCode: Required
+            Identifier: Credit invoice ID (numeric string)
+            CreditInvoiceCode: Or use credit invoice code
             CreditInvoiceLines: Required (array of line objects)
             
         Returns:
@@ -74,7 +77,8 @@ class CreditInvoiceResource(BaseResource):
         Delete one or more lines from a credit invoice.
         
         Args:
-            Identifier or CreditInvoiceCode: Required
+            Identifier: Credit invoice ID (numeric string)
+            CreditInvoiceCode: Or use credit invoice code
             CreditInvoiceLines: Required (array of {Identifier: line_id})
             
         Returns:
@@ -91,9 +95,10 @@ class CreditInvoiceResource(BaseResource):
         Add an attachment to a credit invoice.
         
         Args:
-            ReferenceIdentifier or CreditInvoiceCode: Required
-            Filename: Required (string)
-            Base64: Required (base64 encoded file content)
+            ReferenceIdentifier: Credit invoice ID (numeric string)
+            CreditInvoiceCode: Or use credit invoice code
+            Filename: Attachment filename
+            Base64: Base64 encoded file content
             
         Returns:
             Success confirmation
@@ -108,8 +113,10 @@ class CreditInvoiceResource(BaseResource):
         Delete an attachment from a credit invoice.
         
         Args:
-            ReferenceIdentifier or CreditInvoiceCode: Required
-            Identifier or Filename: Required
+            ReferenceIdentifier: Credit invoice ID (numeric string)
+            CreditInvoiceCode: Or use credit invoice code
+            Identifier: Attachment ID
+            Filename: Or use filename
             
         Returns:
             Success confirmation
@@ -124,8 +131,9 @@ class CreditInvoiceResource(BaseResource):
         Download a credit invoice attachment.
         
         Args:
-            ReferenceIdentifier or CreditInvoiceCode: Required
-            Filename: Required
+            ReferenceIdentifier: Credit invoice ID (numeric string)
+            CreditInvoiceCode: Or use credit invoice code
+            Filename: Attachment filename
             
         Returns:
             Response with Base64 encoded file content

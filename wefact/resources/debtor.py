@@ -27,7 +27,8 @@ class DebtorResource(BaseResource):
         Add an extra contact person to a debtor.
         
         Args:
-            Identifier or DebtorCode: Required
+            Identifier: Debtor ID (numeric string)
+            DebtorCode: Or use debtor code (e.g., "DB10000")
             EmailAddress: Required
             FirstName: Optional
             LastName: Optional
@@ -46,8 +47,9 @@ class DebtorResource(BaseResource):
         Edit an extra contact person.
         
         Args:
-            Identifier or DebtorCode: Required
-            ContactIdentifier: Required
+            Identifier: Debtor ID (numeric string)
+            DebtorCode: Or use debtor code (e.g., "DB10000")
+            ContactIdentifier: Contact ID
             EmailAddress: Optional
             FirstName: Optional
             LastName: Optional
@@ -66,8 +68,9 @@ class DebtorResource(BaseResource):
         Delete an extra contact person.
         
         Args:
-            Identifier or DebtorCode: Required
-            ContactIdentifier: Required
+            Identifier: Debtor ID (numeric string)
+            DebtorCode: Or use debtor code (e.g., "DB10000")
+            ContactIdentifier: Contact ID
             
         Returns:
             Debtor with contact removed
@@ -83,9 +86,10 @@ class DebtorResource(BaseResource):
         Add an attachment to a debtor.
         
         Args:
-            ReferenceIdentifier or DebtorCode: Required
-            Filename: Required
-            Base64: Required (base64 encoded file)
+            ReferenceIdentifier: Debtor ID (numeric string)
+            DebtorCode: Or use debtor code (e.g., "DB10000")
+            Filename: Attachment filename
+            Base64: Base64 encoded file content
             
         Returns:
             Success confirmation
@@ -100,8 +104,10 @@ class DebtorResource(BaseResource):
         Delete an attachment from a debtor.
         
         Args:
-            ReferenceIdentifier or DebtorCode: Required
-            Identifier or Filename: Required
+            ReferenceIdentifier: Debtor ID (numeric string)
+            DebtorCode: Or use debtor code (e.g., "DB10000")
+            Identifier: Attachment ID
+            Filename: Or use filename
             
         Returns:
             Success confirmation
@@ -116,8 +122,9 @@ class DebtorResource(BaseResource):
         Download a debtor attachment.
         
         Args:
-            ReferenceIdentifier or DebtorCode: Required
-            Filename: Required
+            ReferenceIdentifier: Debtor ID (numeric string)
+            DebtorCode: Or use debtor code (e.g., "DB10000")
+            Filename: Attachment filename
             
         Returns:
             Response with Base64 encoded file

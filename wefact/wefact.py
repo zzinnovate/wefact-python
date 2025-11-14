@@ -19,6 +19,14 @@ from .resources import (
 
 class WeFact:
     def __init__(self, api_key: str, api_url: str = "https://api.mijnwefact.nl/v2/"):
+        if not isinstance(api_key, str):
+            raise TypeError(
+                f"api_key must be a string, got {type(api_key).__name__}. "
+                "Did you forget quotes? Use: WeFact(api_key='your_key_here')"
+            )
+        if not api_key or not api_key.strip():
+            raise ValueError("api_key cannot be empty")
+        
         self.api_key = api_key
         self.api_url = api_url
 

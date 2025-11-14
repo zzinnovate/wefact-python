@@ -27,7 +27,8 @@ class InvoiceResource(BaseResource):
         Create a credit invoice for an existing invoice.
         
         Args:
-            Identifier or InvoiceCode: Required
+            Identifier: Invoice ID (numeric string)
+            InvoiceCode: Or use invoice code (e.g., "INV10000")
             
         Returns:
             Response with the new credit invoice details
@@ -41,7 +42,8 @@ class InvoiceResource(BaseResource):
         Process a partial payment for an invoice.
         
         Args:
-            Identifier or InvoiceCode: Required
+            Identifier: Invoice ID (numeric string)
+            InvoiceCode: Or use invoice code (e.g., "INV10000")
             AmountPaid: Required (float)
             PayDate: Optional (date)
             PaymentMethod: Optional (see variables list)
@@ -58,7 +60,8 @@ class InvoiceResource(BaseResource):
         Mark an invoice as fully paid.
         
         Args:
-            Identifier or InvoiceCode: Required
+            Identifier: Invoice ID (numeric string)
+            InvoiceCode: Or use invoice code (e.g., "INV10000")
             PayDate: Optional (defaults to today)
             PaymentMethod: Optional (defaults to wire transfer)
             
@@ -74,7 +77,8 @@ class InvoiceResource(BaseResource):
         Reverse a payment, changing invoice from Paid back to Sent.
         
         Args:
-            Identifier or InvoiceCode: Required
+            Identifier: Invoice ID (numeric string)
+            InvoiceCode: Or use invoice code (e.g., "INV10000")
             
         Returns:
             Invoice with status changed back to Sent (2)
@@ -91,7 +95,8 @@ class InvoiceResource(BaseResource):
         Changes status from Draft (0) to Sent (2).
         
         Args:
-            Identifier or InvoiceCode: Required
+            Identifier: Invoice ID (numeric string)
+            InvoiceCode: Or use invoice code (e.g., "INV10000")
             
         Returns:
             Sent invoice details
@@ -106,7 +111,8 @@ class InvoiceResource(BaseResource):
         Only works for sent invoices (status >= 2).
         
         Args:
-            Identifier or InvoiceCode: Required
+            Identifier: Invoice ID (numeric string)
+            InvoiceCode: Or use invoice code (e.g., "INV10000")
             
         Returns:
             Success confirmation
@@ -121,7 +127,8 @@ class InvoiceResource(BaseResource):
         Only works for sent invoices (status >= 2).
         
         Args:
-            Identifier or InvoiceCode: Required
+            Identifier: Invoice ID (numeric string)
+            InvoiceCode: Or use invoice code (e.g., "INV10000")
             
         Returns:
             Success confirmation
@@ -137,7 +144,8 @@ class InvoiceResource(BaseResource):
         Download invoice PDF.
         
         Args:
-            Identifier or InvoiceCode: Required
+            Identifier: Invoice ID (numeric string)
+            InvoiceCode: Or use invoice code (e.g., "INV10000")
             
         Returns:
             Response with Base64 encoded PDF in invoice.Base64
@@ -155,7 +163,8 @@ class InvoiceResource(BaseResource):
         Only works on draft invoices (status = 0).
         
         Args:
-            Identifier or InvoiceCode: Required
+            Identifier: Invoice ID (numeric string)
+            InvoiceCode: Or use invoice code (e.g., "INV10000")
             
         Returns:
             Invoice with SubStatus = 'BLOCKED'
@@ -170,7 +179,8 @@ class InvoiceResource(BaseResource):
         Only works on blocked draft invoices.
         
         Args:
-            Identifier or InvoiceCode: Required
+            Identifier: Invoice ID (numeric string)
+            InvoiceCode: Or use invoice code (e.g., "INV10000")
             
         Returns:
             Invoice with SubStatus cleared
@@ -185,7 +195,8 @@ class InvoiceResource(BaseResource):
         Only works on draft invoices (status = 0).
         
         Args:
-            Identifier or InvoiceCode: Required
+            Identifier: Invoice ID (numeric string)
+            InvoiceCode: Or use invoice code (e.g., "INV10000")
             ScheduledAt: Required (datetime string: "2024-12-31 20:00:00")
             
         Returns:
@@ -201,7 +212,8 @@ class InvoiceResource(BaseResource):
         Only works on scheduled draft invoices.
         
         Args:
-            Identifier or InvoiceCode: Required
+            Identifier: Invoice ID (numeric string)
+            InvoiceCode: Or use invoice code (e.g., "INV10000")
             
         Returns:
             Invoice with ScheduledAt cleared
@@ -218,7 +230,8 @@ class InvoiceResource(BaseResource):
         Only works on Sent (2) or Partially Paid (3) invoices.
         
         Args:
-            Identifier or InvoiceCode: Required
+            Identifier: Invoice ID (numeric string)
+            InvoiceCode: Or use invoice code (e.g., "INV10000")
             PaymentPausedEndDate: Optional (date)
             PaymentPausedReason: Optional (string)
             DisableOnlinePayment: Optional ('yes' or 'no', default 'no')
@@ -236,7 +249,8 @@ class InvoiceResource(BaseResource):
         Only works on paused invoices.
         
         Args:
-            Identifier or InvoiceCode: Required
+            Identifier: Invoice ID (numeric string)
+            InvoiceCode: Or use invoice code (e.g., "INV10000")
             
         Returns:
             Invoice with SubStatus cleared
@@ -253,7 +267,8 @@ class InvoiceResource(BaseResource):
         Works on invoices in any status.
         
         Args:
-            Identifier or InvoiceCode: Required
+            Identifier: Invoice ID (numeric string)
+            InvoiceCode: Or use invoice code (e.g., "INV10000")
             InvoiceLines: Required (array of {Identifier: line_id})
             
         Returns:
@@ -269,7 +284,8 @@ class InvoiceResource(BaseResource):
         Works on invoices in any status.
         
         Args:
-            Identifier or InvoiceCode: Required
+            Identifier: Invoice ID (numeric string)
+            InvoiceCode: Or use invoice code (e.g., "INV10000")
             InvoiceLines: Required (array of line objects)
             
         Returns:
@@ -285,7 +301,8 @@ class InvoiceResource(BaseResource):
         Works on invoices in any status.
         
         Args:
-            Identifier or InvoiceCode: Required
+            Identifier: Invoice ID (numeric string)
+            InvoiceCode: Or use invoice code (e.g., "INV10000")
             InvoiceLines: Required (array of {Identifier: line_id})
             
         Returns:
@@ -298,14 +315,15 @@ class InvoiceResource(BaseResource):
     # Attachments
     
     def attachment_add(self, **params):
-        """
-        Add an attachment to an invoice.
+        """Add an attachment to an invoice.
+        
         Works on invoices in any status.
         
         Args:
-            ReferenceIdentifier or InvoiceCode: Required
-            Filename: Required (string)
-            Base64: Required (base64 encoded file content)
+            ReferenceIdentifier: Invoice ID (numeric string)
+            InvoiceCode: Or use invoice code (e.g., "INV10000")
+            Filename: Attachment filename
+            Base64: Base64 encoded file content
             
         Returns:
             Success confirmation
@@ -320,8 +338,10 @@ class InvoiceResource(BaseResource):
         Delete an attachment from an invoice.
         
         Args:
-            ReferenceIdentifier or InvoiceCode: Required
-            Identifier or Filename: Required
+            ReferenceIdentifier: Invoice ID (numeric string)
+            InvoiceCode: Or use invoice code (e.g., "INV10000")
+            Identifier: Attachment ID
+            Filename: Or use filename
             
         Returns:
             Success confirmation
@@ -336,8 +356,9 @@ class InvoiceResource(BaseResource):
         Download an invoice attachment.
         
         Args:
-            ReferenceIdentifier or InvoiceCode: Required
-            Filename: Required
+            ReferenceIdentifier: Invoice ID (numeric string)
+            InvoiceCode: Or use invoice code (e.g., "INV10000")
+            Filename: Attachment filename
             
         Returns:
             Response with Base64 encoded file content

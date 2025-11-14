@@ -20,9 +20,10 @@ class CreditorResource(BaseResource):
         Add an attachment to a creditor.
         
         Args:
-            ReferenceIdentifier or CreditorCode: Required
-            Filename: Required
-            Base64: Required (base64 encoded file)
+            ReferenceIdentifier: Creditor ID (numeric string)
+            CreditorCode: Or use creditor code
+            Filename: Attachment filename
+            Base64: Base64 encoded file content
             
         Returns:
             Success confirmation
@@ -37,8 +38,10 @@ class CreditorResource(BaseResource):
         Delete an attachment from a creditor.
         
         Args:
-            ReferenceIdentifier or CreditorCode: Required
-            Identifier or Filename: Required
+            ReferenceIdentifier: Creditor ID (numeric string)
+            CreditorCode: Or use creditor code
+            Identifier: Attachment ID
+            Filename: Or use filename
             
         Returns:
             Success confirmation
@@ -53,8 +56,9 @@ class CreditorResource(BaseResource):
         Download a creditor attachment.
         
         Args:
-            ReferenceIdentifier or CreditorCode: Required
-            Filename: Required
+            ReferenceIdentifier: Creditor ID (numeric string)
+            CreditorCode: Or use creditor code
+            Filename: Attachment filename
             
         Returns:
             Response with Base64 encoded file

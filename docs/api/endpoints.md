@@ -1,207 +1,617 @@
-# Resources and operations
+# API Resources
 
-The client exposes Python resources that map to WeFact controllers. Methods accept keyword arguments posted as form data. Responses are JSON objects; most detail responses are nested under the controller name (for example, `{ "invoice": { ... } }`).
+All resources follow a consistent pattern: standard CRUD methods plus resource-specific operations. Methods accept keyword arguments that map directly to WeFact API parameters.
 
-Tip: Parameter shapes shown here are illustrative. For full matrices, consult the official WeFact API reference.
-
-## invoices
-
-| Method | Description | Example |
-|---|---|---|
-| `list(limit=..., offset=...)` | List invoices with pagination. | ``client.invoices.list(limit=100, offset=0)`` |
-| `show(Identifier=...)` | Get a single invoice by identifier/code. | ``client.invoices.show(Identifier="INV10000")`` |
-| `create(DebtorCode=..., InvoiceLines=[...])` | Create a new invoice. | ``client.invoices.create(DebtorCode="DB10000", InvoiceLines=[{"Number":1,"ProductCode":"P0001","PriceExcl":100}])`` |
-| `edit(Identifier=..., ...)` | Update an invoice. | ``client.invoices.edit(Identifier="INV10000", Description="Updated")`` |
-| `delete(Identifier=...)` | Delete an invoice. | ``client.invoices.delete(Identifier="INV10000")`` |
-| `credit(...)` | Create a credit invoice. | ``client.invoices.credit(Identifier="INV10000")`` |
-| `part_payment(...)` | Register a partial payment. | ``client.invoices.part_payment(Identifier="INV10000", Amount=10.0)`` |
-| `mark_as_paid(...)` | Mark as paid. | ``client.invoices.mark_as_paid(Identifier="INV10000")`` |
-| `mark_as_unpaid(...)` | Revert paid status. | ``client.invoices.mark_as_unpaid(Identifier="INV10000")`` |
-| `send_by_email(...)` | Send the invoice by email. | ``client.invoices.send_by_email(Identifier="INV10000")`` |
-| `send_reminder_by_email(...)` | Send a reminder by email. | ``client.invoices.send_reminder_by_email(Identifier="INV10000")`` |
-| `send_summation_by_email(...)` | Send a summation by email. | ``client.invoices.send_summation_by_email(Identifier="INV10000")`` |
-| `download(...)` | Download the invoice PDF. | ``client.invoices.download(Identifier="INV10000")`` |
-| `block(...)` | Block the invoice from reminders. | ``client.invoices.block(Identifier="INV10000")`` |
-| `unblock(...)` | Unblock the invoice. | ``client.invoices.unblock(Identifier="INV10000")`` |
-| `schedule(...)` | Schedule sending. | ``client.invoices.schedule(Identifier="INV10000", Date="2025-08-01")`` |
-| `cancel_schedule(...)` | Cancel scheduled sending. | ``client.invoices.cancel_schedule(Identifier="INV10000")`` |
-| `payment_process_pause(...)` | Pause payment process. | ``client.invoices.payment_process_pause(Identifier="INV10000")`` |
-| `payment_process_reactivate(...)` | Reactivate payment process. | ``client.invoices.payment_process_reactivate(Identifier="INV10000")`` |
-| `sort_lines(...)` | Reorder invoice lines. | ``client.invoices.sort_lines(Identifier="INV10000", LineNumbers=[2,1])`` |
-| `invoice_line_add(...)` | Add an invoice line. | ``client.invoices.invoice_line_add(Identifier="INV10000", InvoiceLine={"ProductCode":"P0001","PriceExcl":25})`` |
-| `invoice_line_delete(...)` | Remove an invoice line. | ``client.invoices.invoice_line_delete(Identifier="INV10000", LineNumber=1)`` |
-| `attachment_add(...)` | Upload an attachment to an invoice. | ``client.invoices.attachment_add(Identifier="INV10000", FileName="x.pdf", FileData="<base64>")`` |
-| `attachment_delete(...)` | Delete an invoice attachment. | ``client.invoices.attachment_delete(Identifier="INV10000", AttachmentGuid="ATT-1")`` |
-| `attachment_download(...)` | Download an attachment. | ``client.invoices.attachment_download(Identifier="INV10000", AttachmentGuid="ATT-1")`` |
-
-Example:
+## Available Resources
 
 ```python
+client.invoices          # Sales invoices
+client.credit_invoices   # Purchase invoices (from suppliers)
+client.debtors           # Customers/clients
+client.creditors         # Suppliers
+client.products          # Products and services
+client.groups            # Debtor/creditor groups
+client.subscriptions     # Recurring subscriptions
+client.quotes            # Price quotations
+client.interactions      # Communication logs
+client.tasks             # Task management
+client.transactions      # Bank transactions
+client.cost_categories   # Expense categories
+client.settings          # Account settings
+```
+
+## Common Methods
+
+Most resources support these standard operations:
+
+```python
+# List with pagination
+client.invoices.list(limit=100, offset=0)
+
+# Get single record by ID or code
+client.invoices.show(Identifier="5")           # Using numeric ID
+client.invoices.show(InvoiceCode="INV10000")   # Using formatted code
+
+# Create new record
+client.invoices.create(DebtorCode="DB10000", ...)
+
+# Update existing record
+client.invoices.edit(Identifier="5", ...)
+
+# Delete record
+client.invoices.delete(Identifier="5")
+```
+
+---
+
+## Invoices
+
+Full invoice lifecycle management with 25+ operations.
+
+### CRUD Operations
+
+```python
+# List invoices
+client.invoices.list(limit=100, offset=0)
+
+# Get invoice by ID
+client.invoices.show(Identifier="5")
+
+# Or use the formatted invoice code
+client.invoices.show(InvoiceCode="INV10000")
+
+# Create invoice
 client.invoices.create(
-  DebtorCode="DB10000",
-  InvoiceLines=[{"Number": 1, "ProductCode": "P0001", "Description": "Service", "PriceExcl": 100}],
+    DebtorCode="DB10000",
+    InvoiceLines=[
+        {
+            "Number": 1,
+            "ProductCode": "P0001",
+            "Description": "Service",
+            "PriceExcl": 100
+        }
+    ]
+)
+
+# Update invoice
+client.invoices.edit(Identifier="5", Description="Updated")
+
+# Delete invoice
+client.invoices.delete(Identifier="5")
+```
+
+### Payment Management
+
+```python
+# Create credit invoice
+client.invoices.credit(Identifier="5")
+
+# Register partial payment
+client.invoices.part_payment(
+    Identifier="5",
+    AmountPaid=50.00,
+    PayDate="2025-01-15"
+)
+
+# Mark as paid
+client.invoices.mark_as_paid(
+    Identifier="5",
+    PayDate="2025-01-15",
+    PaymentMethod="bank"
+)
+
+# Mark as unpaid (reverse payment)
+client.invoices.mark_as_unpaid(Identifier="5")
+```
+
+### Email Operations
+
+```python
+# Send invoice
+client.invoices.send_by_email(Identifier="5")
+
+# Send payment reminder
+client.invoices.send_reminder_by_email(Identifier="5")
+
+# Send collection notice
+client.invoices.send_summation_by_email(Identifier="5")
+```
+
+### Document Operations
+
+```python
+# Download PDF (returns Base64 encoded)
+response = client.invoices.download(Identifier="5")
+pdf_content = response['invoice']['Base64']
+```
+
+### State Management
+
+```python
+# Block draft invoice (prevents sending)
+client.invoices.block(Identifier="5")
+
+# Unblock
+client.invoices.unblock(Identifier="5")
+
+# Schedule send
+client.invoices.schedule(
+    Identifier="5",
+    ScheduledAt="2025-08-01 09:00:00"
+)
+
+# Cancel schedule
+client.invoices.cancel_schedule(Identifier="5")
+
+# Pause payment process
+client.invoices.payment_process_pause(
+    Identifier="5",
+    PaymentPausedEndDate="2025-12-31",
+    PaymentPausedReason="Customer requested"
+)
+
+# Reactivate payment process
+client.invoices.payment_process_reactivate(Identifier="5")
+```
+
+### Line Management
+
+```python
+# Add invoice line
+client.invoices.invoice_line_add(
+    Identifier="5",
+    InvoiceLines=[
+        {
+            "ProductCode": "P0002",
+            "PriceExcl": 25.00
+        }
+    ]
+)
+
+# Delete invoice line
+client.invoices.invoice_line_delete(
+    Identifier="5",
+    InvoiceLines=[{"Identifier": "12"}]  # Line ID
+)
+
+# Reorder lines
+client.invoices.sort_lines(
+    Identifier="5",
+    InvoiceLines=[
+        {"Identifier": "13"},
+        {"Identifier": "12"}
+    ]
 )
 ```
 
-## debtors
+### Attachments
 
-| Method | Description | Example |
-|---|---|---|
-| `list(limit=..., offset=...)` | List debtors. | ``client.debtors.list(limit=100)`` |
-| `show(Identifier=...)` | Get a debtor. | ``client.debtors.show(Identifier="DB10000")`` |
-| `create(...)` | Create a debtor. | ``client.debtors.create(DebtorCode="DB10000", CompanyName="Acme")`` |
-| `edit(Identifier=..., ...)` | Update a debtor. | ``client.debtors.edit(Identifier="DB10000", EmailAddress="info@acme.tld")`` |
-| — | Delete is not available (raises `ClientError`). | — |
-| `extra_client_contact_add(Identifier=..., ...)` | Add an extra client contact. | ``client.debtors.extra_client_contact_add(Identifier="DB10000", Name="Jane")`` |
-| `extra_client_contact_edit(Identifier=..., ContactIdentifier=..., ...)` | Edit an extra client contact. | ``client.debtors.extra_client_contact_edit(Identifier="DB10000", ContactIdentifier="C1", Name="Janet")`` |
-| `extra_client_contact_delete(Identifier=..., ContactIdentifier=...)` | Delete an extra client contact. | ``client.debtors.extra_client_contact_delete(Identifier="DB10000", ContactIdentifier="C1")`` |
-| `attachment_add(Identifier=..., FileName=..., FileData=...)` | Add attachment to a debtor. | ``client.debtors.attachment_add(Identifier="DB10000", FileName="doc.pdf", FileData="<base64>")`` |
-| `attachment_delete(Identifier=..., AttachmentGuid=...)` | Remove a debtor attachment. | ``client.debtors.attachment_delete(Identifier="DB10000", AttachmentGuid="ATT-1")`` |
-| `attachment_download(Identifier=..., AttachmentGuid=...)` | Download a debtor attachment. | ``client.debtors.attachment_download(Identifier="DB10000", AttachmentGuid="ATT-1")`` |
+```python
+# Add attachment
+client.invoices.attachment_add(
+    ReferenceIdentifier="5",
+    Filename="contract.pdf",
+    Base64="<base64_encoded_content>"
+)
 
-## creditors
+# Download attachment
+response = client.invoices.attachment_download(
+    ReferenceIdentifier="5",
+    Filename="contract.pdf"
+)
 
-| Method | Description | Example |
-|---|---|---|
-| `list(limit=..., offset=...)` | List creditors. | ``client.creditors.list(limit=100)`` |
-| `show(Identifier=...)` | Get a creditor. | ``client.creditors.show(Identifier="CR10000")`` |
-| `create(...)` | Create a creditor. | ``client.creditors.create(CreditorCode="CR10000", CompanyName="Vendor")`` |
-| `edit(Identifier=..., ...)` | Update a creditor. | ``client.creditors.edit(Identifier="CR10000", EmailAddress="ap@vendor.tld")`` |
-| `delete(Identifier=...)` | Delete a creditor. | ``client.creditors.delete(Identifier="CR10000")`` |
-| `attachment_add(Identifier=..., FileName=..., FileData=...)` | Add attachment to a creditor. | ``client.creditors.attachment_add(Identifier="CR10000", FileName="x.pdf", FileData="<base64>")`` |
-| `attachment_delete(Identifier=..., AttachmentGuid=...)` | Remove a creditor attachment. | ``client.creditors.attachment_delete(Identifier="CR10000", AttachmentGuid="ATT-1")`` |
-| `attachment_download(Identifier=..., AttachmentGuid=...)` | Download a creditor attachment. | ``client.creditors.attachment_download(Identifier="CR10000", AttachmentGuid="ATT-1")`` |
+# Delete attachment
+client.invoices.attachment_delete(
+    ReferenceIdentifier="5",
+    Filename="contract.pdf"
+)
+```
 
-## products
+---
 
-| Method | Description | Example |
-|---|---|---|
-| `list(limit=..., offset=...)` | List products. | ``client.products.list(limit=100)`` |
-| `show(Identifier=...)` | Get a product. | ``client.products.show(Identifier="P0001")`` |
-| `create(ProductName=..., ProductKeyPhrase=..., PriceExcl=...)` | Create a product. | ``client.products.create(ProductName="Hosting", ProductKeyPhrase="hosting", PriceExcl=5.0)`` |
-| `edit(Identifier=..., ...)` | Update a product. | ``client.products.edit(Identifier="P0001", PriceExcl=7.5)`` |
-| `delete(Identifier=...)` | Delete a product. | ``client.products.delete(Identifier="P0001")`` |
+## Credit Invoices
 
-## groups
+Purchase invoices received from suppliers.
 
-| Method | Description | Example |
-|---|---|---|
-| `list(limit=..., offset=...)` | List groups. | ``client.groups.list(limit=100)`` |
-| `show(Identifier=...)` | Get a group. | ``client.groups.show(Identifier="GRP1")`` |
-| `create(Type=..., GroupName=...)` | Create a group. | ``client.groups.create(Type="debtor", GroupName="VIP")`` |
-| `edit(Identifier=..., ...)` | Update a group. | ``client.groups.edit(Identifier="GRP1", GroupName="Key Accounts")`` |
-| `delete(Identifier=...)` | Delete a group. | ``client.groups.delete(Identifier="GRP1")`` |
+### CRUD Operations
 
-## subscriptions
+```python
+client.credit_invoices.list(limit=100)
+client.credit_invoices.show(Identifier="8")
+client.credit_invoices.create(CreditorCode="CR10000", ...)
+client.credit_invoices.edit(Identifier="8", ...)
+client.credit_invoices.delete(Identifier="8")
+```
 
-| Method | Description | Example |
-|---|---|---|
-| `list(limit=..., offset=...)` | List subscriptions. | ``client.subscriptions.list(limit=100)`` |
-| `show(Identifier=...)` | Get a subscription. | ``client.subscriptions.show(Identifier="SUB1")`` |
-| `create(...)` | Create a subscription. | ``client.subscriptions.create(DebtorCode="DB10000", ...)`` |
-| `edit(Identifier=..., ...)` | Update a subscription. | ``client.subscriptions.edit(Identifier="SUB1", ...)`` |
-| — | Delete is not available (raises `ClientError`). | — |
-| `terminate(Identifier=...)` | Terminate a subscription. | ``client.subscriptions.terminate(Identifier="SUB1")`` |
+### Payment Management
 
-## settings
+```python
+# Partial payment
+client.credit_invoices.part_payment(
+    Identifier="8",
+    AmountPaid=100.00
+)
 
-| Method | Description | Example |
-|---|---|---|
-| `list(...)` | List available settings. | ``client.settings.list()`` |
-| — | Show/create/edit/delete are not available (raise `ClientError`). | — |
+# Mark as paid
+client.credit_invoices.mark_as_paid(Identifier="8")
+```
 
-## cost_categories
+### Line Management
 
-**Note**: Cost categories are a sub-controller under the `settings` controller. The API uses `controller: "settings"` with special `costcategory_*` actions. This implementation handles the nested response structure automatically.
+```python
+# Add lines
+client.credit_invoices.credit_invoice_line_add(
+    Identifier="8",
+    CreditInvoiceLines=[...]
+)
 
-| Method | Description | Example |
-|---|---|---|
-| `list(limit=..., offset=...)` | List cost categories. | ``client.cost_categories.list(limit=100)`` |
-| `show(Identifier=...)` | Get a cost category. | ``client.cost_categories.show(Identifier="CC1")`` |
-| `create(Title=...)` | Create a cost category. | ``client.cost_categories.create(Title="Cloud costs")`` |
-| `edit(Identifier=..., ...)` | Update a cost category. | ``client.cost_categories.edit(Identifier="CC1", Title="Infra")`` |
-| `delete(Identifier=...)` | Delete a cost category. | ``client.cost_categories.delete(Identifier="CC1")`` |
+# Delete lines
+client.credit_invoices.credit_invoice_line_delete(
+    Identifier="8",
+    CreditInvoiceLines=[{"Identifier": "15"}]
+)
+```
 
-## interactions
+### Attachments
 
-| Method | Description | Example |
-|---|---|---|
-| `list(limit=..., offset=...)` | List interactions. | ``client.interactions.list(limit=100, offset=0)`` |
-| `show(Identifier=...)` | Get an interaction. | ``client.interactions.show(Identifier="I00001")`` |
-| `create(...)` | Create an interaction. | ``client.interactions.create(DebtorCode="DB10000", Subject="Onboarding call")`` |
-| `edit(Identifier=..., ...)` | Update an interaction. | ``client.interactions.edit(Identifier="I00001", Subject="Follow-up call")`` |
-| `delete(Identifier=...)` | Delete an interaction. | ``client.interactions.delete(Identifier="I00001")`` |
-| `attachment_add(Identifier=..., FileName=..., FileData=...)` | Add attachment to an interaction. | ``client.interactions.attachment_add(Identifier="I00001", FileName="notes.txt", FileData="<base64>")`` |
-| `attachment_delete(Identifier=..., AttachmentGuid=...)` | Remove an interaction attachment. | ``client.interactions.attachment_delete(Identifier="I00001", AttachmentGuid="ATT-123")`` |
-| `attachment_download(Identifier=..., AttachmentGuid=...)` | Download an interaction attachment. | ``client.interactions.attachment_download(Identifier="I00001", AttachmentGuid="ATT-123")`` |
+Same pattern as invoices: `attachment_add()`, `attachment_delete()`, `attachment_download()`
 
-## quotes
+---
 
-| Method | Description | Example |
-|---|---|---|
-| `list(limit=..., offset=...)` | List quotes. | ``client.quotes.list(limit=100, offset=0)`` |
-| `show(Identifier=...)` | Get a quote. | ``client.quotes.show(Identifier="Q0001")`` |
-| `create(...)` | Create a quote. | ``client.quotes.create(DebtorCode="DB10000", PriceQuoteLines=[{"Description":"Setup","PriceExcl":50}])`` |
-| `edit(Identifier=..., ...)` | Update a quote. | ``client.quotes.edit(Identifier="Q0001", Reference="2025-001")`` |
-| `delete(Identifier=...)` | Delete a quote. | ``client.quotes.delete(Identifier="Q0001")`` |
-| `send_by_email(Identifier=...)` | Send quote by email. | ``client.quotes.send_by_email(Identifier="Q0001")`` |
-| `download(Identifier=...)` | Download quote PDF. | ``client.quotes.download(Identifier="Q0001")`` |
-| `schedule(Identifier=..., ...)` | Schedule sending. | ``client.quotes.schedule(Identifier="Q0001", Date="2025-08-15")`` |
-| `cancel_schedule(Identifier=...)` | Cancel scheduled send. | ``client.quotes.cancel_schedule(Identifier="Q0001")`` |
-| `accept(Identifier=...)` | Accept quote. | ``client.quotes.accept(Identifier="Q0001")`` |
-| `decline(Identifier=...)` | Decline quote. | ``client.quotes.decline(Identifier="Q0001")`` |
-| `archive(Identifier=...)` | Archive quote. | ``client.quotes.archive(Identifier="Q0001")`` |
-| `sort_lines(Identifier=..., LineNumbers=[...])` | Reorder lines. | ``client.quotes.sort_lines(Identifier="Q0001", LineNumbers=[2,1])`` |
-| `price_quote_line_add(Identifier=..., PriceQuoteLine={...})` | Add a price quote line. | ``client.quotes.price_quote_line_add(Identifier="Q0001", PriceQuoteLine={"Description":"Support","PriceExcl":25})`` |
-| `price_quote_line_delete(Identifier=..., LineNumber=...)` | Delete a price quote line. | ``client.quotes.price_quote_line_delete(Identifier="Q0001", LineNumber=1)`` |
-| `attachment_add(Identifier=..., FileName=..., FileData=...)` | Add attachment to a quote. | ``client.quotes.attachment_add(Identifier="Q0001", FileName="terms.pdf", FileData="<base64>")`` |
-| `attachment_delete(Identifier=..., AttachmentGuid=...)` | Remove a quote attachment. | ``client.quotes.attachment_delete(Identifier="Q0001", AttachmentGuid="ATT-9")`` |
-| `attachment_download(Identifier=..., AttachmentGuid=...)` | Download a quote attachment. | ``client.quotes.attachment_download(Identifier="Q0001", AttachmentGuid="ATT-9")`` |
- 
-## tasks
+## Debtors
 
-| Method | Description | Example |
-|---|---|---|
-| `list(limit=..., offset=...)` | List tasks. | ``client.tasks.list(limit=100)`` |
-| `show(Identifier=...)` | Get a task. | ``client.tasks.show(Identifier="T1")`` |
-| `create(...)` | Create a task. | ``client.tasks.create(DebtorCode="DB10000", Subject="Call back")`` |
-| `edit(Identifier=..., ...)` | Update a task. | ``client.tasks.edit(Identifier="T1", Status="completed")`` |
-| `delete(Identifier=...)` | Delete a task. | ``client.tasks.delete(Identifier="T1")`` |
-| `change_status(Identifier=..., Status=...)` | Change task status. | ``client.tasks.change_status(Identifier="T1", Status="completed")`` |
-| `attachment_add(Identifier=..., FileName=..., FileData=...)` | Add task attachment. | ``client.tasks.attachment_add(Identifier="T1", FileName="note.txt", FileData="<base64>")`` |
-| `attachment_delete(Identifier=..., AttachmentGuid=...)` | Remove task attachment. | ``client.tasks.attachment_delete(Identifier="T1", AttachmentGuid="A1")`` |
-| `attachment_download(Identifier=..., AttachmentGuid=...)` | Download task attachment. | ``client.tasks.attachment_download(Identifier="T1", AttachmentGuid="A1")`` |
+Customer/client management.
 
-## transactions
+!!! note
+    Delete is not available for debtors.
 
-| Method | Description | Example |
-|---|---|---|
-| `list(limit=..., offset=...)` | List transactions. | ``client.transactions.list(limit=100)`` |
-| `show(Identifier=...)` | Get a transaction. | ``client.transactions.show(Identifier="TR1")`` |
-| `create(...)` | Create a transaction. | ``client.transactions.create(...)`` |
-| `edit(Identifier=..., ...)` | Update a transaction. | ``client.transactions.edit(Identifier="TR1", ...)`` |
-| `delete(Identifier=...)` | Delete a transaction. | ``client.transactions.delete(Identifier="TR1")`` |
-| `match(Identifier=...)` | Match a transaction. | ``client.transactions.match(Identifier="TR1")`` |
-| `ignore(Identifier=...)` | Ignore a transaction. | ``client.transactions.ignore(Identifier="TR1")`` |
+### CRUD Operations
 
-## Enums appendix
+```python
+client.debtors.list(limit=100)
+client.debtors.show(Identifier="25")
+client.debtors.create(
+    DebtorCode="DB10000",
+    CompanyName="Acme Inc",
+    EmailAddress="info@acme.com"
+)
+client.debtors.edit(Identifier="25", EmailAddress="new@acme.com")
+# delete() raises ClientError
+```
 
-These enums are provided for clarity around action names. In code, you usually call resource methods directly.
+### Extra Contacts
 
-### Generic `Action`
-- LIST, SHOW, ADD, EDIT, DELETE
-- SEND_BY_EMAIL, DOWNLOAD, SCHEDULE, CANCEL_SCHEDULE, SORT_LINES
-- ATTACHMENT_ADD, ATTACHMENT_DELETE, ATTACHMENT_DOWNLOAD
+```python
+# Add contact
+client.debtors.extra_client_contact_add(
+    Identifier="25",
+    EmailAddress="john@acme.com",
+    FirstName="John",
+    LastName="Doe"
+)
 
-### `QuoteAction`
-- SEND_BY_EMAIL, DOWNLOAD, SCHEDULE, CANCEL_SCHEDULE, ACCEPT, DECLINE, ARCHIVE, SORT_LINES
-- PRICE_QUOTE_LINE_ADD, PRICE_QUOTE_LINE_DELETE
+# Edit contact
+client.debtors.extra_client_contact_edit(
+    Identifier="25",
+    ContactIdentifier="3",
+    EmailAddress="john.doe@acme.com"
+)
 
-### `DebtorAction`
-- EXTRA_CLIENT_CONTACT_ADD, EXTRA_CLIENT_CONTACT_EDIT, EXTRA_CLIENT_CONTACT_DELETE
+# Delete contact
+client.debtors.extra_client_contact_delete(
+    Identifier="25",
+    ContactIdentifier="3"
+)
+```
 
-### `TaskAction`
-- CHANGE_STATUS
+### Attachments
 
-### `TransactionAction`
-- MATCH, IGNORE
+Same pattern: `attachment_add()`, `attachment_delete()`, `attachment_download()`
+
+---
+
+## Creditors
+
+Supplier management.
+
+### Operations
+
+```python
+client.creditors.list(limit=100)
+client.creditors.show(Identifier="18")
+client.creditors.create(CreditorCode="CR10000", CompanyName="Supplier Co")
+client.creditors.edit(Identifier="18", ...)
+client.creditors.delete(Identifier="18")
+```
+
+### Attachments
+
+Same pattern: `attachment_add()`, `attachment_delete()`, `attachment_download()`
+
+---
+
+## Products
+
+Product and service catalog.
+
+### Operations
+
+```python
+client.products.list(limit=100)
+client.products.show(Identifier="42")
+client.products.create(
+    ProductName="Hosting",
+    ProductKeyPhrase="hosting",
+    PriceExcl=9.99
+)
+client.products.edit(Identifier="42", PriceExcl=12.99)
+client.products.delete(Identifier="42")
+```
+
+---
+
+## Groups
+
+Debtor/creditor grouping for organization.
+
+### Operations
+
+```python
+client.groups.list(limit=100)
+client.groups.show(Identifier="7")
+client.groups.create(Type="debtor", GroupName="VIP Clients")
+client.groups.edit(Identifier="7", GroupName="Key Accounts")
+client.groups.delete(Identifier="7")
+```
+
+---
+
+## Subscriptions
+
+Recurring subscription management.
+
+!!! note
+    Delete is not available. Use `terminate()` instead.
+
+### Operations
+
+```python
+client.subscriptions.list(limit=100)
+client.subscriptions.show(Identifier="12")
+client.subscriptions.create(DebtorCode="DB10000", ...)
+client.subscriptions.edit(Identifier="12", ...)
+
+# Terminate subscription (not delete)
+client.subscriptions.terminate(
+    Identifier="12",
+    TerminationDate="2025-12-31"
+)
+```
+
+---
+
+## Quotes
+
+Price quotation management.
+
+### CRUD Operations
+
+```python
+client.quotes.list(limit=100)
+client.quotes.show(Identifier="9")
+client.quotes.create(
+    DebtorCode="DB10000",
+    PriceQuoteLines=[
+        {
+            "Description": "Setup",
+            "PriceExcl": 50.00
+        }
+    ]
+)
+client.quotes.edit(Identifier="9", Reference="2025-001")
+client.quotes.delete(Identifier="9")
+```
+
+### Email & Documents
+
+```python
+# Send quote
+client.quotes.send_by_email(Identifier="9")
+
+# Download PDF
+response = client.quotes.download(Identifier="9")
+```
+
+### Scheduling
+
+```python
+# Schedule send
+client.quotes.schedule(
+    Identifier="9",
+    ScheduledAt="2025-08-15 09:00:00"
+)
+
+# Cancel schedule
+client.quotes.cancel_schedule(Identifier="9")
+```
+
+### Status Management
+
+```python
+# Accept quote
+client.quotes.accept(Identifier="9")
+
+# Decline quote
+client.quotes.decline(Identifier="9")
+
+# Archive quote
+client.quotes.archive(Identifier="9")
+```
+
+### Line Management
+
+```python
+# Add line
+client.quotes.price_quote_line_add(
+    Identifier="9",
+    PriceQuoteLines=[{"Description": "Support", "PriceExcl": 25}]
+)
+
+# Delete line
+client.quotes.price_quote_line_delete(
+    Identifier="9",
+    PriceQuoteLines=[{"Identifier": "22"}]
+)
+
+# Reorder lines
+client.quotes.sort_lines(
+    Identifier="9",
+    PriceQuoteLines=[{"Identifier": "23"}, {"Identifier": "22"}]
+)
+```
+
+### Attachments
+
+Same pattern: `attachment_add()`, `attachment_delete()`, `attachment_download()`
+
+---
+
+## Interactions
+
+Communication and interaction logging.
+
+### Operations
+
+```python
+client.interactions.list(limit=100)
+client.interactions.show(Identifier="14")
+client.interactions.create(
+    DebtorCode="DB10000",
+    Subject="Onboarding call",
+    Note="Discussed requirements"
+)
+client.interactions.edit(Identifier="14", Subject="Follow-up call")
+client.interactions.delete(Identifier="14")
+```
+
+### Attachments
+
+Same pattern: `attachment_add()`, `attachment_delete()`, `attachment_download()`
+
+---
+
+## Tasks
+
+Task management and tracking.
+
+### Operations
+
+```python
+client.tasks.list(limit=100)
+client.tasks.show(Identifier="6")
+client.tasks.create(
+    DebtorCode="DB10000",
+    Subject="Call back customer"
+)
+client.tasks.edit(Identifier="6", Subject="Updated task")
+client.tasks.delete(Identifier="6")
+```
+
+### Status Management
+
+```python
+# Change status (0=Open, 1=Closed)
+client.tasks.change_status(Identifier="6", Status=1)
+```
+
+### Attachments
+
+Same pattern: `attachment_add()`, `attachment_delete()`, `attachment_download()`
+
+---
+
+## Transactions
+
+Bank transaction management and invoice matching.
+
+### Operations
+
+```python
+client.transactions.list(limit=100)
+client.transactions.show(Identifier="31")
+client.transactions.create(...)
+client.transactions.edit(Identifier="31", ...)
+client.transactions.delete(Identifier="31")
+```
+
+### Matching
+
+```python
+# Match transaction to invoices
+client.transactions.match(
+    Identifier="31",
+    InvoiceIdentifiers=["5", "6"]
+)
+
+# Ignore transaction
+client.transactions.ignore(Identifier="31")
+```
+
+---
+
+## Cost Categories
+
+Expense category management.
+
+!!! note
+    Cost categories use the `settings` controller internally but have a dedicated resource.
+
+### Operations
+
+```python
+client.cost_categories.list(limit=100)
+client.cost_categories.show(Identifier="10")
+client.cost_categories.create(Title="Cloud Infrastructure")
+client.cost_categories.edit(Identifier="10", Title="Infrastructure")
+client.cost_categories.delete(Identifier="10")
+```
+
+---
+
+## Settings
+
+Account settings retrieval.
+
+!!! note
+    Only `list()` is available. Individual CRUD operations raise `ClientError`.
+
+### Operations
+
+```python
+# Get all settings
+settings = client.settings.list()
+
+# show(), create(), edit(), delete() raise ClientError
+```
+
+---
+
+## Response Structure
+
+Most detail responses nest data under the controller name:
+
+```python
+response = client.invoices.show(Identifier="INV10000")
+# Returns: {'status': 'success', 'invoice': {...}}
+
+invoice_data = response['invoice']
+```
+
+List responses use plural form:
+
+```python
+response = client.invoices.list(limit=10)
+# Returns: {'status': 'success', 'invoices': [...], 'total': 42}
+
+invoices = response['invoices']
+```

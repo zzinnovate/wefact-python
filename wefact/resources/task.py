@@ -19,8 +19,8 @@ class TaskResource(BaseResource):
         Change the status of a task.
         
         Args:
-            Identifier: Required
-            Status: Required (0=Open, 1=Closed)
+            Identifier: Task ID (numeric string)
+            Status: Task status (0=Open, 1=Closed)
             
         Returns:
             Task with updated status
@@ -36,9 +36,9 @@ class TaskResource(BaseResource):
         Add an attachment to a task.
         
         Args:
-            ReferenceIdentifier: Required
-            Filename: Required
-            Base64: Required (base64 encoded file)
+            ReferenceIdentifier: Task ID (numeric string)
+            Filename: Attachment filename
+            Base64: Base64 encoded file content
             
         Returns:
             Success confirmation
@@ -53,8 +53,9 @@ class TaskResource(BaseResource):
         Delete an attachment from a task.
         
         Args:
-            ReferenceIdentifier: Required
-            Identifier or Filename: Required
+            ReferenceIdentifier: Task ID (numeric string)
+            Identifier: Attachment ID
+            Filename: Or use filename
             
         Returns:
             Success confirmation
@@ -69,8 +70,8 @@ class TaskResource(BaseResource):
         Download a task attachment.
         
         Args:
-            ReferenceIdentifier: Required
-            Filename: Required
+            ReferenceIdentifier: Task ID (numeric string)
+            Filename: Attachment filename
             
         Returns:
             Response with Base64 encoded file

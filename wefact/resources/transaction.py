@@ -18,8 +18,8 @@ class TransactionResource(BaseResource):
         Match a transaction to one or more invoices.
         
         Args:
-            Identifier: Required
-            InvoiceIdentifiers: Required (array of invoice IDs)
+            Identifier: Transaction ID (numeric string)
+            InvoiceIdentifiers: Array of invoice IDs
             
         Returns:
             Matched transaction details
@@ -33,7 +33,7 @@ class TransactionResource(BaseResource):
         Mark a transaction as ignored.
         
         Args:
-            Identifier: Required
+            Identifier: Transaction ID (numeric string)
             
         Returns:
             Ignored transaction details

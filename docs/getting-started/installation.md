@@ -1,15 +1,22 @@
 # Installation
 
-## Prerequisites
+## Requirements
 
 - Python 3.11+
-- pip
-- requests
 
-## From PyPI
+## Install
+
+*(This library is not yet published on PyPI)*
 
 ```bash
+# Basic installation (library only)
 pip install wefact-python
+
+# With CLI testing tool
+pip install wefact-python[cli]
+
+# For development (includes CLI, testing, and docs)
+pip install -e ".[all]"
 ```
 
 ## From source
@@ -17,7 +24,14 @@ pip install wefact-python
 ```bash
 git clone https://github.com/zzinnovate/wefact-python.git
 cd wefact-python
-pip install .
+
+# Install with all development dependencies
+pip install -e ".[all]"
+
+# Or install specific groups
+pip install -e ".[cli]"      # CLI testing tool only
+pip install -e ".[dev]"      # Testing tools only
+pip install -e ".[docs]"     # Documentation tools only
 ```
 
 ## Verify

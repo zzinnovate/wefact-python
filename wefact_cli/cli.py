@@ -111,6 +111,8 @@ class WefactTestCLI:
     
     def _show_main_menu(self) -> None:
         """Display and handle main menu"""
+        self.console.clear()
+        self.console.print(create_header())
         self.console.print(render_main_menu())
         
         choice = Prompt.ask(
