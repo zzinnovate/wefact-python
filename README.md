@@ -7,9 +7,9 @@
 
 An unofficial, batteries-included Python client for the WeFact API. Pragmatic, typed where it counts, and intentionally minimal on magic.
 
-**What is WeFact?** [WeFact](https://www.wefact.nl/) is a Dutch invoicing and accounting platform. Create invoices and quotes, process supplier invoices, and maintain real-time insight into your administration.
+[WeFact](https://www.wefact.nl/) is a Dutch invoicing and accounting platform. Create invoices and quotes, process supplier invoices, and maintain real-time insight into your administration.
 
-Maintained by [zzinnovate](https://github.com/zzinnovate). Open source, community-friendly, and actively maintained. Not affiliated with WeFact. For the upstream API, see the official [WeFact API documentation](https://www.wefact.nl/api/).
+Built and maintained by [zzinnovate](https://github.com/zzinnovate). Not affiliated with WeFact. 
 
 ## Documentation
 
@@ -20,6 +20,8 @@ Complete guides and API reference:
 - **API Reference** - [Resources](https://zzinnovate.github.io/wefact-python/api/resources/) • [Parameters](https://zzinnovate.github.io/wefact-python/api/parameters/) • [Variables (Enums)](https://zzinnovate.github.io/wefact-python/api/variables/) • [Errors](https://zzinnovate.github.io/wefact-python/api/errors/)
 - **Guides** - [Invoice Lifecycle](https://zzinnovate.github.io/wefact-python/guides/invoice-lifecycle/) • [CLI Testing Tool](https://zzinnovate.github.io/wefact-python/guides/cli-tool/)
 - **Project** - [Contributing](https://zzinnovate.github.io/wefact-python/project/contributing/) • [Changelog](https://zzinnovate.github.io/wefact-python/project/changelog/) • [Security](https://zzinnovate.github.io/wefact-python/project/security/)
+
+For the upstream API, see the official [WeFact API documentation](https://www.wefact.nl/api/).
 
 ## Requirements
 
