@@ -2,11 +2,13 @@
 
 An unofficial, batteries-included Python client for the WeFact API. Pragmatic, typed where it counts, and intentionally minimal on magic.
 
-Zero dependencies beyond `requests`. Open source, community-friendly, and actively maintained. Not affiliated with WeFact.
+**What is WeFact?** [WeFact](https://www.wefact.nl/) is a Dutch invoicing and accounting platform. Create invoices and quotes, process supplier invoices, and maintain real-time insight into your administration.
+
+Maintained by [zzinnovate](https://github.com/zzinnovate). Open source, community-friendly, and actively maintained. Not affiliated with WeFact. For the upstream API, see the official [WeFact API documentation](https://www.wefact.nl/api/).
 
 ## Quick start
 
-Install and make your first call:
+Available on [PyPI](https://pypi.org/project/wefact-python/). Install and make your first call:
 
 ```bash
 pip install wefact-python
