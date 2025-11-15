@@ -27,12 +27,11 @@ print(result)
 
 ## Features
 
-- **Zero dependencies** - Only `requests`, nothing else
+- **Minimal dependencies** - Only `requests`, nothing else
 - **Type hints** - Better IDE support and fewer runtime errors
 - **Direct API mapping** - Mirrors WeFact's controller/action structure
 - **Error handling** - Clear exceptions for common failure modes
 - **Attachment support** - Base64 encoding/decoding utilities built-in
-- **Production-tested** - Used by zzinnovate in client projects
 
 ## Resources
 
@@ -44,7 +43,7 @@ Invoices • Credit Invoices • Debtors • Products • Creditors • Groups �
 
 ```python
 # Show a debtor
-debtor = client.debtors.show(Identifier="DB10000")
+debtor = client.debtors.show(Identifier=5)
 
 # Create an invoice
 invoice = client.invoices.create(

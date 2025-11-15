@@ -34,10 +34,21 @@ client.invoices.mark_as_paid(Identifier=full["invoice"]["Identifier"])
 ```python
 client.debtors.list(limit=25)
 client.debtors.create(CompanyName="ACME BV")
-client.debtors.edit(Identifier="DB10000", CompanyName="ACME B.V.")
-client.debtors.show(Identifier="DB10000")
+client.debtors.edit(Identifier=5, CompanyName="ACME B.V.")
+client.debtors.show(Identifier=5)
 # delete is not available for this resource
 ```
+
+!!! tip "Flexible Identifier Types"
+    Identifier parameters accept both integers and strings. The library automatically converts integers to strings:
+    
+    ```python
+    # Both work identically
+    client.debtors.show(Identifier=5)      # Integer - auto-converted
+    client.debtors.show(Identifier="5")    # String - used as-is
+    ```
+    
+    This applies to `Identifier`, `ReferenceIdentifier`, and `ContactIdentifier` parameters.
 
 ## Creditors, Products, Groups, Subscriptions
 
@@ -45,7 +56,7 @@ client.debtors.show(Identifier="DB10000")
 client.creditors.list()
 client.products.create(ProductName="Widget", ProductKeyPhrase="WGT-001", PriceExcl=9.99)
 client.groups.create(Type="debtor", GroupName="VIP")
-client.subscriptions.terminate(Identifier="SUB123")
+client.subscriptions.terminate(Identifier=5)
 ```
 
 ## Error handling

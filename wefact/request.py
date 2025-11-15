@@ -6,9 +6,6 @@ from urllib.parse import urlencode
 
 from .exceptions import (
     ClientError,
-    ServerError,
-    AuthenticationError,
-    NotFoundError,
     ValidationError,
     raise_for_response,
     raise_for_wefact_payload,

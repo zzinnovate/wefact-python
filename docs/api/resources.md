@@ -29,17 +29,17 @@ Most resources support these standard operations:
 client.invoices.list(limit=100, offset=0)
 
 # Get single record by ID or code
-client.invoices.show(Identifier="5")           # Using numeric ID
+client.invoices.show(Identifier=5)           # Using numeric ID
 client.invoices.show(InvoiceCode="INV10000")   # Using formatted code
 
 # Create new record
 client.invoices.create(DebtorCode="DB10000", ...)
 
 # Update existing record
-client.invoices.edit(Identifier="5", ...)
+client.invoices.edit(Identifier=5, ...)
 
 # Delete record
-client.invoices.delete(Identifier="5")
+client.invoices.delete(Identifier=5)
 ```
 
 ---
@@ -55,7 +55,7 @@ Full invoice lifecycle management with 25+ operations.
 client.invoices.list(limit=100, offset=0)
 
 # Get invoice by ID
-client.invoices.show(Identifier="5")
+client.invoices.show(Identifier=5)
 
 # Or use the formatted invoice code
 client.invoices.show(InvoiceCode="INV10000")
@@ -74,54 +74,54 @@ client.invoices.create(
 )
 
 # Update invoice
-client.invoices.edit(Identifier="5", Description="Updated")
+client.invoices.edit(Identifier=5, Description="Updated")
 
 # Delete invoice
-client.invoices.delete(Identifier="5")
+client.invoices.delete(Identifier=5)
 ```
 
 ### Payment Management
 
 ```python
 # Create credit invoice
-client.invoices.credit(Identifier="5")
+client.invoices.credit(Identifier=5)
 
 # Register partial payment
 client.invoices.part_payment(
-    Identifier="5",
+    Identifier=5,
     AmountPaid=50.00,
     PayDate="2025-01-15"
 )
 
 # Mark as paid
 client.invoices.mark_as_paid(
-    Identifier="5",
+    Identifier=5,
     PayDate="2025-01-15",
     PaymentMethod="bank"
 )
 
 # Mark as unpaid (reverse payment)
-client.invoices.mark_as_unpaid(Identifier="5")
+client.invoices.mark_as_unpaid(Identifier=5)
 ```
 
 ### Email Operations
 
 ```python
 # Send invoice
-client.invoices.send_by_email(Identifier="5")
+client.invoices.send_by_email(Identifier=5)
 
 # Send payment reminder
-client.invoices.send_reminder_by_email(Identifier="5")
+client.invoices.send_reminder_by_email(Identifier=5)
 
 # Send collection notice
-client.invoices.send_summation_by_email(Identifier="5")
+client.invoices.send_summation_by_email(Identifier=5)
 ```
 
 ### Document Operations
 
 ```python
 # Download PDF (returns Base64 encoded)
-response = client.invoices.download(Identifier="5")
+response = client.invoices.download(Identifier=5)
 pdf_content = response['invoice']['Base64']
 ```
 
@@ -129,29 +129,29 @@ pdf_content = response['invoice']['Base64']
 
 ```python
 # Block draft invoice (prevents sending)
-client.invoices.block(Identifier="5")
+client.invoices.block(Identifier=5)
 
 # Unblock
-client.invoices.unblock(Identifier="5")
+client.invoices.unblock(Identifier=5)
 
 # Schedule send
 client.invoices.schedule(
-    Identifier="5",
+    Identifier=5,
     ScheduledAt="2025-08-01 09:00:00"
 )
 
 # Cancel schedule
-client.invoices.cancel_schedule(Identifier="5")
+client.invoices.cancel_schedule(Identifier=5)
 
 # Pause payment process
 client.invoices.payment_process_pause(
-    Identifier="5",
+    Identifier=5,
     PaymentPausedEndDate="2025-12-31",
     PaymentPausedReason="Customer requested"
 )
 
 # Reactivate payment process
-client.invoices.payment_process_reactivate(Identifier="5")
+client.invoices.payment_process_reactivate(Identifier=5)
 ```
 
 ### Line Management
@@ -159,7 +159,7 @@ client.invoices.payment_process_reactivate(Identifier="5")
 ```python
 # Add invoice line
 client.invoices.invoice_line_add(
-    Identifier="5",
+    Identifier=5,
     InvoiceLines=[
         {
             "ProductCode": "P0002",
@@ -170,13 +170,13 @@ client.invoices.invoice_line_add(
 
 # Delete invoice line
 client.invoices.invoice_line_delete(
-    Identifier="5",
+    Identifier=5,
     InvoiceLines=[{"Identifier": "12"}]  # Line ID
 )
 
 # Reorder lines
 client.invoices.sort_lines(
-    Identifier="5",
+    Identifier=5,
     InvoiceLines=[
         {"Identifier": "13"},
         {"Identifier": "12"}
@@ -189,20 +189,20 @@ client.invoices.sort_lines(
 ```python
 # Add attachment
 client.invoices.attachment_add(
-    ReferenceIdentifier="5",
+    ReferenceIdentifier=5,
     Filename="contract.pdf",
     Base64="<base64_encoded_content>"
 )
 
 # Download attachment
 response = client.invoices.attachment_download(
-    ReferenceIdentifier="5",
+    ReferenceIdentifier=5,
     Filename="contract.pdf"
 )
 
 # Delete attachment
 client.invoices.attachment_delete(
-    ReferenceIdentifier="5",
+    ReferenceIdentifier=5,
     Filename="contract.pdf"
 )
 ```

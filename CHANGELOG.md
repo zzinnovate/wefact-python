@@ -2,7 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.0] - 2025-11-14
+## [1.0.1] - 2025-11-15
+
+### Changed
+
+- Updated documentation to clarify what WeFact is (Dutch invoicing and accounting platform)
+- Added PyPI availability notice to README and docs
+- Improved project description for international users
+- Added tip in usage docs explaining flexible identifier types (integer/string auto-conversion)
+
+### Fixed
+
+- Fixed deprecation warnings in `pyproject.toml` (license configuration)
+- Auto-convert integer Identifier parameters to strings for better developer experience
+
+## [1.0.0] - 2025-11-14
 
 Initial release. Complete WeFact API v2 wrapper with zero dependencies beyond `requests`.
 
