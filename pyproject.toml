@@ -1,6 +1,6 @@
 [project]
 name = "wefact-python"
-version = "1.0.2"
+version = "1.0.3"
 description = "A Python wrapper for the WeFact API"
 authors = [{name = "Sjoerd Zaalberg van Zelst", email = "hello@zzinnovate.com"}]
 license = "MIT"
@@ -47,7 +47,7 @@ all = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/zzinnovate/wefact-python"
+Homepage = "https://zzinnovate.github.io/wefact-python/"
 Repository = "https://github.com/zzinnovate/wefact-python"
 
 [project.scripts]

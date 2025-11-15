@@ -6,8 +6,6 @@
 
 ## Install
 
-*(This library is not yet published on PyPI)*
-
 ```bash
 # Basic installation (library only)
 pip install wefact-python
