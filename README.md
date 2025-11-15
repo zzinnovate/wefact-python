@@ -70,7 +70,7 @@ Invoices • Credit Invoices • Debtors • Products • Creditors • Groups �
 
 ```python
 # Show a debtor
-debtor = client.debtors.show(Identifier="DB10000")
+debtor = client.debtors.show(Identifier=5)
 
 # Create an invoice
 invoice = client.invoices.create(
